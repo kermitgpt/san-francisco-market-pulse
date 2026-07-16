@@ -248,8 +248,14 @@ select:focus-visible {
 .legend-growth { background: #b68d52; }
 .legend-strong { background: #efd096; box-shadow: 0 0 8px rgba(239, 208, 150, 0.55); }
 .legend-transfer {
-  background: #fff0c4;
-  box-shadow: 0 0 9px rgba(255, 240, 196, 0.8);
+  border-color: #12383a !important;
+  background: #45d2c5;
+  box-shadow: 0 0 8px rgba(69, 210, 197, 0.7);
+}
+.legend-transfer-active {
+  border-color: #542519 !important;
+  background: #ff8a62;
+  box-shadow: 0 0 9px rgba(255, 138, 98, 0.78);
 }
 
 .transfer-detail {

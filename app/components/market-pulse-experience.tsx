@@ -46,6 +46,10 @@ type TransferCategoryFilter = TransferPropertyCategory | "all";
 const MAP_STYLE = "https://tiles.openfreemap.org/styles/positron";
 const DEFAULT_NEIGHBORHOOD = "pacific-heights";
 const GOLD = "#c9a064";
+const TRANSFER_AMBIENT = "#45d2c5";
+const TRANSFER_SELECTED = "#91f0e5";
+const TRANSFER_ACTIVE = "#ff8a62";
+const TRANSFER_EDGE = "#12383a";
 const DATA_BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export function MarketPulseExperience() {
@@ -295,13 +299,13 @@ export function MarketPulseExperience() {
           source: "residential-transfers",
           filter: transferCriteriaFilter(loaded.dataset.latestDate, "all", 0),
           paint: {
-            "circle-color": "#eed19a",
-            "circle-radius": ["interpolate", ["linear"], ["zoom"], 10.5, 1.2, 14, 3.2],
-            "circle-opacity": ["interpolate", ["linear"], ["zoom"], 10.5, 0.24, 14, 0.42],
-            "circle-blur": 0.38,
-            "circle-stroke-color": "#fff4d9",
-            "circle-stroke-width": 0.35,
-            "circle-stroke-opacity": 0.5,
+            "circle-color": TRANSFER_AMBIENT,
+            "circle-radius": ["interpolate", ["linear"], ["zoom"], 10.5, 1.45, 14, 4.2],
+            "circle-opacity": ["interpolate", ["linear"], ["zoom"], 10.5, 0.48, 14, 0.86],
+            "circle-blur": 0,
+            "circle-stroke-color": TRANSFER_EDGE,
+            "circle-stroke-width": ["interpolate", ["linear"], ["zoom"], 10.5, 0.4, 14, 1.15],
+            "circle-stroke-opacity": 0.92,
           },
         } as CircleLayerSpecification);
         map.addLayer({
@@ -315,13 +319,30 @@ export function MarketPulseExperience() {
             0,
           ),
           paint: {
-            "circle-color": "#f2cb7d",
-            "circle-radius": ["interpolate", ["linear"], ["zoom"], 10.5, 2, 14, 4.4],
-            "circle-opacity": 0.7,
-            "circle-blur": 0.24,
-            "circle-stroke-color": "#fff7e6",
-            "circle-stroke-width": 0.8,
-            "circle-stroke-opacity": 0.78,
+            "circle-color": TRANSFER_SELECTED,
+            "circle-radius": ["interpolate", ["linear"], ["zoom"], 10.5, 1.9, 14, 5.1],
+            "circle-opacity": ["interpolate", ["linear"], ["zoom"], 10.5, 0.84, 14, 0.95],
+            "circle-blur": 0,
+            "circle-stroke-color": TRANSFER_EDGE,
+            "circle-stroke-width": ["interpolate", ["linear"], ["zoom"], 10.5, 0.65, 14, 1.45],
+            "circle-stroke-opacity": 1,
+          },
+        } as CircleLayerSpecification);
+        map.addLayer({
+          id: "transfer-active-month-halo",
+          type: "circle",
+          source: "residential-transfers",
+          filter: transferMonthFilter(
+            firstDayOfMonth(loaded.dataset.latestDate),
+            loaded.dataset.latestDate,
+            "all",
+            0,
+          ),
+          paint: {
+            "circle-color": TRANSFER_ACTIVE,
+            "circle-radius": ["interpolate", ["linear"], ["zoom"], 10.5, 5, 14, 10],
+            "circle-opacity": 0.3,
+            "circle-blur": 0.55,
           },
         } as CircleLayerSpecification);
         map.addLayer({
@@ -335,13 +356,13 @@ export function MarketPulseExperience() {
             0,
           ),
           paint: {
-            "circle-color": "#fff0c4",
-            "circle-radius": ["interpolate", ["linear"], ["zoom"], 10.5, 3.3, 14, 6.5],
-            "circle-opacity": 0.96,
-            "circle-blur": 0.18,
-            "circle-stroke-color": "#fff9eb",
-            "circle-stroke-width": 1.25,
-            "circle-stroke-opacity": 0.94,
+            "circle-color": TRANSFER_ACTIVE,
+            "circle-radius": ["interpolate", ["linear"], ["zoom"], 10.5, 3.2, 14, 6.4],
+            "circle-opacity": 1,
+            "circle-blur": 0,
+            "circle-stroke-color": "#542519",
+            "circle-stroke-width": ["interpolate", ["linear"], ["zoom"], 10.5, 0.9, 14, 1.4],
+            "circle-stroke-opacity": 0.96,
           },
         } as CircleLayerSpecification);
         map.addLayer({
@@ -434,6 +455,15 @@ export function MarketPulseExperience() {
       transferCriteriaFilter(activePoint.date, propertyCategory, minimumArea),
     );
     mapRef.current.setFilter(
+      "transfer-active-month-halo",
+      transferMonthFilter(
+        firstDayOfMonth(activePoint.date),
+        activePoint.date,
+        propertyCategory,
+        minimumArea,
+      ),
+    );
+    mapRef.current.setFilter(
       "transfer-active-month",
       transferMonthFilter(
         firstDayOfMonth(activePoint.date),
@@ -497,6 +527,7 @@ export function MarketPulseExperience() {
           <div className="pulse-legend" aria-label="Map color legend">
             <p>Change since {windowStart ? formatMonthYear(windowStart.date) : "window start"}</p>
             <span><i className="legend-transfer" /> Recorded transfer</span>
+            <span><i className="legend-transfer-active" /> Active month</span>
             <span><i className="legend-decline" /> Below −2%</span>
             <span><i className="legend-stable" /> −2% to &lt;+2%</span>
             <span><i className="legend-growth" /> +2% to &lt;+10%</span>
