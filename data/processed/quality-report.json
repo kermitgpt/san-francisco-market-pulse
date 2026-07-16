@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.1.0",
-  "generatedAt": "2026-07-16T06:37:47.005Z",
+  "generatedAt": "2026-07-16T07:35:19.707Z",
   "parcelValidation": {
     "sourceFeatureCount": 1130,
     "distinctParcelCount": 1130,
@@ -148,7 +148,7 @@
       "invalidSamples": []
     },
     "assessor-sales-2026": {
-      "rowCount": 8861,
+      "rowCount": 9018,
       "invalidRowCount": 0,
       "invalidSamples": []
     },
@@ -162,9 +162,9 @@
     }
   },
   "sourceFreshness": {
-    "asOfDate": "2026-07-15",
+    "asOfDate": "2026-07-16",
     "dataThroughDate": "2026-07-01",
-    "lagDays": 14,
+    "lagDays": 15,
     "alertThresholdDays": 21,
     "exceedsAlertThreshold": false
   },

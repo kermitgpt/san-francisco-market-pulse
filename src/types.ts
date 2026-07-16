@@ -161,6 +161,7 @@ export interface PipelineOutputs {
   dataset: MarketPulseDataset;
   salePoints: FeatureCollection<Point>;
   communityBoundaries: FeatureCollection;
+  parcelBoundaries: FeatureCollection;
   manifest: SourceManifest;
   qualityReport: Record<string, unknown>;
   reviewMarkdown: string;

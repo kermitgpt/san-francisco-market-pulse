@@ -1,13 +1,13 @@
 {
   "schemaVersion": "1.1.0",
   "configHash": "6b7aceb2c508b5a8220fb33fbc2fc40b5ad5cd90da60e2af954988e034551a93",
-  "generatedAt": "2026-07-16T06:37:47.005Z",
+  "generatedAt": "2026-07-16T07:35:19.707Z",
   "dataThroughDate": "2026-07-01",
   "sources": [
     {
       "name": "assessor-real-property-2027",
       "url": "https://www.asr.pima.gov/Downloads/Data/realprop/2027/noticeval/Mas27.ZIP",
-      "retrievedAt": "2026-07-16T06:37:49.269Z",
+      "retrievedAt": "2026-07-16T07:35:22.070Z",
       "sha256": "3d10e7df388c7684896a66a518d8b684b818298080f26b767ca9384c0e613d52",
       "bytes": 8916765,
       "rowCount": 320079
@@ -15,39 +15,39 @@
     {
       "name": "assessor-sales-2023",
       "url": "https://www.asr.pima.gov/Downloads/Data/sales/2023/SALE2023.ZIP",
-      "retrievedAt": "2026-07-16T06:37:47.466Z",
-      "sha256": "bdf836dcd10eed27e8a354fccbfa2fcb1825e18cb4de89d44b6fca244edb1b0a",
-      "bytes": 423777,
+      "retrievedAt": "2026-07-16T07:35:20.166Z",
+      "sha256": "ecd3763e2fc00791e51c0863e15619c45ab8f608907d01fd23983b107b1bd0a5",
+      "bytes": 423691,
       "rowCount": 23871
     },
     {
       "name": "assessor-sales-2024",
       "url": "https://www.asr.pima.gov/Downloads/Data/sales/2024/SALE2024.ZIP",
-      "retrievedAt": "2026-07-16T06:37:47.510Z",
-      "sha256": "15d7e91c8b77686df20a70c47557cdf1b99a162e8bc92911796c262f9b017b6b",
-      "bytes": 424132,
+      "retrievedAt": "2026-07-16T07:35:20.197Z",
+      "sha256": "05175942eb0479ad97c4822af5b206c90d33c583f8533c365803332df774b48e",
+      "bytes": 423982,
       "rowCount": 25279
     },
     {
       "name": "assessor-sales-2025",
       "url": "https://www.asr.pima.gov/Downloads/Data/sales/2025/SALE2025.ZIP",
-      "retrievedAt": "2026-07-16T06:37:47.503Z",
-      "sha256": "94b022d775f3f9665682b9db30cc9ae108d98b4f5c69e64ea96485cacdc92142",
-      "bytes": 406717,
+      "retrievedAt": "2026-07-16T07:35:20.214Z",
+      "sha256": "b4bfa688d7041e8b5617a1e756b41e6b0b2f270b811dd725e25cf519f155cde6",
+      "bytes": 406770,
       "rowCount": 23609
     },
     {
       "name": "assessor-sales-2026",
       "url": "https://www.asr.pima.gov/Downloads/Data/sales/2026/SALE2026.ZIP",
-      "retrievedAt": "2026-07-16T06:37:47.376Z",
-      "sha256": "eb939f7a8e8b46e7c0dcac11d7423a5f571a9a96ab8b4bce65785946ffb93bcb",
-      "bytes": 160172,
-      "rowCount": 8861
+      "retrievedAt": "2026-07-16T07:35:20.090Z",
+      "sha256": "f47e96e2f4f1caeef36554ac43486fc4f5a06cbe1d0a49c5d7814b2d5f6354a3",
+      "bytes": 162212,
+      "rowCount": 9018
     },
     {
       "name": "pima-gis-pilot-parcels",
       "url": "https://gisdata.pima.gov/arcgis1/rest/services/GISOpenData/LandRecords/MapServer/12/query?where=%28MP_OL+IN+%28%2733069%27%2C%2734026%27%2C%2737079%27%2C%2738032%27%2C%2738043%27%2C%2738059%27%2C%2739021%27%2C%2740048%27%2C%2741028%27%2C%2741031%27%2C%2741048%27%2C%2743043%27%2C%2743085%27%2C%2743089%27%2C%2743097%27%2C%2746002%27%2C%2746003%27%2C%2748074%27%2C%2748089%27%2C%2750055%27%2C%2750087%27%2C%2753036%27%2C%2755059%27%2C%2756024%27%2C%2757023%27%29+OR+PARCEL+IN+%28%2711402006X%27%2C%2711402006Y%27%2C%2711402006Z%27%2C%2711403348C%27%2C%2711404690A%27%2C%27114046910%27%2C%2711404697A%27%29%29&returnIdsOnly=true&f=json",
-      "retrievedAt": "2026-07-16T06:37:48.210Z",
+      "retrievedAt": "2026-07-16T07:35:21.462Z",
       "sha256": "336d92170666a414cb76e06a17c3ed2720e06ff2b3c407da1df12a6e882c09a9",
       "bytes": 1392622,
       "rowCount": 1130
@@ -55,7 +55,7 @@
     {
       "name": "pima-gis-pilot-subdivisions",
       "url": "https://gisdata.pima.gov/arcgis1/rest/services/GISOpenData/LandRecords/MapServer/15/query?where=BOOK_PAGE+IN+%28%2733069%27%2C%2734026%27%2C%2737079%27%2C%2738032%27%2C%2738043%27%2C%2738059%27%2C%2739021%27%2C%2740048%27%2C%2741028%27%2C%2741031%27%2C%2741048%27%2C%2743043%27%2C%2743085%27%2C%2743089%27%2C%2743097%27%2C%2746002%27%2C%2746003%27%2C%2748074%27%2C%2748089%27%2C%2750055%27%2C%2750087%27%2C%2753036%27%2C%2755059%27%2C%2756024%27%2C%2757023%27%29&returnIdsOnly=true&f=json",
-      "retrievedAt": "2026-07-16T06:37:47.404Z",
+      "retrievedAt": "2026-07-16T07:35:20.136Z",
       "sha256": "f0946a67bcba1ac0f59be7a697e9a77b22bc2dcf03209ff9c5b702bb0111c88d",
       "bytes": 99747,
       "rowCount": 35

@@ -33,6 +33,7 @@ Set `FMP_FORCE=1` to rebuild even when source fingerprints are unchanged. Set `F
 - `market-pulse.json`: the Phase 2 read-only data contract;
 - `recorded-sales.geojson`: map-eligible sale points;
 - `community-boundaries.geojson`: county subdivision geometry labeled with the approved community and boundary version;
+- `pilot-parcels.geojson`: current county parcel polygons for the three approved micro-markets, with public boundary-membership metadata and no ownership fields;
 - `source-manifest.json`: source URLs, retrieval timestamps, checksums, row counts, and data-through date;
 - `quality-report.json`: boundary reviews, exclusions, missing sqft, multi-parcel counts, CSV issues, and the privacy field audit.
 - `market-sales-review.md`: every full-pull market-eligible transaction in one review table, the unresolved edge parcels, and the exact market-sale filter and limitations.

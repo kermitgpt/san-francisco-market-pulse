@@ -3,6 +3,8 @@
 !.env.example
 node_modules/
 .next/
+public/data/
+*.tsbuildinfo
 dist/
 coverage/
 *.log

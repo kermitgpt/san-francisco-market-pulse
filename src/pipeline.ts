@@ -744,6 +744,29 @@ function buildOutputs(args: {
     ];
   });
 
+  const parcelFeatures: Feature[] = args.memberships.flatMap((membership) => {
+    const parcel = args.parcelById.get(membership.parcelId);
+    if (!parcel) return [];
+    return [
+      {
+        type: "Feature",
+        id: membership.parcelId,
+        geometry: parcel.geometry,
+        properties: {
+          parcelId: membership.parcelId,
+          communityId: membership.communityId,
+          boundaryVersion: membership.boundaryVersion,
+          membershipMethod: membership.method,
+          membershipReviewStatus: membership.reviewStatus,
+          address: parcel.properties.ADDRESS_OL,
+          lotSizeSqft: parcel.properties.GISAREA,
+          lotSizeAcres: parcel.properties.GISACRES,
+          parcelUse: parcel.properties.PARCEL_USE,
+        },
+      },
+    ];
+  });
+
   const manifest: SourceManifest = {
     schemaVersion: OUTPUT_SCHEMA_VERSION,
     configHash: args.configHash,
@@ -869,6 +892,7 @@ function buildOutputs(args: {
     dataset: args.dataset,
     salePoints,
     communityBoundaries: { type: "FeatureCollection", features: boundaryFeatures },
+    parcelBoundaries: { type: "FeatureCollection", features: parcelFeatures },
     manifest,
     qualityReport,
     reviewMarkdown,
@@ -1042,6 +1066,7 @@ async function writeOutputs(outputDirectory: string, outputs: PipelineOutputs): 
     writeJson(path.join(outputDirectory, "market-pulse.json"), outputs.dataset),
     writeJson(path.join(outputDirectory, "recorded-sales.geojson"), outputs.salePoints),
     writeJson(path.join(outputDirectory, "community-boundaries.geojson"), outputs.communityBoundaries),
+    writeJson(path.join(outputDirectory, "pilot-parcels.geojson"), outputs.parcelBoundaries),
     writeJson(path.join(outputDirectory, "source-manifest.json"), outputs.manifest),
     writeJson(path.join(outputDirectory, "quality-report.json"), outputs.qualityReport),
     writeFile(path.join(outputDirectory, "market-sales-review.md"), outputs.reviewMarkdown, "utf8"),
