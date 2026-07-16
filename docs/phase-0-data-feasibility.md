@@ -1,151 +1,152 @@
-# Phase 0 — Pima County data feasibility
+# Phase 0 - Pima County data feasibility
 
-**Status:** Feasible for a public-records pilot, with clear limits.
+**Status:** Feasible for a low-cost public-records pilot. Awaiting approval to build Phase 1.
 
-Foothills Market Pulse can automate a credible 12-month view of **recent recorded sales** for Ventana Canyon, Pima Canyon, and Finisterra. The best baseline is the Pima County Assessor's bulk sales CSV joined to Assessor residential characteristics and Pima County GIS parcels. The Recorder is useful for verification and, later, paid document access; it is not the best primary feed.
+## Recommendation
 
-The public-records version can support recorded price, recording date, assessor living area, derived price per square foot, parcel lot area, geography, price bands, and recorded-sales velocity. It cannot support inventory, days on market, contract-to-close time, listing price changes, or other MLS lifecycle metrics.
+Validate the concept with **free Pima County data only**:
 
-## What is actually available
+- Pima County Assessor sales and residential bulk files;
+- Pima County GIS parcel and subdivision APIs;
+- a small scheduled TypeScript job that publishes versioned JSON/GeoJSON for the three pilot markets.
 
-| Source | Useful fields | Format and access | Freshness / lag | Recommendation |
+Do not buy Recorder access, provision a database, or add permanent object storage for the pilot. The Recorder can be reconsidered if the product proves useful or the Assessor's observed lag becomes unacceptable. At this size, a database-free pipeline is enough to test whether the map and market summaries are compelling.
+
+The public version can support recorded price, exact recording date, assessor square footage, derived price per square foot, parcel lot area, price bands, geography, and recorded-sales velocity. It cannot support MLS inventory or listing lifecycle metrics.
+
+## Public data available
+
+| Source | Useful fields | Format and access | Freshness / lag | Pilot use |
 | --- | --- | --- | --- | --- |
-| Pima County Assessor — Affidavits of Sales | Parcel ID, recorder sequence number, sale month, sale price, property type, intended use, deed, financing, validation reason, related-party / solar / personal-property / partial-interest flags, exact recording date, parcel-use code | Public, direct year-specific ZIP containing CSV. The download page currently exposes 2023–2026. No documented public JSON API. [Downloads](https://www.asr.pima.gov/downloads-data) · [2026 ZIP](https://www.asr.pima.gov/Downloads/Data/sales/2026/SALE2026.ZIP) | File timestamp refreshed nightly in the spike. On July 15, 2026, the newest included recording date was July 1: an observed 14-calendar-day data lag, not a guaranteed SLA. | Primary sale feed. Fetch the current and prior year daily because prior-year validations can change. |
-| Pima County Assessor — Real Property | Parcel ID, residential/condo flag, assessor living area (`SQFT`), year built, stories, rooms, quality, condition, garage, pool area and valuation fields | Public, direct ZIP/CSV files. `Mas27.csv` is the residential file. [Downloads](https://www.asr.pima.gov/downloads-data) · [2027 residential ZIP](https://www.asr.pima.gov/Downloads/Data/realprop/2027/noticeval/Mas27.ZIP) | Annual valuation snapshot; the 2027 file was dated January 28, 2026. It is not transaction-time or listing-reported data. | Use for assessor square footage and property type, with an explicit `sqft_as_of_tax_year`. |
-| Pima County GIS — Parcels | Parcel ID, polygon, centroid, map-and-plat number, lot number, GIS area/acres, situs address, parcel use, legal description | Free Geospatial Data Portal plus unauthenticated ArcGIS REST. REST supports JSON, GeoJSON and PBF, with pagination. [Parcel metadata](https://gis.pima.gov/data/contents/metadet.cfm?name=paregion) · [Parcel REST layer](https://gisdata.pima.gov/arcgis1/rest/services/GISOpenData/LandRecords/MapServer/12) | Parcel assembly runs nightly. Assessor ownership/valuation attributes can appear later after audit. | Primary parcel geometry, coordinates and lot-area feed. Do not ingest owner mailing fields. |
-| Pima County GIS — Subdivisions | Subdivision polygon/name, recorder book-page, sequence number, recorded date, lot count | Free portal, weekly Shapefile export, and unauthenticated ArcGIS REST in JSON/GeoJSON/PBF. [Subdivision metadata](https://gis.pima.gov/data/contents/metadet.cfm?name=subdiv) · [Subdivision REST layer](https://gisdata.pima.gov/arcgis1/rest/services/GISOpenData/LandRecords/MapServer/15) | Maintained as plats change; Shapefile export is regenerated weekly. | Source of truth for market membership candidates and recorded plat identifiers. |
-| Pima County Recorder | Sequence/recording number, recording date, document type, pages, grantor/grantee, related document number, legal-description summary and document image | Free public search and watermarked images; no documented public API. Paid daily bulk subscription is $50 setup + $500/year. One-time historical bulk is $8,000 plus storage. The paid daily index still does not list sale price as a field. [Public search](https://www.recorder.pima.gov/PublicServices/PublicSearch) · [Fees](https://www.recorder.pima.gov/SubscriptionFees) · [Bulk agreement](https://www.recorder.pima.gov/docs/2025/Bulk%20Subscriber%20Agreement_Revised%202025.pdf) | Recorded images are published within three business days. Paid bulk is daily. [Recorder timing](https://recorder.pima.gov/DocumentPickup) | Verification / exception source. Do not make the paid Recorder feed a Phase 1 dependency. |
+| Pima County Assessor - Affidavits of Sales | Parcel ID, Recorder sequence number, sale month, sale price, property/intended-use fields, deed, financing, validation reason, transaction flags, exact recording date, parcel-use code | Free year-specific ZIP/CSV bulk files; no documented public JSON API. The download page currently exposes 2023-2026. [Downloads](https://www.asr.pima.gov/downloads-data) | Refreshed frequently. In the July 15, 2026 spike, the newest included recording date was July 1: an observed 14-day lag, not a promised SLA. | Primary sale feed. Fetch current and prior year because prior records can be corrected. |
+| Pima County Assessor - Real Property | Parcel ID, SFR/condo flag, assessor living area (`SQFT`), year built and selected characteristics | Free annual ZIP/CSV bulk files. `Mas27.csv` is the residential file. [Downloads](https://www.asr.pima.gov/downloads-data) | Annual tax-year snapshot; it is not transaction-time or listing-reported data. | Square-footage denominator, labeled with its tax year. |
+| Pima County GIS - Parcels | Parcel ID, polygon/centroid, map-and-plat number, lot, GIS area/acres, situs address, parcel use and legal description | Free portal and unauthenticated ArcGIS REST supporting JSON/GeoJSON/PBF. [Parcel metadata](https://gis.pima.gov/data/contents/metadet.cfm?name=paregion) - [Parcel REST](https://gisdata.pima.gov/arcgis1/rest/services/GISOpenData/LandRecords/MapServer/12) | Parcel assembly runs nightly; some Assessor attributes can trail pending audit. | Parcel location, lot size and community membership. Do not ingest owner mailing data. |
+| Pima County GIS - Subdivisions | Recorded subdivision polygon/name, book-page, sequence number, recorded date and lot count | Free weekly Shapefile export plus unauthenticated ArcGIS REST. [Subdivision metadata](https://gis.pima.gov/data/contents/metadet.cfm?name=subdiv) - [Subdivision REST](https://gisdata.pima.gov/arcgis1/rest/services/GISOpenData/LandRecords/MapServer/15) | Maintained as plats change; Shapefile export is regenerated weekly. | Exact plat registry and a boundary audit source. |
+| Pima County Recorder | Recording number/date, document type, pages, parties, legal-description summary and image | Free manual search; no documented public API. Paid daily bulk is $50 setup plus $500/year, and its published index fields still do not include sale price. [Public search](https://www.recorder.pima.gov/PublicServices/PublicSearch) - [Fees](https://www.recorder.pima.gov/SubscriptionFees) | Images are generally published within three business days. [Timing](https://recorder.pima.gov/DocumentPickup) | Deferred. Optional manual exception checking only; no Phase 1 dependency. |
 
-Arizona law explains why the Assessor feed is rich: most deeds must include an affidavit containing the sale date, total consideration, financing, parcel numbers, transaction conditions and intended use. The Recorder sends the affidavit electronically to the Assessor. Some transfers are exempt, so this is not a complete ledger of every deed. [A.R.S. §11-1133](https://www.azleg.gov/ars/11/01133.htm) · [§11-1134 exemptions](https://www.azleg.gov/ars/11/01134.htm) · [§11-1135 transmission](https://www.azleg.gov/ars/11/01135.htm)
+The Assessor feed is viable because most deeds require an affidavit with sale consideration and related transaction details, although statutory exemptions mean it is not a complete ledger of every deed. [A.R.S. 11-1133](https://www.azleg.gov/ars/11/01133.htm) - [11-1134](https://www.azleg.gov/ars/11/01134.htm) - [11-1135](https://www.azleg.gov/ars/11/01135.htm)
 
-Important date distinction: the source CSV stores `SaleDate` as `YYYYMM`, not a full date, even though the underlying affidavit requires an exact date. The UI should animate by exact `RecordingDate` and retain `sale_month` without inventing a day.
+The source `SaleDate` is only `YYYYMM`. The timeline should therefore use exact `RecordingDate`, retain `sale_month`, and never invent a sale day.
 
-## Live spike result
+## Measured spike result
 
-The spike joined the July 15, 2026 Assessor files, the 2025 sales archive, the 2027 residential file, and live GIS parcel records. The test window was July 15, 2025 through July 15, 2026. Counts below are feasibility evidence, not publishable market statistics.
+The spike joined the July 15, 2026 Assessor files, the 2025 sales archive, the 2027 residential file, and current GIS parcels. The test window was July 15, 2025 through July 15, 2026. These are feasibility counts, not publishable market statistics.
 
-| Pilot definition tested | Current parcels | GIS lot area | Assessor sqft | Priced sale rows | Unique recorded transactions | Multi-parcel transactions | Single-parcel transactions ready for price/sqft |
+| Pilot definition tested | Current parcels | GIS lot area | Assessor sqft | Priced sale rows | Unique transactions | Multi-parcel transactions | Single-parcel transactions ready for price/sqft |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Pima Canyon Estates | 290 | 290 (100%) | 261 (90.0%) | 18 | 18 | 0 | 18 |
-| Finisterra I–III | 193 | 193 (100%) | 185 (95.9%) | 7 | 6 | 1 | 4 |
-| Ventana Canyon candidate set | 634 | 634 (100%) | 577 (91.0%) | 40 | 39 | 1 | 35 |
+| Pima Canyon Estates + The Enclave | 304 | 304 (100%) | 271 (89.1%) | 18 | 18 | 0 | 18 |
+| Finisterra I-III | 193 | 193 (100%) | 185 (95.9%) | 7 | 6 | 1 | 4 |
+| Ventana corrected behind-gate plat seed | 626 | 626 (100%) | 569 (90.9%) | 41 | 40 | 1 | 36 |
 
-Two design implications were proven:
+The Ventana count is the corrected recorded-plat seed. The Phase 1 boundary audit may add or remove edge parcels, particularly unplatted access-only lots and non-residential/common parcels.
 
-1. One recorder sequence can cover multiple parcel IDs. A sale must be counted once at the transaction level, with a many-to-many parcel bridge.
-2. Price per square foot is safe by default only for a single-parcel transaction with one positive assessor living-area record. Multi-parcel price/sqft should be null unless a reviewed allocation rule applies.
+Two rules follow from the spike:
 
-## Reliable micro-market mapping
+1. Count a Recorder sequence once at the transaction level. One recorded transaction can cover multiple parcels.
+2. Calculate price/sqft by default only when a transaction has one parcel and that parcel has one positive, source-dated Assessor sqft record.
 
-Do not use a loose subdivision-name search or only a hand-drawn geofence. The county subdivision layer contains official recorded plat identifiers in `BOOK_PAGE`; the parcel layer exposes the same identifier as `MP_OL`. Use a curated list of exact map-and-plat identifiers, pull current parcel IDs by `MP_OL`, then use geometry as an audit and split/replat fallback.
+## Reliable pilot boundaries
 
-### Pilot definitions found
+### Pima Canyon
 
-- **Pima Canyon:** Pima Canyon Estates plats `48089`, `50087`, `53036`, `55059`, and `57023`. “The Enclave at Pima Canyon” is separately platted as `48074`; it was excluded from the spike and needs an operator inclusion decision.
-- **Finisterra:** Finisterra I–III plats `33069`, `34026`, and `43097`. This definition is unambiguous.
-- **Ventana Canyon:** the name search returns many unrelated or adjacent “Ventana” developments. The candidate gated-club set uses the recorded families Ventana Canyon Estates, Golf Villas I/II, Lake Estates, Mountain Estates I/II, Ventana Country Club Estates, Deer Run, The Ridge, Clubdominiums, and Whaleback Ridge. Candidate plats are `37079`, `39021`, `41048`, `38059`, `43085`, `38032`, `38043`, `41031`, `56024`, `46002`, `46003`, `47092`, `49006`, `50055`, and `43089`. This list needs one operator sign-off before it becomes canonical.
+Include Pima Canyon Estates plats `48089`, `50087`, `53036`, `55059`, and `57023`, plus **The Enclave at Pima Canyon** plat `48074`.
 
-Implementation rule:
+### Finisterra
 
-1. Store `community_plat` rows keyed by community + exact book/page or modern sequence number.
-2. Query parcels by `MP_OL` and deduplicate by parcel ID; county geometry can contain repeated subdivision polygons and multipart parcels.
-3. Store a versioned `community_parcel` snapshot with membership method, source date and geometry hash.
-4. Flag new plats, parcel splits, missing map/plat values and overlapping community assignments for review.
-5. Use a curated boundary polygon only as a secondary spatial test—never as the sole membership rule.
+Include Finisterra I-III plats `33069`, `34026`, and `43097`.
 
-## Proposed data pipeline
+### Ventana Canyon
 
-### Ingestion
+The approved pilot meaning is **all residential parcels physically behind the main Kolb Road gate**, not every subdivision containing the word "Ventana" and not VCCA membership alone.
 
-1. **Daily sales:** fetch current-year and prior-year Assessor sales ZIPs; store immutable raw files, URL, retrieval time, checksum and HTTP metadata.
-2. **Parcel geography:** query the county parcel REST layer for the canonical pilot plat keys; request only needed attributes and GeoJSON geometry.
-3. **Subdivision registry:** refresh the subdivision layer weekly and detect new/changed plat keys or geometry.
-4. **Residential characteristics:** fetch the current Assessor residential ZIP when its checksum changes; retain tax-year snapshots.
-5. **Recorder verification:** keep a manual verification link by sequence number. Add paid bulk only if the Assessor lag becomes unacceptable or document-level auditing becomes a product requirement.
+The VCCA says it has homes both inside and outside the main gate. It specifically places The Ridge, Ventana Entrada, Ventana del Oeste, and Westgate outside the gate, so they are excluded. It also documents access for Esperero Canyon and the ends of Stone Canyon, Hole in the Wall Way, and Hototo Place even though those properties are not VCCA members; the physical boundary should include them. [VCCA FAQ](https://ventanacanyoncommunity.com/faqs/) - [official interior map](https://ventanacanyoncommunity.com/wp-content/uploads/vc-web-map.pdf)
 
-### Cleaning and quality rules
+The corrected plat seed is:
 
-- Preserve raw source values; normalize parcel IDs as nine-character strings and recorder sequence numbers as strings.
-- Parse `SaleDate` into `sale_month` plus `sale_date_precision = 'month'`; use exact `recording_date` for the timeline.
-- Parse numeric sale price, reject `Unknown`, and never coerce missing values to zero.
-- Group by recorder sequence number before calculating counts or medians.
-- Quarantine malformed CSV rows and alert on header/schema drift. The residential CSV includes a dashed layout row and padded column names, so the loader must explicitly handle both.
-- Create quality tiers:
-  - **A — trend eligible:** numeric price, county `Good Sale`, and no related-party, partial-interest or personal-property flags.
-  - **B — map eligible / review:** numeric price with a non-disqualifying county flag such as an out-of-state address; excluded from headline trend calculations initially.
-  - **X — excluded:** pending/unknown price, non-arm's-length or duress, related parties, government/nominal/court transfers, partial interest, significant personal property, or inconsistent/unusable records.
-- Store the rule version used for every derived eligibility decision.
+- Ventana Canyon Estates: `37079`, `39021`, `41048`
+- Golf Villas: `38059`, `43085`
+- Lake Estates: `38032`
+- Mountain Estates: `38043`, `41031`, `56024`
+- Ventana Country Club Estates: `46002`
+- Deer Run at Ventana Canyon: `46003`
+- Whaleback Ridge Estates: `43089`
+- Ventana Serena: `40048`
+- Desert Moon Estates: `43043`
+- Esperero Canyon Estates: `41028`
+- Clubdominiums: `50055`
+
+Phase 1 should encode a versioned behind-gate polygon from the official interior map and county parcel geometry. Parcel centroids inside that polygon become the primary membership rule; exact plats provide an audit and edge-case override. This catches access-only/unplatted parcels while preventing outside-gate "Ventana" developments from leaking into the market.
+
+Every community assignment should retain its method (`plat`, `centroid`, or reviewed override), source date, boundary version and review status. New plats, parcel splits, overlapping assignments and parcels on the boundary should be flagged automatically.
+
+## Lean data pipeline
+
+1. **Ingest:** fetch current/prior-year Assessor sales ZIPs daily, the current residential ZIP when its checksum changes, pilot parcels from GIS REST, and the subdivision registry weekly.
+2. **Record lineage:** keep source URL, retrieval time, checksum, row counts, maximum recording date and schema version. Process raw county files during the job; permanent raw-file storage is deferred for the pilot.
+3. **Clean:** normalize nine-character parcel IDs and sequence numbers; preserve raw values; quarantine malformed rows and schema drift; retain `sale_month` with month precision and exact `recording_date`.
+4. **Deduplicate:** create one transaction per Recorder sequence and a transaction-to-parcel bridge.
+5. **Qualify:** make numeric, county-validated arm's-length sales trend-eligible; keep reviewable sales separate; exclude unknown/nominal price, related-party, partial-interest, personal-property, duress and other unsuitable transfers from headline trends.
+6. **Enrich:** join parcel lot area, centroid/geometry, source-dated Assessor sqft and versioned community membership.
+7. **Publish:** generate small deterministic JSON/GeoJSON files for the latest 12 months and community summaries. Include data-through date, lag, quality tier and source lineage.
 
 ### Logical schema
 
-| Table / view | Purpose and key fields |
+| Record | Key fields |
 | --- | --- |
-| `ingestion_run` | Source, URL, retrieved time, checksum, source file date, row counts, max recording date, status and error sample. |
-| `sale_transaction` | Recorder sequence PK, sale month, sale-date precision, recording date, sale price, deed, financing, validation fields, quality tier and source lineage. |
-| `sale_transaction_parcel` | Transaction-to-parcel bridge; prevents multi-parcel deeds from inflating transaction counts. |
-| `parcel` | Parcel ID PK, map/plat, lot, situs address, use, lot square feet/acres, centroid and PostGIS geometry. |
-| `parcel_improvement_snapshot` | Parcel + tax year, assessor sqft, SFR/condo flag, year built and other selected characteristics. |
-| `community` / `community_plat` | Canonical market definition and approved recorded-plat identifiers. |
-| `community_parcel` | Versioned parcel membership, method, source date and review status. |
-| `recorded_sale_view` | Community, transaction, parcel, recording date, sale month, sale price, assessor sqft/as-of year, lot size, derived price/sqft, geometry, quality and freshness fields. `days_to_close` remains null. |
+| `source_manifest` | Source URL, retrieval time, checksum, source date, row counts, max recording date, schema version and status. |
+| `sale_transaction` | Sequence ID, sale month, date precision, recording date, sale price, deed/financing, validation fields, quality tier and rule version. |
+| `sale_transaction_parcel` | Sequence ID + parcel ID bridge. |
+| `parcel` | Parcel ID, map/plat, lot, situs address, use, lot sqft/acres, centroid and geometry. |
+| `parcel_improvement` | Parcel ID + tax year, Assessor sqft, SFR/condo flag and selected characteristics. |
+| `community_membership` | Community, parcel ID, plat, membership method, boundary version, source date and review status. |
+| `recorded_sale` | Community, transaction, parcel, recording date, sale month, price, sqft/as-of year, lot size, derived price/sqft, geometry, quality and freshness. `days_to_close` is null. |
 
-For condos, suppress lot-size claims unless the parcel geometry clearly represents an exclusive unit parcel. For multi-parcel transactions, suppress price/sqft until a documented allocation rule passes review.
+For condos, suppress lot-size claims unless geometry represents an exclusive unit parcel. For multi-parcel transactions, suppress price/sqft unless a documented allocation rule is later approved.
 
 ## What public records do not provide
 
-These require an authorized MLS feed later:
+An authorized MLS feed is still required for:
 
 - active, coming-soon, pending, contingent, withdrawn, expired and canceled inventory;
 - original/current list price, price reductions and close-to-list ratio;
 - list date, pending/contract date, days on market, cumulative days on market and **days to close**;
-- exact status history and relist behavior;
-- seller concessions and many financing details used in market analysis;
-- listing-entered square footage, room/amenity detail, condition, photos and remarks;
-- reliable inventory absorption and supply metrics.
+- status history, relists, seller concessions and many financing details;
+- listing-entered sqft, condition, amenities, photos and remarks;
+- reliable absorption and months-of-supply metrics.
 
-Public records can measure **recorded-sales velocity** (transactions recorded per rolling period). They cannot honestly be labeled “days to close,” “days on market,” “current inventory,” or “market absorption.”
+Public records can support **recorded-sales velocity**. They cannot honestly support days to close, days on market, current inventory or market absorption.
 
-## Recommended stack
+## Recommended stack for the cheapest pilot
 
-- **Pipeline:** TypeScript on Node, using streaming ZIP/CSV processing and runtime schema validation. Keep the same language as the product unless GIS complexity later proves Python is justified.
-- **Database:** managed PostgreSQL with PostGIS. It gives durable joins, spatial auditing, materialized market aggregates and a clean path to vector tiles later.
-- **Raw archive:** S3-compatible object storage for immutable county ZIP/JSON snapshots and replayability.
-- **Automation:** scheduled GitHub Actions job with manual replay, database credentials in repository secrets, checksum-based no-op runs, retries and lag alerts.
-- **Web:** Next.js + React on the existing stack. Deploy the web app publicly, but keep raw ingestion credentials server-side.
-- **Map for Phase 2:** MapLibre GL JS. It is TypeScript/WebGL based and supports vector data, data-driven styling and raster-DEM 3D terrain without coupling the data engine to one basemap vendor. [MapLibre GL JS](https://maplibre.org/projects/gl-js/) · [3D terrain example](https://maplibre.org/maplibre-gl-js/docs/examples/3d-terrain/)
-- **Privacy:** ingest only the minimum needed public fields. Exclude owner names and owner mailing addresses from storage and public output.
+- **Pipeline:** TypeScript on Node with streaming ZIP/CSV parsing and runtime schema validation.
+- **Automation:** a scheduled GitHub Actions workflow with a manual replay option, checksum-based no-op runs, retries and lag alerts.
+- **Storage/output:** versioned normalized JSON and GeoJSON in the private repo. No database or permanent object store for the pilot.
+- **Web in Phase 2:** Next.js + React, reading the generated static data files.
+- **Map in Phase 2:** MapLibre GL JS for data-driven styling and later terrain support. [MapLibre GL JS](https://maplibre.org/projects/gl-js/) - [3D terrain example](https://maplibre.org/maplibre-gl-js/docs/examples/3d-terrain/)
+- **Privacy:** do not store or publish owner names or owner mailing addresses.
 
-## Phase 1 — pipeline build
+This should add no new data-source bill and no new infrastructure service at pilot scale, subject to the existing GitHub/deployment account quotas. Move to PostgreSQL/PostGIS and immutable object storage only after a clear validation signal: more markets/history, an MLS feed, operator corrections, multiple downstream products, or an API that needs concurrent querying.
 
-1. Lock the three canonical `community_plat` definitions; obtain the one Ventana inclusion sign-off and the Pima Canyon Enclave decision.
-2. Create PostGIS schema, migrations, source registry and raw-file manifest.
-3. Build idempotent sales, parcel/subdivision and residential-characteristic loaders with row quarantine and schema-drift tests.
-4. Implement transaction deduplication, parcel bridge, quality tiers, community membership and derived metrics.
-5. Backfill the latest 12 months, then the available 2023–present archive.
-6. Validate a stratified sample against Assessor parcel pages and Recorder search; document every exception class.
-7. Schedule daily ingestion and weekly boundary refresh; alert when source retrieval fails, row counts swing materially, or newest recording lag exceeds 21 days.
-8. Publish a stable read-only data contract for Phase 2 and a small operator runbook.
+## Phase 1 - lean pipeline build
 
-Phase 1 acceptance criteria:
+1. Encode the Pima Canyon and Finisterra plat lists plus the versioned Ventana behind-gate polygon and plat audit list.
+2. Build idempotent Assessor sales/residential and GIS parcel/subdivision loaders with schema-drift quarantine.
+3. Implement transaction deduplication, parcel bridging, quality tiers, community membership and derived metrics.
+4. Backfill the latest 12 months and emit the read-only JSON/GeoJSON contract needed by the map.
+5. Test unknown prices, malformed headers, multi-parcel deeds, missing sqft, parcel splits and Ventana boundary edges.
+6. Schedule daily sale refreshes and weekly geography refreshes; alert when retrieval fails or newest recording lag exceeds 21 days.
+7. Add a one-page operator runbook and a simple feasibility output: sale coverage, missing-data rates and sample community pulse summaries.
 
-- replaying the same source files creates no duplicates;
-- every displayed sale links to a source transaction and at least one current parcel geometry;
-- transactions, not parcel rows, drive counts and medians;
-- 100% of in-scope parcels have one approved community assignment or a quarantined exception;
-- price/sqft is emitted only with a positive, source-dated sqft denominator and an eligible transaction shape;
-- source freshness, sale-date precision and quality tier are available to the UI;
-- automated tests cover the known malformed header row, unknown prices, multi-parcel deeds, re-recordings and parcel splits;
-- no owner names or mailing addresses are stored.
+Phase 1 is accepted when reruns create no duplicates; transaction counts are not inflated by parcel rows; every displayed sale has current geometry and source lineage; price/sqft is denominator-safe; all in-scope parcels have an approved assignment or quarantined exception; and no owner names or mailing addresses are stored.
 
-## Phase 2 — map UI
+## Phase 2 - map UI
 
-1. Build the read-only map data endpoint and precomputed community pulse aggregates first.
-2. Add a MapLibre terrain scene with restrained parcel/community geometry and sale markers keyed to exact recording date.
-3. Add the 12-month time scrubber, price-band and price/sqft encodings, community zoom transitions and market-pulse cards.
-4. Label the experience **recent recorded sales** and surface the data-through date, observed lag and metric definitions.
-5. Keep pilot delivery simple: cached GeoJSON is sufficient at this size. Introduce vector tiles only when geography or history expands materially.
-6. Verify desktop/mobile performance, keyboard/reduced-motion behavior, boundary accuracy and aggregate parity against the database before public release.
+1. Build the read-only data adapter and precomputed community pulse summaries.
+2. Add the restrained MapLibre terrain/map scene and sale markers keyed to exact recording date.
+3. Add the 12-month time scrubber, price bands, price/sqft encoding, community zoom transitions and market-pulse cards.
+4. Label the experience **recent recorded sales** and show the data-through date, observed lag and metric definitions.
+5. Validate desktop/mobile performance, keyboard and reduced-motion behavior, boundary accuracy and aggregate parity before public release.
 
 ## Approval gate
 
-No application, pipeline or UI code has been written. Phase 1 should begin only after approval of this report plus the Ventana Canyon and Pima Canyon Enclave boundary decisions.
+No application, pipeline or UI code has been written. The Enclave is included, and Ventana is defined as the complete residential area behind the main Kolb gate. Phase 1 begins only after explicit approval.

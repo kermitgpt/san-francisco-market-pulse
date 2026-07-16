@@ -10,7 +10,7 @@ A public-records data project for tracking recent recorded sales in Catalina Foo
 
 ## Current phase
 
-Phase 0 is a data-feasibility spike. No application or UI implementation begins until the feasibility report and the Phase 1/Phase 2 plan are approved.
+Phase 0 is complete with a lean, free-source validation path. No pipeline or UI implementation begins until the revised feasibility report and the Phase 1/Phase 2 plan are approved.
 
 Read the [Phase 0 data feasibility report](docs/phase-0-data-feasibility.md).
 
