@@ -65,6 +65,18 @@ test("intermediary or straw-man transfers are excluded", () => {
   assert.ok(result.reasons.includes("validation:intermediary"));
 });
 
+test("quitclaims and nominal-value recordings are excluded", () => {
+  const quitclaim = classifySale([
+    { ...goodSale, deed: "Quit Claim Deed", validationDescription: "Good Sale" },
+  ]);
+  assert.equal(quitclaim.tier, "X");
+  assert.ok(quitclaim.reasons.includes("deed:quit_claim"));
+
+  const nominal = classifySale([{ ...goodSale, salePrice: 10 }]);
+  assert.equal(nominal.tier, "X");
+  assert.ok(nominal.reasons.includes("nominal_price_below_50000"));
+});
+
 test("source scalar parsing never invents dates or zero prices", () => {
   assert.equal(parseSaleMonth("202607"), "2026-07");
   assert.equal(parseSaleMonth("202600"), null);

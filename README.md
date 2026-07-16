@@ -10,7 +10,7 @@ A public-records data project for tracking recent recorded sales in Catalina Foo
 
 ## Current phase
 
-Phase 0 is complete. Phase 1 implements the approved free-source, database-free data pipeline; UI work remains out of scope until Phase 2.
+Phase 0 is complete. Phase 1 implements the approved free-source, database-free 36-month pipeline and adaptive low-turnover windows. UI work is blocked until the operator approves the generated market-sales review.
 
 Read the [Phase 0 data feasibility report](docs/phase-0-data-feasibility.md).
 

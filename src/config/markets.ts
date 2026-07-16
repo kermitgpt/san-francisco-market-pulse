@@ -97,4 +97,13 @@ export const ALL_REVIEWED_PARCEL_OVERRIDES = [
   ),
 ].sort();
 
-export const MARKET_CONFIG_VERSION = "2026-07-15-v2";
+export const ANALYSIS_WINDOW_CONFIG = {
+  trailingMonths: 12,
+  targetMarketSales: 12,
+  extensionMonths: 6,
+  maximumMonths: 36,
+  minimumTrendSales: 8,
+  currentStatsMonths: 12,
+} as const;
+
+export const MARKET_CONFIG_VERSION = "2026-07-16-v3";

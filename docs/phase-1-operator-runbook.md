@@ -6,10 +6,10 @@ The Phase 1 pipeline uses only free Pima County Assessor bulk files and Pima Cou
 
 The GitHub workflow runs daily at 7:30 a.m. Arizona time and can also be started manually from the repository's Actions tab. It:
 
-1. downloads current/prior-year sales, the latest residential characteristics file, pilot parcels, and recorded subdivisions;
+1. downloads every sales archive needed for a complete trailing 36 months, the latest residential characteristics file, pilot parcels, and recorded subdivisions;
 2. validates and normalizes the source rows;
 3. deduplicates transactions by Recorder sequence;
-4. applies the approved community boundary rules and quality tiers;
+4. applies the approved community boundary rules, market-sale filter, quality tiers, and adaptive 12/18/24/30/36-month windows;
 5. rewrites the static files in `data/processed` only when a source fingerprint or boundary configuration changes;
 6. commits changed processed outputs to `main`.
 
@@ -35,10 +35,13 @@ Set `FMP_FORCE=1` to rebuild even when source fingerprints are unchanged. Set `F
 - `community-boundaries.geojson`: county subdivision geometry labeled with the approved community and boundary version;
 - `source-manifest.json`: source URLs, retrieval timestamps, checksums, row counts, and data-through date;
 - `quality-report.json`: boundary reviews, exclusions, missing sqft, multi-parcel counts, CSV issues, and the privacy field audit.
+- `market-sales-review.md`: every full-pull market-eligible transaction in one review table, the unresolved edge parcels, and the exact market-sale filter and limitations.
 
 The public label is **recent recorded sales**. `SaleDate` retains month precision, map animation uses exact `RecordingDate`, and `daysToClose` remains null.
 
-The parcel boundary layer intentionally retains common, club, and vacant candidate parcels for auditability. Only Assessor transactions classified as `Single Family` or `Condo/Townhouse`, with a numeric price and quality tier A or B, are emitted to the public sale-point GeoJSON and community pulse summaries.
+The parcel boundary layer intentionally retains common, club, and vacant candidate parcels for auditability. Only transactions on approved boundary memberships classified as `Single Family` or `Condo/Townhouse`, with one consistent price of at least $50,000 and quality tier A or B, are emitted to the public sale-point GeoJSON and community pulse summaries. Quitclaims and flagged nominal, related-party, partial-interest, personal-property, non-arm's-length, lot/parcel-split, court/government, intermediary, inconsistent, and unusable transactions are excluded.
+
+Each community starts with a trailing-12-month count. If it has fewer than 12 market sales, the pipeline tests 18, 24, 30, and 36 months and selects the first window reaching 12, or 36 months if none does. Trend lines require at least eight tier-A sales in that window. Current price medians always use trailing-12-month sales only; extended sales never flow into today's price-level metrics.
 
 ## Alerts and intervention
 

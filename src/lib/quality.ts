@@ -18,7 +18,12 @@ const EXCLUDED_VALIDATION_TERMS = [
   "straw man",
   "inconsistent",
   "unusable",
+  "lot split",
+  "parcel split",
 ];
+
+const EXCLUDED_DEED_TERMS = ["quit claim", "quitclaim"];
+export const MINIMUM_MARKET_SALE_PRICE = 50_000;
 
 export function classifySale(rows: readonly SaleRow[]): QualityResult {
   const reasons = new Set<string>();
@@ -28,6 +33,9 @@ export function classifySale(rows: readonly SaleRow[]): QualityResult {
     reasons.add("missing_or_nonpositive_price");
   }
   if (prices.size > 1) reasons.add("inconsistent_multirow_price");
+  if ([...prices].some((price) => price < MINIMUM_MARKET_SALE_PRICE)) {
+    reasons.add("nominal_price_below_50000");
+  }
   if (rows.some((row) => yes(row.buyerSellerRelated))) reasons.add("related_parties");
   if (rows.some((row) => yes(row.personalProperty))) reasons.add("personal_property");
   if (rows.some((row) => yes(row.partialInterest))) reasons.add("partial_interest");
@@ -36,6 +44,10 @@ export function classifySale(rows: readonly SaleRow[]): QualityResult {
     const description = row.validationDescription.toLowerCase();
     for (const term of EXCLUDED_VALIDATION_TERMS) {
       if (description.includes(term)) reasons.add(`validation:${term.replaceAll(" ", "_")}`);
+    }
+    const deed = row.deed.toLowerCase();
+    for (const term of EXCLUDED_DEED_TERMS) {
+      if (deed.includes(term)) reasons.add(`deed:${term.replaceAll(" ", "_")}`);
     }
   }
 

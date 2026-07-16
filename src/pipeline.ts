@@ -3,6 +3,7 @@ import path from "node:path";
 import type { Feature, FeatureCollection, GeoJsonProperties, Geometry, Point } from "geojson";
 import { z } from "zod";
 import {
+  ANALYSIS_WINDOW_CONFIG,
   ALL_PILOT_PLATS,
   ALL_REVIEWED_PARCEL_OVERRIDES,
   MARKET_CONFIG_VERSION,
@@ -16,10 +17,11 @@ import { sha256, stableJson } from "./lib/hash.js";
 import {
   classifySale,
   isResidentialPropertyType,
+  MINIMUM_MARKET_SALE_PRICE,
   parsePositiveNumber,
   parseSaleMonth,
 } from "./lib/quality.js";
-import { median, subtractOneYear } from "./lib/statistics.js";
+import { median, selectAdaptiveWindow, subtractMonths } from "./lib/statistics.js";
 import { readCsvFromZip } from "./lib/zip-csv.js";
 import type {
   CommunityMembership,
@@ -38,7 +40,7 @@ import type {
 
 const PARCEL_LAYER_ID = 12;
 const SUBDIVISION_LAYER_ID = 15;
-const OUTPUT_SCHEMA_VERSION = "1.0.0" as const;
+const OUTPUT_SCHEMA_VERSION = "1.1.0" as const;
 
 const saleCsvSchema = z
   .object({
@@ -117,7 +119,13 @@ export async function runPipeline(options: PipelineOptions = {}): Promise<Pipeli
   const asOfCalendarDate = formatArizonaDate(asOfDate);
   const retrievedAt = new Date().toISOString();
 
-  const salesYears = [currentYear - 1, currentYear];
+  // The extra month makes the archive selection complete across a January year boundary
+  // when the newest county recording still falls in December.
+  const earliestArchiveYear = Number.parseInt(subtractMonths(asOfCalendarDate, 37).slice(0, 4), 10);
+  const salesYears = Array.from(
+    { length: currentYear - earliestArchiveYear + 1 },
+    (_, index) => earliestArchiveYear + index,
+  );
   const salesDownloads = salesYears.map((year) =>
     downloadSource(
       `assessor-sales-${year}`,
@@ -172,7 +180,9 @@ export async function runPipeline(options: PipelineOptions = {}): Promise<Pipeli
   const runtimeSources = salesSources.map(toRuntimeSource);
   runtimeSources.push(toRuntimeSource(improvementSource));
   const gisManifests = [toGisManifest(parcelDataset), toGisManifest(subdivisionDataset)];
-  const configHash = sha256(stableJson({ MARKET_CONFIG_VERSION, MARKET_DEFINITIONS }));
+  const configHash = sha256(
+    stableJson({ ANALYSIS_WINDOW_CONFIG, MARKET_CONFIG_VERSION, MARKET_DEFINITIONS }),
+  );
   const initialManifestEntries = [
     ...runtimeSources.map((entry) => entry.manifest),
     ...gisManifests,
@@ -211,7 +221,7 @@ export async function runPipeline(options: PipelineOptions = {}): Promise<Pipeli
   }
 
   if (!dataThroughDate) throw new Error("No valid recording dates were found in the sales sources");
-  const windowStartDate = subtractOneYear(dataThroughDate);
+  const windowStartDate = subtractMonths(dataThroughDate, ANALYSIS_WINDOW_CONFIG.maximumMonths);
   const improvements = new Map<string, ImprovementSnapshot>();
   const improvementRuntime = runtimeSources.find((entry) => entry.source.name.startsWith("assessor-real-property-"));
   if (!improvementRuntime) throw new Error("Real-property source was not loaded");
@@ -262,7 +272,7 @@ export async function runPipeline(options: PipelineOptions = {}): Promise<Pipeli
     parcelById,
     improvements,
   );
-  const communities = buildCommunitySummaries(memberships, recordedSales);
+  const communities = buildCommunitySummaries(memberships, recordedSales, dataThroughDate);
   const sourceEntries = [
     ...runtimeSources.map((entry) => entry.manifest),
     ...gisManifests,
@@ -274,6 +284,7 @@ export async function runPipeline(options: PipelineOptions = {}): Promise<Pipeli
     generatedAt: retrievedAt,
     dataThroughDate,
     windowStartDate,
+    ingestionWindowMonths: 36,
     sources: sourceEntries,
     communities,
     transactions,
@@ -560,20 +571,36 @@ function buildRecordedSales(
 function buildCommunitySummaries(
   memberships: readonly CommunityMembership[],
   sales: readonly RecordedSale[],
+  dataThroughDate: string,
 ): CommunitySummary[] {
   return MARKET_DEFINITIONS.map((market) => {
     const marketMemberships = memberships.filter((membership) => membership.communityId === market.id);
     const marketSales = sales.filter((sale) => sale.communityId === market.id);
-    const mapEligible = marketSales.filter(
-      (sale) => sale.residentialScope && sale.salePrice !== null && sale.qualityTier !== "X",
+    const fullPullEligible = marketSales.filter(isMarketEligibleSale);
+    const fullPullTransactions = uniqueTransactions(fullPullEligible);
+    const analysisWindow = selectAdaptiveWindow(
+      dataThroughDate,
+      fullPullTransactions.map((sale) => sale.recordingDate),
+      ANALYSIS_WINDOW_CONFIG.targetMarketSales,
     );
-    const trendEligible = marketSales.filter(
-      (sale) => sale.residentialScope && sale.salePrice !== null && sale.qualityTier === "A",
+    const trailing12StartDate = subtractMonths(dataThroughDate, ANALYSIS_WINDOW_CONFIG.trailingMonths);
+    const windowEligible = fullPullEligible.filter(
+      (sale) => sale.recordingDate >= analysisWindow.startDate,
     );
-    const mapTransactions = new Set(mapEligible.map((sale) => sale.sequenceId));
+    const currentEligible = fullPullEligible.filter(
+      (sale) => sale.recordingDate >= trailing12StartDate,
+    );
+    const trendEligible = windowEligible.filter(isTrendEligibleSale);
+    const windowTransactions = new Set(windowEligible.map((sale) => sale.sequenceId));
     const trendTransactions = new Set(trendEligible.map((sale) => sale.sequenceId));
-    const transactionPrices = uniqueTransactionValues(mapEligible, (sale) => sale.salePrice);
-    const transactionPpsf = uniqueTransactionValues(mapEligible, (sale) => sale.pricePerSqft);
+    const transactionPrices = uniqueTransactionValues(currentEligible, (sale) => sale.salePrice);
+    const transactionPpsf = uniqueTransactionValues(currentEligible, (sale) => sale.pricePerSqft);
+    const lotSizes = windowEligible
+      .filter((sale) => sale.propertyType.trim().toLowerCase() === "single family")
+      .map((sale) => sale.lotSizeAcres)
+      .filter((value): value is number => value !== null && value > 0);
+    const trendLineEligible = trendTransactions.size >= ANALYSIS_WINDOW_CONFIG.minimumTrendSales;
+    const saleCountInWindow = windowTransactions.size;
 
     return {
       id: market.id,
@@ -582,12 +609,68 @@ function buildCommunitySummaries(
       boundaryVersion: market.boundaryVersion,
       parcelCount: marketMemberships.length,
       boundaryReviewCount: marketMemberships.filter((membership) => membership.reviewStatus === "needs_review").length,
-      mapSaleCount: mapTransactions.size,
+      fullPullMarketSaleCount: fullPullTransactions.length,
+      analysisWindowMonths: analysisWindow.months,
+      analysisWindowStartDate: analysisWindow.startDate,
+      analysisWindowEndDate: dataThroughDate,
+      analysisWindowLabel: buildAnalysisWindowLabel(
+        analysisWindow.months,
+        saleCountInWindow,
+        trendLineEligible,
+      ),
+      saleCountInWindow,
+      trailing12MonthSaleCount: analysisWindow.trailing12MonthSaleCount,
+      currentStatsWindowMonths: 12,
+      currentStatsSaleCount: analysisWindow.trailing12MonthSaleCount,
+      currentStatsMethod: "trailing_12_months_only",
+      mapSaleCount: saleCountInWindow,
       trendSaleCount: trendTransactions.size,
+      trendLineEligible,
       medianSalePrice: median(transactionPrices),
       medianPricePerSqft: median(transactionPpsf),
+      lotSizeRangeAcres:
+        lotSizes.length > 0
+          ? {
+              min: Math.round(Math.min(...lotSizes) * 1000) / 1000,
+              max: Math.round(Math.max(...lotSizes) * 1000) / 1000,
+            }
+          : null,
     };
   });
+}
+
+function isMarketEligibleSale(sale: RecordedSale): boolean {
+  return (
+    sale.residentialScope &&
+    sale.salePrice !== null &&
+    sale.qualityTier !== "X" &&
+    sale.membershipReviewStatus === "approved"
+  );
+}
+
+function isTrendEligibleSale(sale: RecordedSale): boolean {
+  return isMarketEligibleSale(sale) && sale.qualityTier === "A";
+}
+
+function uniqueTransactions(sales: readonly RecordedSale[]): RecordedSale[] {
+  const transactions = new Map<string, RecordedSale>();
+  for (const sale of sales) {
+    if (!transactions.has(sale.sequenceId)) transactions.set(sale.sequenceId, sale);
+  }
+  return [...transactions.values()];
+}
+
+function buildAnalysisWindowLabel(
+  months: 12 | 18 | 24 | 30 | 36,
+  saleCount: number,
+  trendLineEligible: boolean,
+): string {
+  const saleWord = saleCount === 1 ? "sale" : "sales";
+  if (!trendLineEligible) {
+    return `Very low turnover — individual sales shown across ${months} months (${saleCount} ${saleWord})`;
+  }
+  if (months === 12) return `Trailing 12 months (${saleCount} ${saleWord})`;
+  return `Low-turnover community — trend shown across ${months} months (${saleCount} ${saleWord})`;
 }
 
 function uniqueTransactionValues(
@@ -619,9 +702,7 @@ function buildOutputs(args: {
   const salePoints: FeatureCollection<Point> = {
     type: "FeatureCollection",
     features: args.recordedSales
-      .filter(
-        (sale) => sale.residentialScope && sale.salePrice !== null && sale.qualityTier !== "X",
-      )
+      .filter(isMarketEligibleSale)
       .map((sale) => ({
         type: "Feature",
         id: sale.id,
@@ -699,12 +780,21 @@ function buildOutputs(args: {
             needsReviewCount: rows.filter((row) => row.reviewStatus === "needs_review").length,
             needsReview: rows
               .filter((row) => row.reviewStatus === "needs_review")
-              .map((row) => ({
-                parcelId: row.parcelId,
-                platId: row.platId,
-                method: row.method,
-                boundaryVersion: row.boundaryVersion,
-              })),
+              .map((row) => {
+                const parcel = args.parcelById.get(row.parcelId);
+                return {
+                  parcelId: row.parcelId,
+                  address: parcel?.properties.ADDRESS_OL ?? null,
+                  legalDescription: parcel?.properties.LEGAL1 ?? null,
+                  parcelUse: parcel?.properties.PARCEL_USE ?? null,
+                  lotSizeSqft: parcel?.properties.GISAREA ?? null,
+                  lotSizeAcres: parcel?.properties.GISACRES ?? null,
+                  platId: row.platId,
+                  method: row.method,
+                  boundaryVersion: row.boundaryVersion,
+                  reviewReason: describeBoundaryReview(parcel),
+                };
+              }),
           },
         ];
       }),
@@ -713,17 +803,10 @@ function buildOutputs(args: {
       transactionCount: args.dataset.transactions.length,
       recordedSaleParcelCount: args.recordedSales.length,
       mapEligibleTransactionCount: new Set(
-        args.recordedSales
-          .filter(
-            (sale) =>
-              sale.residentialScope && sale.salePrice !== null && sale.qualityTier !== "X",
-          )
-          .map((sale) => sale.sequenceId),
+        args.recordedSales.filter(isMarketEligibleSale).map((sale) => sale.sequenceId),
       ).size,
       trendEligibleTransactionCount: new Set(
-        args.recordedSales
-          .filter((sale) => sale.residentialScope && sale.qualityTier === "A")
-          .map((sale) => sale.sequenceId),
+        args.recordedSales.filter(isTrendEligibleSale).map((sale) => sale.sequenceId),
       ).size,
       excludedTransactionCount: args.dataset.transactions.filter((transaction) => transaction.qualityTier === "X").length,
       outOfResidentialScopeTransactionCount: args.dataset.transactions.filter(
@@ -731,6 +814,28 @@ function buildOutputs(args: {
       ).length,
       missingSqftSaleCount: args.recordedSales.filter((sale) => sale.assessorSqft === null).length,
       multiParcelTransactionCount: args.dataset.transactions.filter((transaction) => transaction.parcelIds.length > 1).length,
+    },
+    analysisWindows: Object.fromEntries(
+      args.dataset.communities.map((community) => [
+        community.id,
+        {
+          analysisWindowMonths: community.analysisWindowMonths,
+          analysisWindowStartDate: community.analysisWindowStartDate,
+          analysisWindowEndDate: community.analysisWindowEndDate,
+          saleCountInWindow: community.saleCountInWindow,
+          trailing12MonthSaleCount: community.trailing12MonthSaleCount,
+          trendSaleCount: community.trendSaleCount,
+          trendLineEligible: community.trendLineEligible,
+          currentStatsMethod: community.currentStatsMethod,
+        },
+      ]),
+    ),
+    marketSaleFilter: {
+      allowedPropertyTypes: ["Single Family", "Condo/Townhouse"],
+      minimumSalePrice: MINIMUM_MARKET_SALE_PRICE,
+      allowedQualityTiers: ["A", "B"],
+      approvedBoundaryMembershipRequired: true,
+      dedupeKey: "Recorder sequence number",
     },
     csv: args.csvQuality,
     sourceFreshness: {
@@ -758,6 +863,7 @@ function buildOutputs(args: {
       ],
     },
   };
+  const reviewMarkdown = buildReviewMarkdown(args.dataset, args.memberships, args.parcelById);
 
   return {
     dataset: args.dataset,
@@ -765,7 +871,169 @@ function buildOutputs(args: {
     communityBoundaries: { type: "FeatureCollection", features: boundaryFeatures },
     manifest,
     qualityReport,
+    reviewMarkdown,
   };
+}
+
+function describeBoundaryReview(parcel: ParcelFeature | undefined): string {
+  if (!parcel) return "Parcel details were unavailable; operator review is required.";
+  const legal = parcel.properties.LEGAL1?.toLowerCase() ?? "";
+  const address = parcel.properties.ADDRESS_OL?.toLowerCase() ?? "";
+  const acres = parcel.properties.GISACRES ?? 0;
+  if (legal.includes("strip")) {
+    return "Narrow strip parcel rather than a residential homesite; its centroid falls outside the seeded residential subdivision polygons.";
+  }
+  if (address.includes("club house") || acres >= 50) {
+    return "Large clubhouse/club parcel rather than a residential homesite; its centroid falls outside the seeded residential subdivision polygons.";
+  }
+  if (legal.includes(" ca ") || parcel.properties.LOT_R?.trim().toLowerCase() === "a") {
+    return "Recorded common-area parcel rather than a residential homesite; its centroid falls outside the seeded residential subdivision polygons.";
+  }
+  return "Geographic Ventana candidate whose centroid falls outside the seeded residential subdivision polygons; operator review is required before inclusion.";
+}
+
+function buildReviewMarkdown(
+  dataset: MarketPulseDataset,
+  memberships: readonly CommunityMembership[],
+  parcelById: ReadonlyMap<string, ParcelFeature>,
+): string {
+  const marketNameById = new Map<string, string>(
+    MARKET_DEFINITIONS.map((market) => [market.id, market.name]),
+  );
+  const transactionGroups = new Map<string, RecordedSale[]>();
+  for (const sale of dataset.sales.filter(isMarketEligibleSale)) {
+    const key = `${sale.communityId}:${sale.sequenceId}`;
+    const rows = transactionGroups.get(key) ?? [];
+    rows.push(sale);
+    transactionGroups.set(key, rows);
+  }
+  const transactions = [...transactionGroups.values()].sort((leftRows, rightRows) => {
+    const left = leftRows[0];
+    const right = rightRows[0];
+    if (!left || !right) return 0;
+    const leftName = marketNameById.get(left.communityId) ?? left.communityId;
+    const rightName = marketNameById.get(right.communityId) ?? right.communityId;
+    return `${leftName}:${left.saleMonth ?? left.recordingDate}:${left.sequenceId}`.localeCompare(
+      `${rightName}:${right.saleMonth ?? right.recordingDate}:${right.sequenceId}`,
+    );
+  });
+
+  const lines = [
+    "# Market-sales validation review",
+    "",
+    `Generated from Pima County public records through **${dataset.dataThroughDate}**. The full pull begins **${dataset.windowStartDate}** and is capped at 36 months.`,
+    "",
+    `This table contains **${transactions.length} market-eligible transactions**. It is sorted by community, then Assessor sale month. A transaction is shown once per community even when one Recorder sequence covers multiple parcels.`,
+    "",
+    "> The Assessor sale field has month precision only (`YYYY-MM`); an exact close day is not available. The exact recording date is included separately and must not be presented as the close date.",
+    "> The 36-month pull is keyed to recording date. A sale month can therefore precede the pull start when its deed was recorded after the start date.",
+    "",
+    "| Community | Address | Close month (Assessor) | Recording date | Recorded price | Assessor sqft | Price/sqft | GIS lot size |",
+    "| --- | --- | --- | --- | ---: | ---: | ---: | --- |",
+  ];
+
+  for (const rows of transactions) {
+    const first = rows[0];
+    if (!first) continue;
+    const orderedRows = [...rows].sort((left, right) => left.parcelId.localeCompare(right.parcelId));
+    const addresses = orderedRows.map(
+      (sale) => sale.address?.trim() || `No GIS situs address (${sale.parcelId})`,
+    );
+    const sqft = orderedRows.map((sale) =>
+      sale.assessorSqft === null ? "—" : formatInteger(sale.assessorSqft),
+    );
+    const lotSizes = orderedRows.map(formatReviewLotSize);
+    const ppsf =
+      orderedRows.length > 1
+        ? "— (multi-parcel)"
+        : first.pricePerSqft === null
+          ? "—"
+          : formatCurrency(first.pricePerSqft, 2);
+    lines.push(
+      `| ${markdownCell(marketNameById.get(first.communityId) ?? first.communityId)} | ${markdownCell(addresses.join("<br>"))} | ${markdownCell(first.saleMonth ?? "Unavailable")} | ${first.recordingDate} | ${formatCurrency(first.salePrice ?? 0, 0)} | ${markdownCell(sqft.join("<br>"))} | ${markdownCell(ppsf)} | ${markdownCell(lotSizes.join("<br>"))} |`,
+    );
+  }
+
+  const reviews = memberships
+    .filter((membership) => membership.reviewStatus === "needs_review")
+    .sort((left, right) => left.parcelId.localeCompare(right.parcelId));
+  lines.push(
+    "",
+    "## Flagged edge parcels",
+    "",
+    "These parcels remain excluded from market-sale eligibility until the operator rules them in. A missing address means Pima County GIS has no situs address for that parcel.",
+    "",
+    "| Parcel | GIS address | County evidence | Why flagged |",
+    "| --- | --- | --- | --- |",
+  );
+  for (const review of reviews) {
+    const parcel = parcelById.get(review.parcelId);
+    const properties = parcel?.properties;
+    const evidence = [
+      properties?.LEGAL1 ? `Legal: ${properties.LEGAL1}` : null,
+      properties?.PARCEL_USE ? `Use code: ${properties.PARCEL_USE}` : null,
+      properties?.GISACRES ? `Lot: ${properties.GISACRES.toFixed(3)} ac` : null,
+    ]
+      .filter((value): value is string => value !== null)
+      .join("; ");
+    lines.push(
+      `| ${review.parcelId} | ${markdownCell(properties?.ADDRESS_OL ?? "No GIS situs address")} | ${markdownCell(evidence || "No parcel evidence returned")} | ${markdownCell(describeBoundaryReview(parcel))} |`,
+    );
+  }
+
+  lines.push(
+    "",
+    "## Market-sale filter",
+    "",
+    "A transaction is market-eligible only when all of the following are true:",
+    "",
+    "1. Its Assessor property type is `Single Family` or `Condo/Townhouse`.",
+    `2. It has one consistent numeric price of at least **${formatCurrency(MINIMUM_MARKET_SALE_PRICE, 0)}** across all rows for the Recorder sequence. Zero, blank, and lower nominal values are excluded.`,
+    "3. The deed is not labeled quitclaim, and the county validation text does not identify nominal consideration, non-arm's-length/duress, government/court, intermediary/straw-man, lot/parcel split, partial-interest, personal-property, inconsistent, or otherwise unusable activity.",
+    "4. The county's related-party, partial-interest, and personal-property flags are not `Yes`.",
+    "5. The parcel has approved membership in one pilot boundary; unresolved edge parcels are excluded.",
+    "6. Rows are deduplicated to one transaction by Recorder sequence number. Multi-parcel prices are counted once, and price/sqft is suppressed unless the transaction has exactly one parcel with positive Assessor sqft.",
+    "",
+    "Tier A means the county marked every row `Good Sale` and no exclusion fired. Tier B is a numeric residential sale with a non-excluding county note, such as an out-of-state address; it remains in this manual review table. Tier X is excluded.",
+    "",
+    "### What the filter can still miss",
+    "",
+    "- County flags or validation descriptions can be incomplete or incorrect. A family, trust, entity, distressed, or bundled-property transfer can look market-like if it carries a warranty deed, a plausible price, and no exclusion flag.",
+    "- The pipeline does not inspect Recorder document images, contracts, concessions, or MLS history, so it cannot independently prove arm's-length status.",
+    "- A parcel split with no sale normally has no qualifying positive-price sale row; explicit `lot split` or `parcel split` validation text is excluded. A later genuine residential sale of a newly split parcel can qualify.",
+    "- Assessor sqft is a current tax-year snapshot, not necessarily the home's size on the sale date. Condo/shared-parcel lot sizes are deliberately suppressed.",
+    "- The public source supplies sale month and exact recording date, not exact close day or days to close.",
+    "",
+  );
+  return `${lines.join("\n")}\n`;
+}
+
+function formatReviewLotSize(sale: RecordedSale): string {
+  if (sale.propertyType.trim().toLowerCase() === "condo/townhouse") {
+    return "— (condo/shared parcel)";
+  }
+  if (sale.lotSizeAcres === null && sale.lotSizeSqft === null) return "—";
+  const parts: string[] = [];
+  if (sale.lotSizeAcres !== null) parts.push(`${sale.lotSizeAcres.toFixed(3)} ac`);
+  if (sale.lotSizeSqft !== null) parts.push(`${formatInteger(Math.round(sale.lotSizeSqft))} sqft`);
+  return parts.join(" / ");
+}
+
+function formatCurrency(value: number, fractionDigits: number): string {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
+  }).format(value);
+}
+
+function formatInteger(value: number): string {
+  return new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(value);
+}
+
+function markdownCell(value: string): string {
+  return value.replaceAll("|", "\\|").replaceAll("\r", " ").replaceAll("\n", "<br>");
 }
 
 async function writeOutputs(outputDirectory: string, outputs: PipelineOutputs): Promise<void> {
@@ -776,6 +1044,7 @@ async function writeOutputs(outputDirectory: string, outputs: PipelineOutputs): 
     writeJson(path.join(outputDirectory, "community-boundaries.geojson"), outputs.communityBoundaries),
     writeJson(path.join(outputDirectory, "source-manifest.json"), outputs.manifest),
     writeJson(path.join(outputDirectory, "quality-report.json"), outputs.qualityReport),
+    writeFile(path.join(outputDirectory, "market-sales-review.md"), outputs.reviewMarkdown, "utf8"),
   ]);
 }
 

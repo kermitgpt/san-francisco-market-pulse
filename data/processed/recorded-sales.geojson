@@ -3,6 +3,2743 @@
   "features": [
     {
       "type": "Feature",
+      "id": "20231930149:109010070",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.8711274,
+          32.32741817
+        ]
+      },
+      "properties": {
+        "id": "20231930149:109010070",
+        "communityId": "finisterra",
+        "sequenceId": "20231930149",
+        "parcelId": "109010070",
+        "recordingDate": "2023-07-12",
+        "salePrice": 1200000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 371.63,
+        "lotSizeSqft": 23034.02201602,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20231990374:220203880",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.94685501,
+          32.3409347
+        ]
+      },
+      "properties": {
+        "id": "20231990374:220203880",
+        "communityId": "pima-canyon",
+        "sequenceId": "20231990374",
+        "parcelId": "220203880",
+        "recordingDate": "2023-07-18",
+        "salePrice": 1825000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 463.79,
+        "lotSizeSqft": 41398.592626,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20232000080:220203910",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.94751703,
+          32.33876048
+        ]
+      },
+      "properties": {
+        "id": "20232000080:220203910",
+        "communityId": "pima-canyon",
+        "sequenceId": "20232000080",
+        "parcelId": "220203910",
+        "recordingDate": "2023-07-19",
+        "salePrice": 1625000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 443.99,
+        "lotSizeSqft": 35532.93229133,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20232120795:114046590",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.8484604,
+          32.31804506
+        ]
+      },
+      "properties": {
+        "id": "20232120795:114046590",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20232120795",
+        "parcelId": "114046590",
+        "recordingDate": "2023-07-31",
+        "salePrice": 485000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 235.78,
+        "lotSizeSqft": 3336.38591382,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20232200081:114040950",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.8438556,
+          32.31779649
+        ]
+      },
+      "properties": {
+        "id": "20232200081:114040950",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20232200081",
+        "parcelId": "114040950",
+        "recordingDate": "2023-08-08",
+        "salePrice": 595000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 332.22,
+        "lotSizeSqft": 5197.03637018,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20232210128:114033660",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84493943,
+          32.32526329
+        ]
+      },
+      "properties": {
+        "id": "20232210128:114033660",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20232210128",
+        "parcelId": "114033660",
+        "recordingDate": "2023-08-09",
+        "salePrice": 725000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 313.58,
+        "lotSizeSqft": 7256.03589652,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20232210463:109012930",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.87291586,
+          32.3293458
+        ]
+      },
+      "properties": {
+        "id": "20232210463:109012930",
+        "communityId": "finisterra",
+        "sequenceId": "20232210463",
+        "parcelId": "109012930",
+        "recordingDate": "2023-08-09",
+        "salePrice": 800000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 240.38,
+        "lotSizeSqft": 5666.27622336,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20232350289:220200340",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.93733063,
+          32.34929269
+        ]
+      },
+      "properties": {
+        "id": "20232350289:220200340",
+        "communityId": "pima-canyon",
+        "sequenceId": "20232350289",
+        "parcelId": "220200340",
+        "recordingDate": "2023-08-23",
+        "salePrice": 1290000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 327,
+        "lotSizeSqft": 35093.85517756,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20232440149:114045250",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.8413112,
+          32.31321993
+        ]
+      },
+      "properties": {
+        "id": "20232440149:114045250",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20232440149",
+        "parcelId": "114045250",
+        "recordingDate": "2023-09-01",
+        "salePrice": 580000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 340.78,
+        "lotSizeSqft": 4431.92285641,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20232610422:114040880",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.8441135,
+          32.31869804
+        ]
+      },
+      "properties": {
+        "id": "20232610422:114040880",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20232610422",
+        "parcelId": "114040880",
+        "recordingDate": "2023-09-18",
+        "salePrice": 640000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 354.96,
+        "lotSizeSqft": 4416.24191488,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20232680324:22020278A",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.94254917,
+          32.34860246
+        ]
+      },
+      "properties": {
+        "id": "20232680324:22020278A",
+        "communityId": "pima-canyon",
+        "sequenceId": "20232680324",
+        "parcelId": "22020278A",
+        "recordingDate": "2023-09-25",
+        "salePrice": 1850000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 440.16,
+        "lotSizeSqft": 45966.08718998,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20232980365:220201040",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.9381028,
+          32.33915418
+        ]
+      },
+      "properties": {
+        "id": "20232980365:220201040",
+        "communityId": "pima-canyon",
+        "sequenceId": "20232980365",
+        "parcelId": "220201040",
+        "recordingDate": "2023-10-25",
+        "salePrice": 1672500,
+        "propertyType": "Single Family",
+        "pricePerSqft": 460.24,
+        "lotSizeSqft": 37799.07825207,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20233000133:114054010",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.8397103,
+          32.32281985
+        ]
+      },
+      "properties": {
+        "id": "20233000133:114054010",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20233000133",
+        "parcelId": "114054010",
+        "recordingDate": "2023-10-27",
+        "salePrice": 770000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 399.79,
+        "lotSizeSqft": 5679.82203992,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20233030541:109012130",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.87196396,
+          32.32839102
+        ]
+      },
+      "properties": {
+        "id": "20233030541:109012130",
+        "communityId": "finisterra",
+        "sequenceId": "20233030541",
+        "parcelId": "109012130",
+        "recordingDate": "2023-10-30",
+        "salePrice": 800000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 326.26,
+        "lotSizeSqft": 6356.00474672,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20233100352:114034200",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84599432,
+          32.32461399
+        ]
+      },
+      "properties": {
+        "id": "20233100352:114034200",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20233100352",
+        "parcelId": "114034200",
+        "recordingDate": "2023-11-06",
+        "salePrice": 1560000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 392.85,
+        "lotSizeSqft": 22623.89286862,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20233180505:114045080",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84171996,
+          32.31421481
+        ]
+      },
+      "properties": {
+        "id": "20233180505:114045080",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20233180505",
+        "parcelId": "114045080",
+        "recordingDate": "2023-11-14",
+        "salePrice": 825000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 380.01,
+        "lotSizeSqft": 5737.73547084,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20233210344:114045780",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84193057,
+          32.31643421
+        ]
+      },
+      "properties": {
+        "id": "20233210344:114045780",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20233210344",
+        "parcelId": "114045780",
+        "recordingDate": "2023-11-17",
+        "salePrice": 850000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 336.5,
+        "lotSizeSqft": 6406.35868105,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20233240277:114040800",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84421607,
+          32.31921918
+        ]
+      },
+      "properties": {
+        "id": "20233240277:114040800",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20233240277",
+        "parcelId": "114040800",
+        "recordingDate": "2023-11-20",
+        "salePrice": 670000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 371.6,
+        "lotSizeSqft": 5863.4414371,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20233340684:114054570",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.83652607,
+          32.31998352
+        ]
+      },
+      "properties": {
+        "id": "20233340684:114054570",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20233340684",
+        "parcelId": "114054570",
+        "recordingDate": "2023-11-30",
+        "salePrice": 879000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 445.06,
+        "lotSizeSqft": 5089.57729021,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20233400077:220202830",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.9445498,
+          32.34734041
+        ]
+      },
+      "properties": {
+        "id": "20233400077:220202830",
+        "communityId": "pima-canyon",
+        "sequenceId": "20233400077",
+        "parcelId": "220202830",
+        "recordingDate": "2023-12-06",
+        "salePrice": 3010000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 551.08,
+        "lotSizeSqft": 47496.85201232,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20233490383:220203650",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.94425581,
+          32.35412045
+        ]
+      },
+      "properties": {
+        "id": "20233490383:220203650",
+        "communityId": "pima-canyon",
+        "sequenceId": "20233490383",
+        "parcelId": "220203650",
+        "recordingDate": "2023-12-15",
+        "salePrice": 4300000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 758.65,
+        "lotSizeSqft": 141917.55081768,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20233490595:220203310",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.94801426,
+          32.34951616
+        ]
+      },
+      "properties": {
+        "id": "20233490595:220203310",
+        "communityId": "pima-canyon",
+        "sequenceId": "20233490595",
+        "parcelId": "220203310",
+        "recordingDate": "2023-12-15",
+        "salePrice": 1950000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 452.96,
+        "lotSizeSqft": 46551.25747763,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20240050126:114031990",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.8429457,
+          32.32968731
+        ]
+      },
+      "properties": {
+        "id": "20240050126:114031990",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20240050126",
+        "parcelId": "114031990",
+        "recordingDate": "2024-01-05",
+        "salePrice": 3715000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 560.75,
+        "lotSizeSqft": 37473.23189796,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20240110152:114041210",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84420948,
+          32.31625076
+        ]
+      },
+      "properties": {
+        "id": "20240110152:114041210",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20240110152",
+        "parcelId": "114041210",
+        "recordingDate": "2024-01-11",
+        "salePrice": 645700,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 355.95,
+        "lotSizeSqft": 5306.02747269,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20240110451:114045700",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84203342,
+          32.31572274
+        ]
+      },
+      "properties": {
+        "id": "20240110451:114045700",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20240110451",
+        "parcelId": "114045700",
+        "recordingDate": "2024-01-11",
+        "salePrice": 632000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 371.33,
+        "lotSizeSqft": 4797.01268248,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20240320132:220201040",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.9381028,
+          32.33915418
+        ]
+      },
+      "properties": {
+        "id": "20240320132:220201040",
+        "communityId": "pima-canyon",
+        "sequenceId": "20240320132",
+        "parcelId": "220201040",
+        "recordingDate": "2024-02-01",
+        "salePrice": 1600000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 440.29,
+        "lotSizeSqft": 37799.07825207,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20240320224:10901021A",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.87463853,
+          32.32769874
+        ]
+      },
+      "properties": {
+        "id": "20240320224:10901021A",
+        "communityId": "finisterra",
+        "sequenceId": "20240320224",
+        "parcelId": "10901021A",
+        "recordingDate": "2024-02-01",
+        "salePrice": 932050,
+        "propertyType": "Single Family",
+        "pricePerSqft": 358.89,
+        "lotSizeSqft": 45965.51311122,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20240330162:114045510",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.8413159,
+          32.31761265
+        ]
+      },
+      "properties": {
+        "id": "20240330162:114045510",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20240330162",
+        "parcelId": "114045510",
+        "recordingDate": "2024-02-02",
+        "salePrice": 634000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 372.5,
+        "lotSizeSqft": 3299.96841544,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20240380453:114046090",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84915664,
+          32.3189954
+        ]
+      },
+      "properties": {
+        "id": "20240380453:114046090",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20240380453",
+        "parcelId": "114046090",
+        "recordingDate": "2024-02-07",
+        "salePrice": 1280000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 430.25,
+        "lotSizeSqft": 16083.38017848,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20240400059:114042680",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84287357,
+          32.31853687
+        ]
+      },
+      "properties": {
+        "id": "20240400059:114042680",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20240400059",
+        "parcelId": "114042680",
+        "recordingDate": "2024-02-09",
+        "salePrice": 480000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 395.39,
+        "lotSizeSqft": 3005.84792514,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20240450245:114031520",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.83999106,
+          32.31849042
+        ]
+      },
+      "properties": {
+        "id": "20240450245:114031520",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20240450245",
+        "parcelId": "114031520",
+        "recordingDate": "2024-02-14",
+        "salePrice": 1700000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 416.67,
+        "lotSizeSqft": 26629.10553061,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20240590136:114045360",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84130952,
+          32.31510561
+        ]
+      },
+      "properties": {
+        "id": "20240590136:114045360",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20240590136",
+        "parcelId": "114045360",
+        "recordingDate": "2024-02-28",
+        "salePrice": 795000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 366.19,
+        "lotSizeSqft": 6352.26378194,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20240600101:114045480",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84137654,
+          32.31707615
+        ]
+      },
+      "properties": {
+        "id": "20240600101:114045480",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20240600101",
+        "parcelId": "114045480",
+        "recordingDate": "2024-02-29",
+        "salePrice": 830000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 377.79,
+        "lotSizeSqft": 4133.27585144,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20240600183:114045430",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84118697,
+          32.31630451
+        ]
+      },
+      "properties": {
+        "id": "20240600183:114045430",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20240600183",
+        "parcelId": "114045430",
+        "recordingDate": "2024-02-29",
+        "salePrice": 708100,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 326.16,
+        "lotSizeSqft": 4848.82472556,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20240660226:114054080",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.83850472,
+          32.32301773
+        ]
+      },
+      "properties": {
+        "id": "20240660226:114054080",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20240660226",
+        "parcelId": "114054080",
+        "recordingDate": "2024-03-06",
+        "salePrice": 740000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 384.22,
+        "lotSizeSqft": 5269.86512473,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20240660393:220202340",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.94723052,
+          32.3441439
+        ]
+      },
+      "properties": {
+        "id": "20240660393:220202340",
+        "communityId": "pima-canyon",
+        "sequenceId": "20240660393",
+        "parcelId": "220202340",
+        "recordingDate": "2024-03-06",
+        "salePrice": 1730000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 465.93,
+        "lotSizeSqft": 62847.47289164,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20240660441:114045980",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84241599,
+          32.31752862
+        ]
+      },
+      "properties": {
+        "id": "20240660441:114045980",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20240660441",
+        "parcelId": "114045980",
+        "recordingDate": "2024-03-06",
+        "salePrice": 559000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 328.44,
+        "lotSizeSqft": 4851.97711024,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20240750354:220204030",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.94736585,
+          32.35207303
+        ]
+      },
+      "properties": {
+        "id": "20240750354:220204030",
+        "communityId": "pima-canyon",
+        "sequenceId": "20240750354",
+        "parcelId": "220204030",
+        "recordingDate": "2024-03-15",
+        "salePrice": 2550000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 665.45,
+        "lotSizeSqft": 71879.40899031,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20240810300:109012680",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.87312182,
+          32.33069358
+        ]
+      },
+      "properties": {
+        "id": "20240810300:109012680",
+        "communityId": "finisterra",
+        "sequenceId": "20240810300",
+        "parcelId": "109012680",
+        "recordingDate": "2024-03-21",
+        "salePrice": 750000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 283.23,
+        "lotSizeSqft": 11258.31502131,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20240810328:11403116A",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84709321,
+          32.33072473
+        ]
+      },
+      "properties": {
+        "id": "20240810328:11403116A",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20240810328",
+        "parcelId": "11403116A",
+        "recordingDate": "2024-03-21",
+        "salePrice": 3900000,
+        "propertyType": "Single Family",
+        "pricePerSqft": null,
+        "lotSizeSqft": 38026.1999627,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20240810328:11403117A",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84688359,
+          32.33022241
+        ]
+      },
+      "properties": {
+        "id": "20240810328:11403117A",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20240810328",
+        "parcelId": "11403117A",
+        "recordingDate": "2024-03-21",
+        "salePrice": 3900000,
+        "propertyType": "Single Family",
+        "pricePerSqft": null,
+        "lotSizeSqft": 73956.58807666,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20240820191:114054700",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.83494638,
+          32.31830747
+        ]
+      },
+      "properties": {
+        "id": "20240820191:114054700",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20240820191",
+        "parcelId": "114054700",
+        "recordingDate": "2024-03-22",
+        "salePrice": 1650000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 364.24,
+        "lotSizeSqft": 22990.47542776,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20240870433:10901178B",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.85831683,
+          32.33102345
+        ]
+      },
+      "properties": {
+        "id": "20240870433:10901178B",
+        "communityId": "finisterra",
+        "sequenceId": "20240870433",
+        "parcelId": "10901178B",
+        "recordingDate": "2024-03-27",
+        "salePrice": 3450000,
+        "propertyType": "Single Family",
+        "pricePerSqft": null,
+        "lotSizeSqft": 4075.67732091,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20240870433:109011790",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.85851953,
+          32.33087795
+        ]
+      },
+      "properties": {
+        "id": "20240870433:109011790",
+        "communityId": "finisterra",
+        "sequenceId": "20240870433",
+        "parcelId": "109011790",
+        "recordingDate": "2024-03-27",
+        "salePrice": 3450000,
+        "propertyType": "Single Family",
+        "pricePerSqft": null,
+        "lotSizeSqft": 94020.98026442,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20240950158:109011880",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.86318209,
+          32.33031948
+        ]
+      },
+      "properties": {
+        "id": "20240950158:109011880",
+        "communityId": "finisterra",
+        "sequenceId": "20240950158",
+        "parcelId": "109011880",
+        "recordingDate": "2024-04-04",
+        "salePrice": 1500000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 361.71,
+        "lotSizeSqft": 46656.53424657,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20240960138:114020150",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.83308283,
+          32.32374813
+        ]
+      },
+      "properties": {
+        "id": "20240960138:114020150",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20240960138",
+        "parcelId": "114020150",
+        "recordingDate": "2024-04-05",
+        "salePrice": 2800000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 423.66,
+        "lotSizeSqft": 56575.75585942,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20241010213:114045440",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84118636,
+          32.31646318
+        ]
+      },
+      "properties": {
+        "id": "20241010213:114045440",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20241010213",
+        "parcelId": "114045440",
+        "recordingDate": "2024-04-10",
+        "salePrice": 850000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 391.52,
+        "lotSizeSqft": 4765.0055211,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20241010308:114053850",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.83851802,
+          32.32256143
+        ]
+      },
+      "properties": {
+        "id": "20241010308:114053850",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20241010308",
+        "parcelId": "114053850",
+        "recordingDate": "2024-04-10",
+        "salePrice": 545000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 282.97,
+        "lotSizeSqft": 5437.15181977,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20241020398:109012640",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.87219016,
+          32.33060608
+        ]
+      },
+      "properties": {
+        "id": "20241020398:109012640",
+        "communityId": "finisterra",
+        "sequenceId": "20241020398",
+        "parcelId": "109012640",
+        "recordingDate": "2024-04-11",
+        "salePrice": 710000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 296.95,
+        "lotSizeSqft": 8087.21795688,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20241060184:114033960",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84308033,
+          32.3242242
+        ]
+      },
+      "properties": {
+        "id": "20241060184:114033960",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20241060184",
+        "parcelId": "114033960",
+        "recordingDate": "2024-04-15",
+        "salePrice": 1300000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 442.78,
+        "lotSizeSqft": 10309.83726829,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20241060230:114055090",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.8365462,
+          32.32213713
+        ]
+      },
+      "properties": {
+        "id": "20241060230:114055090",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20241060230",
+        "parcelId": "114055090",
+        "recordingDate": "2024-04-15",
+        "salePrice": 797500,
+        "propertyType": "Single Family",
+        "pricePerSqft": 329.68,
+        "lotSizeSqft": 10842.41739147,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20241060417:114041250",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.8436503,
+          32.31606107
+        ]
+      },
+      "properties": {
+        "id": "20241060417:114041250",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20241060417",
+        "parcelId": "114041250",
+        "recordingDate": "2024-04-15",
+        "salePrice": 750000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 416.67,
+        "lotSizeSqft": 4287.5828558,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20241070394:114054980",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.83574817,
+          32.32150288
+        ]
+      },
+      "properties": {
+        "id": "20241070394:114054980",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20241070394",
+        "parcelId": "114054980",
+        "recordingDate": "2024-04-16",
+        "salePrice": 1950000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 350.4,
+        "lotSizeSqft": 26376.51353931,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20241080357:109012890",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.8734984,
+          32.32936988
+        ]
+      },
+      "properties": {
+        "id": "20241080357:109012890",
+        "communityId": "finisterra",
+        "sequenceId": "20241080357",
+        "parcelId": "109012890",
+        "recordingDate": "2024-04-17",
+        "salePrice": 870000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 354.52,
+        "lotSizeSqft": 5625.02906279,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20241100343:220203090",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.94996768,
+          32.34842776
+        ]
+      },
+      "properties": {
+        "id": "20241100343:220203090",
+        "communityId": "pima-canyon",
+        "sequenceId": "20241100343",
+        "parcelId": "220203090",
+        "recordingDate": "2024-04-19",
+        "salePrice": 1716458,
+        "propertyType": "Single Family",
+        "pricePerSqft": 471.3,
+        "lotSizeSqft": 78565.21600185,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20241240419:114030230",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84681286,
+          32.32594452
+        ]
+      },
+      "properties": {
+        "id": "20241240419:114030230",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20241240419",
+        "parcelId": "114030230",
+        "recordingDate": "2024-05-03",
+        "salePrice": 1732000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 370.01,
+        "lotSizeSqft": 30016.29213157,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20241360187:109013390",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.87049231,
+          32.33266319
+        ]
+      },
+      "properties": {
+        "id": "20241360187:109013390",
+        "communityId": "finisterra",
+        "sequenceId": "20241360187",
+        "parcelId": "109013390",
+        "recordingDate": "2024-05-15",
+        "salePrice": 805000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 253.7,
+        "lotSizeSqft": 18611.05671694,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20241360386:220201140",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.93787138,
+          32.34055426
+        ]
+      },
+      "properties": {
+        "id": "20241360386:220201140",
+        "communityId": "pima-canyon",
+        "sequenceId": "20241360386",
+        "parcelId": "220201140",
+        "recordingDate": "2024-05-15",
+        "salePrice": 2495000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 706.6,
+        "lotSizeSqft": 48986.58172356,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20241410174:114042930",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84250219,
+          32.31834637
+        ]
+      },
+      "properties": {
+        "id": "20241410174:114042930",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20241410174",
+        "parcelId": "114042930",
+        "recordingDate": "2024-05-20",
+        "salePrice": 725000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 402.55,
+        "lotSizeSqft": 4982.34765896,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20241490225:114042880",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84280177,
+          32.31777712
+        ]
+      },
+      "properties": {
+        "id": "20241490225:114042880",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20241490225",
+        "parcelId": "114042880",
+        "recordingDate": "2024-05-28",
+        "salePrice": 660000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 412.24,
+        "lotSizeSqft": 3692.88966988,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20241630135:109012520",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.87010041,
+          32.3319698
+        ]
+      },
+      "properties": {
+        "id": "20241630135:109012520",
+        "communityId": "finisterra",
+        "sequenceId": "20241630135",
+        "parcelId": "109012520",
+        "recordingDate": "2024-06-11",
+        "salePrice": 830000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 324.73,
+        "lotSizeSqft": 8819.23022342,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20241630392:114054790",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.83339864,
+          32.32041002
+        ]
+      },
+      "properties": {
+        "id": "20241630392:114054790",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20241630392",
+        "parcelId": "114054790",
+        "recordingDate": "2024-06-11",
+        "salePrice": 1175000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 387.28,
+        "lotSizeSqft": 21138.13491212,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20241850103:114041130",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84522274,
+          32.31660422
+        ]
+      },
+      "properties": {
+        "id": "20241850103:114041130",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20241850103",
+        "parcelId": "114041130",
+        "recordingDate": "2024-07-03",
+        "salePrice": 763750,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 424.07,
+        "lotSizeSqft": 5050.99016336,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20241850588:114046590",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.8484604,
+          32.31804506
+        ]
+      },
+      "properties": {
+        "id": "20241850588:114046590",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20241850588",
+        "parcelId": "114046590",
+        "recordingDate": "2024-07-03",
+        "salePrice": 573000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 278.56,
+        "lotSizeSqft": 3336.38591382,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20241940589:114046560",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84874732,
+          32.31788484
+        ]
+      },
+      "properties": {
+        "id": "20241940589:114046560",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20241940589",
+        "parcelId": "114046560",
+        "recordingDate": "2024-07-12",
+        "salePrice": 485000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 295.73,
+        "lotSizeSqft": 3999.22927138,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20241990405:109012530",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.87033009,
+          32.33194935
+        ]
+      },
+      "properties": {
+        "id": "20241990405:109012530",
+        "communityId": "finisterra",
+        "sequenceId": "20241990405",
+        "parcelId": "109012530",
+        "recordingDate": "2024-07-17",
+        "salePrice": 725000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 297.99,
+        "lotSizeSqft": 8399.23750006,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20242110547:114046600",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84836261,
+          32.31809106
+        ]
+      },
+      "properties": {
+        "id": "20242110547:114046600",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20242110547",
+        "parcelId": "114046600",
+        "recordingDate": "2024-07-29",
+        "salePrice": 605000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 294.12,
+        "lotSizeSqft": 3371.61829917,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20242150276:220202880",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.94800173,
+          32.3472732
+        ]
+      },
+      "properties": {
+        "id": "20242150276:220202880",
+        "communityId": "pima-canyon",
+        "sequenceId": "20242150276",
+        "parcelId": "220202880",
+        "recordingDate": "2024-08-02",
+        "salePrice": 3495000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 676.67,
+        "lotSizeSqft": 40771.74453926,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20242200256:114046070",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84863623,
+          32.31866351
+        ]
+      },
+      "properties": {
+        "id": "20242200256:114046070",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20242200256",
+        "parcelId": "114046070",
+        "recordingDate": "2024-08-07",
+        "salePrice": 1605000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 324.77,
+        "lotSizeSqft": 20124.99621435,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20242220088:220203510",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.94852528,
+          32.35033649
+        ]
+      },
+      "properties": {
+        "id": "20242220088:220203510",
+        "communityId": "pima-canyon",
+        "sequenceId": "20242220088",
+        "parcelId": "220203510",
+        "recordingDate": "2024-08-09",
+        "salePrice": 3250000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 667.9,
+        "lotSizeSqft": 94057.28439636,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20242220106:220201820",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.94896159,
+          32.34383323
+        ]
+      },
+      "properties": {
+        "id": "20242220106:220201820",
+        "communityId": "pima-canyon",
+        "sequenceId": "20242220106",
+        "parcelId": "220201820",
+        "recordingDate": "2024-08-09",
+        "salePrice": 1475000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 390.01,
+        "lotSizeSqft": 41254.45082194,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20242330192:114053920",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.83975837,
+          32.32241003
+        ]
+      },
+      "properties": {
+        "id": "20242330192:114053920",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20242330192",
+        "parcelId": "114053920",
+        "recordingDate": "2024-08-20",
+        "salePrice": 710000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 368.64,
+        "lotSizeSqft": 4629.15276256,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20242390180:114045690",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84212622,
+          32.31559155
+        ]
+      },
+      "properties": {
+        "id": "20242390180:114045690",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20242390180",
+        "parcelId": "114045690",
+        "recordingDate": "2024-08-26",
+        "salePrice": 620000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 281.69,
+        "lotSizeSqft": 5974.66508654,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20242400424:114053920",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.83975837,
+          32.32241003
+        ]
+      },
+      "properties": {
+        "id": "20242400424:114053920",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20242400424",
+        "parcelId": "114053920",
+        "recordingDate": "2024-08-27",
+        "salePrice": 710000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 368.64,
+        "lotSizeSqft": 4629.15276256,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20242430323:114054510",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.83577869,
+          32.32034876
+        ]
+      },
+      "properties": {
+        "id": "20242430323:114054510",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20242430323",
+        "parcelId": "114054510",
+        "recordingDate": "2024-08-30",
+        "salePrice": 920000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 433.76,
+        "lotSizeSqft": 6425.57625802,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20242610569:22020279A",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.94336926,
+          32.34919361
+        ]
+      },
+      "properties": {
+        "id": "20242610569:22020279A",
+        "communityId": "pima-canyon",
+        "sequenceId": "20242610569",
+        "parcelId": "22020279A",
+        "recordingDate": "2024-09-17",
+        "salePrice": 3650000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 790.9,
+        "lotSizeSqft": 40029.92577263,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20242890207:114034220",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84589266,
+          32.3238496
+        ]
+      },
+      "properties": {
+        "id": "20242890207:114034220",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20242890207",
+        "parcelId": "114034220",
+        "recordingDate": "2024-10-15",
+        "salePrice": 1495000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 396.34,
+        "lotSizeSqft": 27391.22549357,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20242980370:114041100",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84439617,
+          32.31661857
+        ]
+      },
+      "properties": {
+        "id": "20242980370:114041100",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20242980370",
+        "parcelId": "114041100",
+        "recordingDate": "2024-10-24",
+        "salePrice": 841500,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 467.5,
+        "lotSizeSqft": 4905.23507257,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20243020362:220201800",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.95016345,
+          32.34378157
+        ]
+      },
+      "properties": {
+        "id": "20243020362:220201800",
+        "communityId": "pima-canyon",
+        "sequenceId": "20243020362",
+        "parcelId": "220201800",
+        "recordingDate": "2024-10-28",
+        "salePrice": 1635000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 441.41,
+        "lotSizeSqft": 35071.18840724,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20243060169:220203760",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.94044177,
+          32.34909296
+        ]
+      },
+      "properties": {
+        "id": "20243060169:220203760",
+        "communityId": "pima-canyon",
+        "sequenceId": "20243060169",
+        "parcelId": "220203760",
+        "recordingDate": "2024-11-01",
+        "salePrice": 3500000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 661,
+        "lotSizeSqft": 64610.16198947,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20243110510:220201580",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.94485266,
+          32.3467052
+        ]
+      },
+      "properties": {
+        "id": "20243110510:220201580",
+        "communityId": "pima-canyon",
+        "sequenceId": "20243110510",
+        "parcelId": "220201580",
+        "recordingDate": "2024-11-06",
+        "salePrice": 1838150,
+        "propertyType": "Single Family",
+        "pricePerSqft": 433.22,
+        "lotSizeSqft": 48939.81436262,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20243180223:114054600",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.83634923,
+          32.32033971
+        ]
+      },
+      "properties": {
+        "id": "20243180223:114054600",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20243180223",
+        "parcelId": "114054600",
+        "recordingDate": "2024-11-13",
+        "salePrice": 866250,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 469.77,
+        "lotSizeSqft": 5209.09007229,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20243200218:114046100",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84904826,
+          32.31933484
+        ]
+      },
+      "properties": {
+        "id": "20243200218:114046100",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20243200218",
+        "parcelId": "114046100",
+        "recordingDate": "2024-11-15",
+        "salePrice": 1490000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 356.37,
+        "lotSizeSqft": 22163.62029792,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20243270351:109012610",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.87138269,
+          32.33071729
+        ]
+      },
+      "properties": {
+        "id": "20243270351:109012610",
+        "communityId": "finisterra",
+        "sequenceId": "20243270351",
+        "parcelId": "109012610",
+        "recordingDate": "2024-11-22",
+        "salePrice": 665000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 277.43,
+        "lotSizeSqft": 12047.95196632,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20243300103:114034040",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84351213,
+          32.32571765
+        ]
+      },
+      "properties": {
+        "id": "20243300103:114034040",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20243300103",
+        "parcelId": "114034040",
+        "recordingDate": "2024-11-25",
+        "salePrice": 1495000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 509.2,
+        "lotSizeSqft": 9454.65460063,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20243320315:109012560",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.87086256,
+          32.33167601
+        ]
+      },
+      "properties": {
+        "id": "20243320315:109012560",
+        "communityId": "finisterra",
+        "sequenceId": "20243320315",
+        "parcelId": "109012560",
+        "recordingDate": "2024-11-27",
+        "salePrice": 770000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 308.74,
+        "lotSizeSqft": 11612.45050404,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20243460125:11404262A",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84348904,
+          32.31792983
+        ]
+      },
+      "properties": {
+        "id": "20243460125:11404262A",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20243460125",
+        "parcelId": "11404262A",
+        "recordingDate": "2024-12-11",
+        "salePrice": 725000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 405.03,
+        "lotSizeSqft": 7178.42749873,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20243510127:220203350",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.94553897,
+          32.35020934
+        ]
+      },
+      "properties": {
+        "id": "20243510127:220203350",
+        "communityId": "pima-canyon",
+        "sequenceId": "20243510127",
+        "parcelId": "220203350",
+        "recordingDate": "2024-12-16",
+        "salePrice": 2650000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 472.79,
+        "lotSizeSqft": 50467.22038072,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20243550297:114054920",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.83368812,
+          32.3232446
+        ]
+      },
+      "properties": {
+        "id": "20243550297:114054920",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20243550297",
+        "parcelId": "114054920",
+        "recordingDate": "2024-12-20",
+        "salePrice": 1610000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 411.76,
+        "lotSizeSqft": 17666.0612803,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20243650152:220203800",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.94130497,
+          32.34968167
+        ]
+      },
+      "properties": {
+        "id": "20243650152:220203800",
+        "communityId": "pima-canyon",
+        "sequenceId": "20243650152",
+        "parcelId": "220203800",
+        "recordingDate": "2024-12-30",
+        "salePrice": 3400000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 539.68,
+        "lotSizeSqft": 54842.70196001,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20250150156:114046910",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84167083,
+          32.31924769
+        ]
+      },
+      "properties": {
+        "id": "20250150156:114046910",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20250150156",
+        "parcelId": "114046910",
+        "recordingDate": "2025-01-15",
+        "salePrice": 1680000,
+        "propertyType": "Single Family",
+        "pricePerSqft": null,
+        "lotSizeSqft": 51235.96036483,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20250150167:109012140",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.87211413,
+          32.32838013
+        ]
+      },
+      "properties": {
+        "id": "20250150167:109012140",
+        "communityId": "finisterra",
+        "sequenceId": "20250150167",
+        "parcelId": "109012140",
+        "recordingDate": "2025-01-15",
+        "salePrice": 629000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 256.32,
+        "lotSizeSqft": 5907.238052,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20250210285:109012920",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.8730619,
+          32.32935184
+        ]
+      },
+      "properties": {
+        "id": "20250210285:109012920",
+        "communityId": "finisterra",
+        "sequenceId": "20250210285",
+        "parcelId": "109012920",
+        "recordingDate": "2025-01-21",
+        "salePrice": 681000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 289.05,
+        "lotSizeSqft": 5625.0103389,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20250220180:114055060",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.83654106,
+          32.32310174
+        ]
+      },
+      "properties": {
+        "id": "20250220180:114055060",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20250220180",
+        "parcelId": "114055060",
+        "recordingDate": "2025-01-22",
+        "salePrice": 1085000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 403.35,
+        "lotSizeSqft": 14807.50300658,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20250220289:220201200",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.94052872,
+          32.34130504
+        ]
+      },
+      "properties": {
+        "id": "20250220289:220201200",
+        "communityId": "pima-canyon",
+        "sequenceId": "20250220289",
+        "parcelId": "220201200",
+        "recordingDate": "2025-01-22",
+        "salePrice": 1525000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 407.75,
+        "lotSizeSqft": 44966.63521078,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20250300350:114045970",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84256591,
+          32.31740361
+        ]
+      },
+      "properties": {
+        "id": "20250300350:114045970",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20250300350",
+        "parcelId": "114045970",
+        "recordingDate": "2025-01-30",
+        "salePrice": 630000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 370.15,
+        "lotSizeSqft": 4609.69110594,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20250380113:114045490",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84140044,
+          32.31730769
+        ]
+      },
+      "properties": {
+        "id": "20250380113:114045490",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20250380113",
+        "parcelId": "114045490",
+        "recordingDate": "2025-02-07",
+        "salePrice": 590000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 308.74,
+        "lotSizeSqft": 5765.38057808,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20250450034:114044920",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84393493,
+          32.31632389
+        ]
+      },
+      "properties": {
+        "id": "20250450034:114044920",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20250450034",
+        "parcelId": "114044920",
+        "recordingDate": "2025-02-14",
+        "salePrice": 720000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 331.64,
+        "lotSizeSqft": 6213.16224294,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20250490312:114045790",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84200154,
+          32.31660717
+        ]
+      },
+      "properties": {
+        "id": "20250490312:114045790",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20250490312",
+        "parcelId": "114045790",
+        "recordingDate": "2025-02-18",
+        "salePrice": 995000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 403.49,
+        "lotSizeSqft": 7550.24266478,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20250630418:114045700",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84203342,
+          32.31572274
+        ]
+      },
+      "properties": {
+        "id": "20250630418:114045700",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20250630418",
+        "parcelId": "114045700",
+        "recordingDate": "2025-03-04",
+        "salePrice": 725000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 425.97,
+        "lotSizeSqft": 4797.01268248,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20250730295:114033640",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84490987,
+          32.32565216
+        ]
+      },
+      "properties": {
+        "id": "20250730295:114033640",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20250730295",
+        "parcelId": "114033640",
+        "recordingDate": "2025-03-14",
+        "salePrice": 1195000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 407.02,
+        "lotSizeSqft": 7751.76630053,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20250770444:114030410",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84130688,
+          32.32027199
+        ]
+      },
+      "properties": {
+        "id": "20250770444:114030410",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20250770444",
+        "parcelId": "114030410",
+        "recordingDate": "2025-03-18",
+        "salePrice": 2295000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 429.53,
+        "lotSizeSqft": 55389.50988864,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20250840523:114030470",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.83802424,
+          32.32079034
+        ]
+      },
+      "properties": {
+        "id": "20250840523:114030470",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20250840523",
+        "parcelId": "114030470",
+        "recordingDate": "2025-03-25",
+        "salePrice": 1575000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 427.41,
+        "lotSizeSqft": 32318.58086175,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20251010458:114054560",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.83637554,
+          32.3199729
+        ]
+      },
+      "properties": {
+        "id": "20251010458:114054560",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20251010458",
+        "parcelId": "114054560",
+        "recordingDate": "2025-04-11",
+        "salePrice": 995000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 503.8,
+        "lotSizeSqft": 4315.7515564,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20251050138:114054840",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.83388858,
+          32.32151239
+        ]
+      },
+      "properties": {
+        "id": "20251050138:114054840",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20251050138",
+        "parcelId": "114054840",
+        "recordingDate": "2025-04-15",
+        "salePrice": 1600000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 418.41,
+        "lotSizeSqft": 26754.99947994,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20251060244:114031820",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.83772972,
+          32.31792859
+        ]
+      },
+      "properties": {
+        "id": "20251060244:114031820",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20251060244",
+        "parcelId": "114031820",
+        "recordingDate": "2025-04-16",
+        "salePrice": 1780000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 425.02,
+        "lotSizeSqft": 17775.84092902,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20251060308:114041050",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84361804,
+          32.31666289
+        ]
+      },
+      "properties": {
+        "id": "20251060308:114041050",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20251060308",
+        "parcelId": "114041050",
+        "recordingDate": "2025-04-16",
+        "salePrice": 595000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 430.22,
+        "lotSizeSqft": 4559.42454985,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20251130169:114031510",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.83996484,
+          32.31883917
+        ]
+      },
+      "properties": {
+        "id": "20251130169:114031510",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20251130169",
+        "parcelId": "114031510",
+        "recordingDate": "2025-04-23",
+        "salePrice": 1350000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 296.31,
+        "lotSizeSqft": 28124.76947323,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20251190348:220200340",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.93733063,
+          32.34929269
+        ]
+      },
+      "properties": {
+        "id": "20251190348:220200340",
+        "communityId": "pima-canyon",
+        "sequenceId": "20251190348",
+        "parcelId": "220200340",
+        "recordingDate": "2025-04-29",
+        "salePrice": 1675000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 424.59,
+        "lotSizeSqft": 35093.85517756,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20251200256:114045680",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84175332,
+          32.31554211
+        ]
+      },
+      "properties": {
+        "id": "20251200256:114045680",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20251200256",
+        "parcelId": "114045680",
+        "recordingDate": "2025-04-30",
+        "salePrice": 775000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 360.97,
+        "lotSizeSqft": 6384.03042151,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20251210137:114054080",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.83850472,
+          32.32301773
+        ]
+      },
+      "properties": {
+        "id": "20251210137:114054080",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20251210137",
+        "parcelId": "114054080",
+        "recordingDate": "2025-05-01",
+        "salePrice": 740000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 384.22,
+        "lotSizeSqft": 5269.86512473,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20251270193:114054030",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.83935006,
+          32.32292454
+        ]
+      },
+      "properties": {
+        "id": "20251270193:114054030",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20251270193",
+        "parcelId": "114054030",
+        "recordingDate": "2025-05-07",
+        "salePrice": 855200,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 391.22,
+        "lotSizeSqft": 5292.81325983,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20251350126:220201020",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.93848855,
+          32.33822181
+        ]
+      },
+      "properties": {
+        "id": "20251350126:220201020",
+        "communityId": "pima-canyon",
+        "sequenceId": "20251350126",
+        "parcelId": "220201020",
+        "recordingDate": "2025-05-15",
+        "salePrice": 1735000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 468.41,
+        "lotSizeSqft": 37769.35354296,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20251360110:114040920",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84379914,
+          32.31829447
+        ]
+      },
+      "properties": {
+        "id": "20251360110:114040920",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20251360110",
+        "parcelId": "114040920",
+        "recordingDate": "2025-05-16",
+        "salePrice": 690000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 385.26,
+        "lotSizeSqft": 4981.93706508,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20251500280:114030660",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.83885752,
+          32.325647
+        ]
+      },
+      "properties": {
+        "id": "20251500280:114030660",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20251500280",
+        "parcelId": "114030660",
+        "recordingDate": "2025-05-30",
+        "salePrice": 1250000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 253.55,
+        "lotSizeSqft": 47829.6981394,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20251550267:114045370",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84140502,
+          32.31533845
+        ]
+      },
+      "properties": {
+        "id": "20251550267:114045370",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20251550267",
+        "parcelId": "114045370",
+        "recordingDate": "2025-06-04",
+        "salePrice": 785000,
+        "propertyType": "Condo/Townhouse",
+        "pricePerSqft": 356.17,
+        "lotSizeSqft": 6188.9585447,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20251630319:114033670",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.84494384,
+          32.3250767
+        ]
+      },
+      "properties": {
+        "id": "20251630319:114033670",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20251630319",
+        "parcelId": "114033670",
+        "recordingDate": "2025-06-12",
+        "salePrice": 750000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 230.49,
+        "lotSizeSqft": 8058.30940988,
+        "qualityTier": "B"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20251780101:114031790",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.83896138,
+          32.31754245
+        ]
+      },
+      "properties": {
+        "id": "20251780101:114031790",
+        "communityId": "ventana-canyon",
+        "sequenceId": "20251780101",
+        "parcelId": "114031790",
+        "recordingDate": "2025-06-27",
+        "salePrice": 1690000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 435.23,
+        "lotSizeSqft": 30925.21339364,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20251780249:109011970",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.86381331,
+          32.33062199
+        ]
+      },
+      "properties": {
+        "id": "20251780249:109011970",
+        "communityId": "finisterra",
+        "sequenceId": "20251780249",
+        "parcelId": "109011970",
+        "recordingDate": "2025-06-27",
+        "salePrice": 1900000,
+        "propertyType": "Single Family",
+        "pricePerSqft": 347.79,
+        "lotSizeSqft": 56821.74564331,
+        "qualityTier": "A"
+      }
+    },
+    {
+      "type": "Feature",
       "id": "20251950180:109012830",
       "geometry": {
         "type": "Point",

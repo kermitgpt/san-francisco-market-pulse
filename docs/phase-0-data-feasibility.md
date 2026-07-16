@@ -1,6 +1,6 @@
 # Phase 0 - Pima County data feasibility
 
-**Status:** Feasible for a low-cost public-records pilot. Awaiting approval to build Phase 1.
+**Status:** Feasible for a low-cost public-records pilot. Phase 1 is built; Phase 2 remains blocked on operator validation of the 36-month sale review.
 
 ## Recommendation
 
@@ -85,15 +85,28 @@ The first live Phase 1 run used a data-through date of July 1, 2026 and a rollin
 
 Every community assignment should retain its method (`plat`, `centroid`, or reviewed override), source date, boundary version and review status. New plats, parcel splits, overlapping assignments and parcels on the boundary should be flagged automatically.
 
+## Adaptive low-turnover analysis rule
+
+The pipeline ingests and retains the 36 months ending on the newest exact `RecordingDate` available from the Assessor. For each community it applies this deterministic rule to market-eligible transactions:
+
+1. Count sales in the trailing 12 months.
+2. If fewer than 12, test 18, 24, 30, and then 36 months in order.
+3. Select the first window reaching 12 sales; if none does, use the 36-month cap.
+4. A trend line requires at least eight stricter tier-A sales inside the selected window. Below eight, show individual sales only.
+
+`market-pulse.json` records `analysisWindowMonths`, the start/end dates, `saleCountInWindow`, `trailing12MonthSaleCount`, `trendSaleCount`, `trendLineEligible`, and a ready-to-display window label for each community. An extended label is explicit, for example: **Low-turnover community — trend shown across 30 months (14 sales)**.
+
+Extended history is for trend context only. `medianSalePrice` and `medianPricePerSqft` are calculated strictly from market-eligible transactions in the trailing 12 months, with `currentStatsMethod: trailing_12_months_only`. Older transactions receive zero weight in current price-level statistics, so a two- or three-year median is never presented as today's market. The selected-window lot-size range is limited to single-family sale parcels; condo/shared-parcel lot size is suppressed.
+
 ## Lean data pipeline
 
-1. **Ingest:** fetch current/prior-year Assessor sales ZIPs daily, the current residential ZIP when its checksum changes, pilot parcels from GIS REST, and the subdivision registry weekly.
+1. **Ingest:** fetch every Assessor sales archive needed to cover the latest 36 months daily (including a one-month year-boundary buffer), the current residential ZIP when its checksum changes, pilot parcels from GIS REST, and the subdivision registry weekly.
 2. **Record lineage:** keep source URL, retrieval time, checksum, row counts, maximum recording date and schema version. Process raw county files during the job; permanent raw-file storage is deferred for the pilot.
 3. **Clean:** normalize nine-character parcel IDs and sequence numbers; preserve raw values; quarantine malformed rows and schema drift; retain `sale_month` with month precision and exact `recording_date`.
 4. **Deduplicate:** create one transaction per Recorder sequence and a transaction-to-parcel bridge.
 5. **Qualify:** make numeric, county-validated arm's-length sales trend-eligible; keep reviewable sales separate; exclude unknown/nominal price, related-party, partial-interest, personal-property, duress and other unsuitable transfers from headline trends.
 6. **Enrich:** join parcel lot area, centroid/geometry, source-dated Assessor sqft and versioned community membership.
-7. **Publish:** generate small deterministic JSON/GeoJSON files for the 12 months ending on the source's maximum recording date, plus community summaries. Include data-through date, lag, quality tier and source lineage.
+7. **Publish:** generate small deterministic JSON/GeoJSON files for the 36 months ending on the source's maximum recording date, adaptive community summaries, and a human-readable full-pull transaction review. Include data-through date, lag, quality tier and source lineage.
 
 ### Logical schema
 
@@ -106,6 +119,7 @@ Every community assignment should retain its method (`plat`, `centroid`, or revi
 | `parcel_improvement` | Parcel ID + tax year, Assessor sqft, SFR/condo flag and selected characteristics. |
 | `community_membership` | Community, parcel ID, plat, membership method, boundary version, source date and review status. |
 | `recorded_sale` | Community, transaction, parcel, recording date, sale month, price, sqft/as-of year, lot size, derived price/sqft, geometry, quality and freshness. `days_to_close` is null. |
+| `community_summary` | Boundary rule/version, parcel count, adaptive window dates/months, trailing-12 and selected-window counts, tier-A trend count, trend-line eligibility, trailing-12 current medians, and single-family lot-size range. |
 
 For condos, suppress lot-size claims unless geometry represents an exclusive unit parcel. For multi-parcel transactions, suppress price/sqft unless a documented allocation rule is later approved.
 
@@ -138,7 +152,7 @@ This should add no new data-source bill and no new infrastructure service at pil
 1. Encode the Pima Canyon and Finisterra plat lists plus the versioned Ventana behind-gate polygon and plat audit list.
 2. Build idempotent Assessor sales/residential and GIS parcel/subdivision loaders with schema-drift quarantine.
 3. Implement transaction deduplication, parcel bridging, quality tiers, community membership and derived metrics.
-4. Backfill the latest 12 months and emit the read-only JSON/GeoJSON contract needed by the map.
+4. Backfill the latest 36 months, apply the adaptive 12/18/24/30/36-month rule, and emit the read-only JSON/GeoJSON contract and validation review needed by the map.
 5. Test unknown prices, malformed headers, multi-parcel deeds, missing sqft, parcel splits and Ventana boundary edges.
 6. Schedule daily sale refreshes and weekly geography refreshes; alert when retrieval fails or newest recording lag exceeds 21 days.
 7. Add a one-page operator runbook and a simple feasibility output: sale coverage, missing-data rates and sample community pulse summaries.
@@ -148,11 +162,12 @@ Phase 1 is accepted when reruns create no duplicates; transaction counts are not
 ## Phase 2 - map UI
 
 1. Build the read-only data adapter and precomputed community pulse summaries.
-2. Add the restrained MapLibre terrain/map scene and sale markers keyed to exact recording date.
-3. Add the 12-month time scrubber, price bands, price/sqft encoding, community zoom transitions and market-pulse cards.
-4. Label the experience **recent recorded sales** and show the data-through date, observed lag and metric definitions.
-5. Validate desktop/mobile performance, keyboard and reduced-motion behavior, boundary accuracy and aggregate parity before public release.
+2. Add the restrained MapLibre terrain/map scene, parcel boundaries, and sale markers keyed to exact recording date.
+3. Add a time scrubber that can cover each community's approved adaptive window, price bands, price/sqft encoding, community zoom transitions and market-pulse cards.
+4. Put the explicit adaptive-window label on every pulse card; use extended history only for trends and suppress trend lines below eight tier-A sales.
+5. Label the experience **recent recorded sales** and show the data-through date, observed lag and metric definitions.
+6. Validate desktop/mobile performance, keyboard and reduced-motion behavior, boundary accuracy and aggregate parity before public release.
 
 ## Approval gate
 
-No application, pipeline or UI code was written during Phase 0. The Enclave is included; Finisterra is the exact I-III plat set; and Ventana is the complete residential area behind the main Kolb gate, including Esperero and other documented access-only neighborhoods. The operator approved Phase 1 once these rules were documented and the repository was moved to `C:\Users\matt\dev\foothills-market-pulse`.
+No UI code was written during Phase 0 or Phase 1. The Enclave is included; Finisterra is the exact I-III plat set; and Ventana is the complete residential area behind the main Kolb gate, including Esperero and other documented access-only neighborhoods. The operator approved Phase 1 once these rules were documented and the repository was moved to `C:\Users\matt\dev\foothills-market-pulse`. Phase 2 requires operator approval of `data/processed/market-sales-review.md`.

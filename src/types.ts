@@ -14,7 +14,7 @@ export interface SourceManifestEntry {
 }
 
 export interface SourceManifest {
-  schemaVersion: "1.0.0";
+  schemaVersion: "1.1.0";
   configHash: string;
   generatedAt: string;
   dataThroughDate: string | null;
@@ -123,18 +123,34 @@ export interface CommunitySummary {
   boundaryVersion: string;
   parcelCount: number;
   boundaryReviewCount: number;
+  fullPullMarketSaleCount: number;
+  analysisWindowMonths: 12 | 18 | 24 | 30 | 36;
+  analysisWindowStartDate: string;
+  analysisWindowEndDate: string;
+  analysisWindowLabel: string;
+  saleCountInWindow: number;
+  trailing12MonthSaleCount: number;
+  currentStatsWindowMonths: 12;
+  currentStatsSaleCount: number;
+  currentStatsMethod: "trailing_12_months_only";
   mapSaleCount: number;
   trendSaleCount: number;
+  trendLineEligible: boolean;
   medianSalePrice: number | null;
   medianPricePerSqft: number | null;
+  lotSizeRangeAcres: {
+    min: number;
+    max: number;
+  } | null;
 }
 
 export interface MarketPulseDataset {
-  schemaVersion: "1.0.0";
+  schemaVersion: "1.1.0";
   label: "recent recorded sales";
   generatedAt: string;
   dataThroughDate: string;
   windowStartDate: string;
+  ingestionWindowMonths: 36;
   sources: SourceManifestEntry[];
   communities: CommunitySummary[];
   transactions: SaleTransaction[];
@@ -147,4 +163,5 @@ export interface PipelineOutputs {
   communityBoundaries: FeatureCollection;
   manifest: SourceManifest;
   qualityReport: Record<string, unknown>;
+  reviewMarkdown: string;
 }

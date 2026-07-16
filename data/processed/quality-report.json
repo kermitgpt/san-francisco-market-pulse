@@ -1,6 +1,6 @@
 {
-  "schemaVersion": "1.0.0",
-  "generatedAt": "2026-07-16T06:04:21.449Z",
+  "schemaVersion": "1.1.0",
+  "generatedAt": "2026-07-16T06:37:47.005Z",
   "parcelValidation": {
     "sourceFeatureCount": 1130,
     "distinctParcelCount": 1130,
@@ -39,36 +39,109 @@
       "needsReview": [
         {
           "parcelId": "11403074B",
+          "address": null,
+          "legalDescription": "VENTANA CANYON ESTATES LOT A CA EXC PTN IN",
+          "parcelUse": "8800",
+          "lotSizeSqft": 343323.77879804,
+          "lotSizeAcres": 7.88162945,
           "platId": "37079",
           "method": "plat",
-          "boundaryVersion": "ventana-main-kolb-gate-v1"
+          "boundaryVersion": "ventana-main-kolb-gate-v1",
+          "reviewReason": "Recorded common-area parcel rather than a residential homesite; its centroid falls outside the seeded residential subdivision polygons."
         },
         {
           "parcelId": "114046710",
+          "address": null,
+          "legalDescription": "6' STRIP IN W2 SE4 NE4 NE4 LYG WLY & ADJ",
+          "parcelUse": "8800",
+          "lotSizeSqft": 5839.57543566,
+          "lotSizeAcres": 0.13405821,
           "platId": "37079",
           "method": "plat",
-          "boundaryVersion": "ventana-main-kolb-gate-v1"
+          "boundaryVersion": "ventana-main-kolb-gate-v1",
+          "reviewReason": "Narrow strip parcel rather than a residential homesite; its centroid falls outside the seeded residential subdivision polygons."
         },
         {
           "parcelId": "11404675A",
+          "address": "6200 N CLUB HOUSE LN",
+          "legalDescription": "PTN W2 SE4 & SE4 SE4 SW4 SEC 6 & NELY PTN",
+          "parcelUse": "2417",
+          "lotSizeSqft": 3055372.30453954,
+          "lotSizeAcres": 70.14169661,
           "platId": "50055",
           "method": "plat",
-          "boundaryVersion": "ventana-main-kolb-gate-v1"
+          "boundaryVersion": "ventana-main-kolb-gate-v1",
+          "reviewReason": "Large clubhouse/club parcel rather than a residential homesite; its centroid falls outside the seeded residential subdivision polygons."
         }
       ]
     }
   },
   "sales": {
-    "transactionCount": 67,
-    "recordedSaleParcelCount": 69,
-    "mapEligibleTransactionCount": 58,
-    "trendEligibleTransactionCount": 23,
-    "excludedTransactionCount": 4,
-    "outOfResidentialScopeTransactionCount": 5,
-    "missingSqftSaleCount": 7,
-    "multiParcelTransactionCount": 2
+    "transactionCount": 190,
+    "recordedSaleParcelCount": 194,
+    "mapEligibleTransactionCount": 175,
+    "trendEligibleTransactionCount": 76,
+    "excludedTransactionCount": 7,
+    "outOfResidentialScopeTransactionCount": 8,
+    "missingSqftSaleCount": 11,
+    "multiParcelTransactionCount": 5
+  },
+  "analysisWindows": {
+    "pima-canyon": {
+      "analysisWindowMonths": 12,
+      "analysisWindowStartDate": "2025-07-01",
+      "analysisWindowEndDate": "2026-07-01",
+      "saleCountInWindow": 17,
+      "trailing12MonthSaleCount": 17,
+      "trendSaleCount": 10,
+      "trendLineEligible": true,
+      "currentStatsMethod": "trailing_12_months_only"
+    },
+    "finisterra": {
+      "analysisWindowMonths": 24,
+      "analysisWindowStartDate": "2024-07-01",
+      "analysisWindowEndDate": "2026-07-01",
+      "saleCountInWindow": 12,
+      "trailing12MonthSaleCount": 6,
+      "trendSaleCount": 5,
+      "trendLineEligible": false,
+      "currentStatsMethod": "trailing_12_months_only"
+    },
+    "ventana-canyon": {
+      "analysisWindowMonths": 12,
+      "analysisWindowStartDate": "2025-07-01",
+      "analysisWindowEndDate": "2026-07-01",
+      "saleCountInWindow": 35,
+      "trailing12MonthSaleCount": 35,
+      "trendSaleCount": 11,
+      "trendLineEligible": true,
+      "currentStatsMethod": "trailing_12_months_only"
+    }
+  },
+  "marketSaleFilter": {
+    "allowedPropertyTypes": [
+      "Single Family",
+      "Condo/Townhouse"
+    ],
+    "minimumSalePrice": 50000,
+    "allowedQualityTiers": [
+      "A",
+      "B"
+    ],
+    "approvedBoundaryMembershipRequired": true,
+    "dedupeKey": "Recorder sequence number"
   },
   "csv": {
+    "assessor-sales-2023": {
+      "rowCount": 23871,
+      "invalidRowCount": 0,
+      "invalidSamples": []
+    },
+    "assessor-sales-2024": {
+      "rowCount": 25279,
+      "invalidRowCount": 0,
+      "invalidSamples": []
+    },
     "assessor-sales-2025": {
       "rowCount": 23609,
       "invalidRowCount": 0,
