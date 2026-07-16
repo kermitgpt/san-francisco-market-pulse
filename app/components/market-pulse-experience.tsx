@@ -3,7 +3,10 @@
 import type { CSSProperties } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type {
+  CircleLayerSpecification,
+  ExpressionSpecification,
   FillLayerSpecification,
+  FilterSpecification,
   GeoJSONSource,
   LineLayerSpecification,
   Map as MapLibreMap,
@@ -15,12 +18,15 @@ import type {
   MarketPulseDataset,
   NeighborhoodBoundaries,
   NeighborhoodBoundaryProperties,
+  ResidentialTransfers,
+  TransferPointProperties,
 } from "@/src/types";
 import { PulseChart } from "./pulse-chart";
 
 interface ExperienceData {
   dataset: MarketPulseDataset;
   boundaries: NeighborhoodBoundaries;
+  transfers: ResidentialTransfers;
 }
 
 interface DisplayBoundaryProperties extends NeighborhoodBoundaryProperties {
@@ -43,23 +49,28 @@ export function MarketPulseExperience() {
   const [monthIndex, setMonthIndex] = useState(35);
   const [isPlaying, setIsPlaying] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [selectedTransfer, setSelectedTransfer] = useState<TransferPointProperties | null>(null);
 
   useEffect(() => {
     const controller = new AbortController();
     async function loadData() {
       try {
-        const [datasetResponse, boundariesResponse] = await Promise.all([
+        const [datasetResponse, boundariesResponse, transfersResponse] = await Promise.all([
           fetch(`${DATA_BASE}/data/sf-market-pulse.json`, { signal: controller.signal }),
           fetch(`${DATA_BASE}/data/sf-neighborhoods.geojson`, { signal: controller.signal }),
+          fetch(`${DATA_BASE}/data/sf-residential-transfers.geojson`, {
+            signal: controller.signal,
+          }),
         ]);
-        if (!datasetResponse.ok || !boundariesResponse.ok) {
+        if (!datasetResponse.ok || !boundariesResponse.ok || !transfersResponse.ok) {
           throw new Error("The published neighborhood data could not be loaded.");
         }
-        const [dataset, boundaries] = await Promise.all([
+        const [dataset, boundaries, transfers] = await Promise.all([
           datasetResponse.json() as Promise<MarketPulseDataset>,
           boundariesResponse.json() as Promise<NeighborhoodBoundaries>,
+          transfersResponse.json() as Promise<ResidentialTransfers>,
         ]);
-        setData({ dataset, boundaries });
+        setData({ dataset, boundaries, transfers });
         setMonthIndex(dataset.displayMonths - 1);
       } catch (error) {
         if ((error as Error).name !== "AbortError") {
@@ -104,11 +115,31 @@ export function MarketPulseExperience() {
   const windowChange = activePoint && windowStart
     ? calculateChange(activePoint.value, windowStart.value)
     : null;
+  const visibleTransfers = useMemo(
+    () =>
+      data && activePoint
+        ? data.transfers.features.filter(
+            (feature) => feature.properties.recordedDate <= activePoint.date,
+          )
+        : [],
+    [activePoint, data],
+  );
+  const selectedTransferCount = useMemo(
+    () =>
+      visibleTransfers.filter((feature) => feature.properties.neighborhoodId === selectedId)
+        .length,
+    [selectedId, visibleTransfers],
+  );
+  const displayedTransfer =
+    selectedTransfer && activePoint && selectedTransfer.recordedDate <= activePoint.date
+      ? selectedTransfer
+      : null;
 
   const selectNeighborhood = useCallback(
     (id: string, focusMap = true) => {
       if (!data?.dataset.neighborhoods.some((item) => item.id === id)) return;
       setSelectedId(id);
+      setSelectedTransfer(null);
       if (focusMap && mapRef.current) {
         const feature = data.boundaries.features.find((item) => item.properties.dataId === id);
         if (feature) focusFeature(mapRef.current, feature.geometry, reducedMotion);
@@ -151,7 +182,7 @@ export function MarketPulseExperience() {
         if (!map || disposed) return;
         map.getCanvas().setAttribute(
           "aria-label",
-          "Interactive map of typical home values across featured San Francisco neighborhoods",
+          "Interactive map of typical home values and recorded residential transfers across featured San Francisco neighborhoods",
         );
         const initialBoundaries = decorateBoundaries(
           loaded.boundaries,
@@ -159,6 +190,10 @@ export function MarketPulseExperience() {
           loaded.dataset.displayMonths - 1,
         );
         map.addSource("sf-neighborhoods", { type: "geojson", data: initialBoundaries });
+        map.addSource("residential-transfers", {
+          type: "geojson",
+          data: loaded.transfers,
+        });
         map.addLayer({
           id: "analysis-neighborhood-wash",
           type: "fill",
@@ -209,6 +244,54 @@ export function MarketPulseExperience() {
           paint: { "line-color": GOLD, "line-width": 3, "line-opacity": 0.95 },
         } as LineLayerSpecification);
         map.addLayer({
+          id: "transfer-ambient",
+          type: "circle",
+          source: "residential-transfers",
+          filter: transferVisibilityFilter(loaded.dataset.latestDate),
+          paint: {
+            "circle-color": "#eed19a",
+            "circle-radius": ["interpolate", ["linear"], ["zoom"], 10.5, 1.2, 14, 3.2],
+            "circle-opacity": ["interpolate", ["linear"], ["zoom"], 10.5, 0.24, 14, 0.42],
+            "circle-blur": 0.38,
+            "circle-stroke-color": "#fff4d9",
+            "circle-stroke-width": 0.35,
+            "circle-stroke-opacity": 0.5,
+          },
+        } as CircleLayerSpecification);
+        map.addLayer({
+          id: "transfer-selected",
+          type: "circle",
+          source: "residential-transfers",
+          filter: transferSelectedFilter(DEFAULT_NEIGHBORHOOD, loaded.dataset.latestDate),
+          paint: {
+            "circle-color": "#f2cb7d",
+            "circle-radius": ["interpolate", ["linear"], ["zoom"], 10.5, 2, 14, 4.4],
+            "circle-opacity": 0.7,
+            "circle-blur": 0.24,
+            "circle-stroke-color": "#fff7e6",
+            "circle-stroke-width": 0.8,
+            "circle-stroke-opacity": 0.78,
+          },
+        } as CircleLayerSpecification);
+        map.addLayer({
+          id: "transfer-active-month",
+          type: "circle",
+          source: "residential-transfers",
+          filter: transferMonthFilter(
+            firstDayOfMonth(loaded.dataset.latestDate),
+            loaded.dataset.latestDate,
+          ),
+          paint: {
+            "circle-color": "#fff0c4",
+            "circle-radius": ["interpolate", ["linear"], ["zoom"], 10.5, 3.3, 14, 6.5],
+            "circle-opacity": 0.96,
+            "circle-blur": 0.18,
+            "circle-stroke-color": "#fff9eb",
+            "circle-stroke-width": 1.25,
+            "circle-stroke-opacity": 0.94,
+          },
+        } as CircleLayerSpecification);
+        map.addLayer({
           id: "featured-neighborhood-labels",
           type: "symbol",
           source: "sf-neighborhoods",
@@ -235,10 +318,23 @@ export function MarketPulseExperience() {
           const id = feature?.properties?.dataId as string | undefined;
           if (id) selectNeighborhood(id, false);
         });
+        map.on("click", "transfer-ambient", (event) => {
+          const feature = event.features?.[0] as MapGeoJSONFeature | undefined;
+          const properties = feature?.properties as TransferPointProperties | undefined;
+          if (!properties?.transferId) return;
+          selectNeighborhood(properties.neighborhoodId, false);
+          setSelectedTransfer(properties);
+        });
         map.on("mouseenter", "featured-neighborhood-pulse", () => {
           if (map) map.getCanvas().style.cursor = "pointer";
         });
         map.on("mouseleave", "featured-neighborhood-pulse", () => {
+          if (map) map.getCanvas().style.cursor = "";
+        });
+        map.on("mouseenter", "transfer-ambient", () => {
+          if (map) map.getCanvas().style.cursor = "pointer";
+        });
+        map.on("mouseleave", "transfer-ambient", () => {
           if (map) map.getCanvas().style.cursor = "";
         });
         setMapReady(true);
@@ -262,7 +358,20 @@ export function MarketPulseExperience() {
   useEffect(() => {
     if (!mapReady || !mapRef.current) return;
     mapRef.current.setFilter("selected-neighborhood", ["==", ["get", "dataId"], selectedId]);
-  }, [mapReady, selectedId]);
+    mapRef.current.setFilter(
+      "transfer-selected",
+      transferSelectedFilter(selectedId, activePoint?.date ?? "9999-12-31"),
+    );
+  }, [activePoint?.date, mapReady, selectedId]);
+
+  useEffect(() => {
+    if (!mapReady || !mapRef.current || !activePoint) return;
+    mapRef.current.setFilter("transfer-ambient", transferVisibilityFilter(activePoint.date));
+    mapRef.current.setFilter(
+      "transfer-active-month",
+      transferMonthFilter(firstDayOfMonth(activePoint.date), activePoint.date),
+    );
+  }, [activePoint, mapReady]);
 
   useEffect(() => {
     if (!isPlaying || reducedMotion || !data) return;
@@ -296,8 +405,12 @@ export function MarketPulseExperience() {
           </div>
         </div>
         <div className="data-stamp">
-          <span className="status-label"><span aria-hidden="true" /> Neighborhood home values</span>
-          <span>{data ? `Data through ${formatMonthYear(data.dataset.latestDate)}` : "Loading current release"}</span>
+          <span className="status-label"><span aria-hidden="true" /> Values + transfer records</span>
+          <span>
+            {data
+              ? `Values ${formatMonthYear(data.dataset.latestDate)} · Transfers ${formatMonthYear(data.dataset.transfers.dataEndDate)}`
+              : "Loading current release"}
+          </span>
         </div>
       </header>
 
@@ -308,18 +421,42 @@ export function MarketPulseExperience() {
           <div className="map-caption">
             <p className="eyebrow">Citywide view</p>
             <strong>18 featured neighborhoods</strong>
-            <span>Click a highlighted district to explore</span>
+            <span>Click a glowing parcel dot for its public record</span>
           </div>
           <div className="pulse-legend" aria-label="Map color legend">
+            <span><i className="legend-transfer" /> Recorded transfer</span>
             <span><i className="legend-cool" /> Below window start</span>
             <span><i className="legend-neutral" /> Near window start</span>
             <span><i className="legend-warm" /> Above window start</span>
           </div>
+          {displayedTransfer ? (
+            <article className="transfer-detail" aria-label="Selected transfer detail">
+              <button
+                type="button"
+                aria-label="Close transfer detail"
+                onClick={() => setSelectedTransfer(null)}
+              >
+                ×
+              </button>
+              <p className="eyebrow">Recorded residential transfer</p>
+              <strong>{displayedTransfer.address}</strong>
+              <dl>
+                <div><dt>Recorded</dt><dd>{formatLongDate(displayedTransfer.recordedDate)}</dd></div>
+                <div><dt>Interior</dt><dd>{formatSquareFeet(displayedTransfer.propertyAreaSqft)}</dd></div>
+                <div><dt>Lot</dt><dd>{formatSquareFeet(displayedTransfer.lotAreaSqft)}</dd></div>
+              </dl>
+              <p>{displayedTransfer.propertyType} · Parcel {displayedTransfer.parcelNumber}</p>
+              <small>Sale price and deed type are not included in the public bulk record.</small>
+            </article>
+          ) : null}
           <div className="time-scrubber">
             <div className="scrub-heading">
               <div>
                 <p className="eyebrow">36-month pulse</p>
                 <output>{activePoint ? formatMonthYear(activePoint.date) : "Loading"}</output>
+                <span className="visible-transfer-count">
+                  {visibleTransfers.length.toLocaleString()} public transfers visible
+                </span>
               </div>
               <button
                 className="play-control"
@@ -393,6 +530,11 @@ export function MarketPulseExperience() {
             </div>
           </div>
 
+          <p className="transfer-count-line">
+            <span aria-hidden="true" />
+            {selectedTransferCount.toLocaleString()} residential transfer records visible · public data through {data ? formatMonthYear(data.dataset.transfers.dataEndDate) : "—"}
+          </p>
+
           {selected ? (
             <PulseChart
               name={selected.name}
@@ -407,6 +549,11 @@ export function MarketPulseExperience() {
               A modeled estimate of the typical mid-tier home value. It is not a recorded sale
               price, listing price, appraisal, or MLS feed.
             </p>
+            <p>
+              Map dots are parcel-level residential transfer dates from the latest public assessor
+              roll. Price and deed type are not published in the bulk dataset, so some may be
+              non-market transfers.
+            </p>
             {selected && selected.sourceRegionName !== selected.name ? (
               <p>Boundary label: {selected.name} · Zillow source region: {selected.sourceRegionName}</p>
             ) : null}
@@ -415,7 +562,7 @@ export function MarketPulseExperience() {
       </section>
 
       <footer className="site-footer">
-        <span>Official boundaries: DataSF Analysis Neighborhoods</span>
+        <span>Boundaries + transfer dates: DataSF</span>
         <span>Values: Zillow Research ZHVI · Updated monthly</span>
       </footer>
     </main>
@@ -482,6 +629,30 @@ function collectCoordinates(value: unknown, points: number[][]): void {
   for (const child of value) collectCoordinates(child, points);
 }
 
+function transferVisibilityFilter(endDate: string): ExpressionSpecification {
+  return ["<=", ["get", "recordedDate"], endDate];
+}
+
+function transferSelectedFilter(neighborhoodId: string, endDate: string): FilterSpecification {
+  return [
+    "all",
+    ["==", ["get", "neighborhoodId"], neighborhoodId],
+    transferVisibilityFilter(endDate),
+  ];
+}
+
+function transferMonthFilter(startDate: string, endDate: string): FilterSpecification {
+  return [
+    "all",
+    [">=", ["get", "recordedDate"], startDate],
+    ["<=", ["get", "recordedDate"], endDate],
+  ];
+}
+
+function firstDayOfMonth(value: string): string {
+  return `${value.slice(0, 7)}-01`;
+}
+
 function calculateChange(current: number, prior: number): number {
   if (!prior) return 0;
   return Math.round(((current / prior - 1) * 100) * 10) / 10;
@@ -501,6 +672,20 @@ function formatMonthYear(value: string): string {
     year: "numeric",
     timeZone: "UTC",
   }).format(new Date(`${value}T00:00:00Z`));
+}
+
+function formatLongDate(value: string): string {
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${value}T00:00:00Z`));
+}
+
+function formatSquareFeet(value: number | null | undefined): string {
+  if (value == null || !Number.isFinite(value)) return "Not published";
+  return `${new Intl.NumberFormat("en-US").format(value)} sq ft`;
 }
 
 function formatPercent(value: number | null): string {

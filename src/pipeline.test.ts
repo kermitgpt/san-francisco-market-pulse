@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { FEATURED_NEIGHBORHOODS } from "./config/neighborhoods";
-import { percentChange } from "./pipeline";
+import { formatAssessorAddress, percentChange } from "./pipeline";
 
 test("featured neighborhood ids, boundaries, and source names are unique", () => {
   for (const field of ["id", "boundaryName", "zillowRegionName"] as const) {
@@ -18,4 +18,9 @@ test("percentChange returns a two-decimal percentage", () => {
 
 test("percentChange rejects an unusable comparison value", () => {
   assert.throws(() => percentChange(100, 0));
+});
+
+test("assessor fixed-width locations become readable addresses", () => {
+  assert.equal(formatAssessorAddress("0000 2366 28TH                AV0000"), "2366 28th Ave");
+  assert.equal(formatAssessorAddress("W000 0611 WASHINGTON ST2202"), "611 Washington St #2202");
 });

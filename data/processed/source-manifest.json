@@ -1,9 +1,13 @@
 {
-  "generatedAt": "2026-07-16T18:35:19.489Z",
+  "generatedAt": "2026-07-16T18:59:53.045Z",
   "latestDate": "2026-06-30",
   "displayStartDate": "2023-07-31",
   "featuredNeighborhoodCount": 18,
   "analysisNeighborhoodCount": 41,
+  "residentialTransferCount": 3178,
+  "residentialTransferStartDate": "2023-07-03",
+  "residentialTransferEndDate": "2025-06-02",
+  "assessorSourceRollYear": 2025,
   "sources": [
     {
       "name": "Zillow Home Value Index",
@@ -12,7 +16,14 @@
     {
       "name": "San Francisco Analysis Neighborhoods",
       "url": "https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/j2bu-swwd"
+    },
+    {
+      "name": "DataSF Assessor Historical Secured Property Tax Rolls",
+      "url": "https://data.sfgov.org/Housing-and-Buildings/Assessor-Historical-Secured-Property-Tax-Rolls/wv5m-vpq2"
     }
   ],
-  "disclosure": "Typical home values are modeled estimates, not recorded sale prices, listing prices, or an MLS feed."
+  "disclosure": [
+    "Typical home values are modeled estimates, not recorded sale prices, listing prices, or an MLS feed.",
+    "Dots are residential parcels with a public current-sales recording date. The public bulk data does not include sale price or deed type, so some dots may be non-market transfers."
+  ]
 }

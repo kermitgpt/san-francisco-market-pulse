@@ -1,13 +1,14 @@
 # San Francisco Market Pulse
 
-A cinematic, interactive view of typical home values across 18 featured San Francisco neighborhoods. Scrub through 36 months, click a neighborhood, and watch its value path and movement assemble in the pulse card.
+A cinematic, interactive view of typical home values and recorded residential transfers across 18 featured San Francisco neighborhoods. Scrub through 36 months, click a glowing parcel dot, and inspect the underlying public transfer record.
 
 This zero-cost edition uses:
 
 - [DataSF Analysis Neighborhoods](https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/j2bu-swwd) for all 41 city analysis boundaries.
+- [DataSF Assessor Historical Secured Property Tax Rolls](https://data.sfgov.org/Housing-and-Buildings/Assessor-Historical-Secured-Property-Tax-Rolls/wv5m-vpq2) for parcel-level residential transfer dates, addresses, geometry, and property characteristics.
 - [Zillow Research ZHVI](https://www.zillow.com/research/data/) for monthly neighborhood-level typical home values.
 
-The experience intentionally says **typical home value**, not recorded sale price. ZHVI is a modeled index; it is not an MLS feed, appraisal, listing price, or individual transaction record.
+The experience intentionally distinguishes **typical home value** from a **recorded residential transfer**. ZHVI is a modeled index. The public parcel records do not include sale consideration or deed type, so a dot is not represented as a verified market sale and may include a non-market transfer.
 
 ## Run locally
 
@@ -27,7 +28,7 @@ pnpm typecheck
 pnpm build
 ```
 
-The pipeline caches the large Zillow source file under `data/raw/`, validates all configured mappings, retains 48 months for comparisons, and commits only compact processed outputs. A GitHub Action runs after Zillow's normal monthly release date and can also be triggered manually.
+The pipeline caches the large Zillow and DataSF source files under `data/raw/`, validates all configured mappings, retains 48 months for comparisons, and commits only compact processed outputs. A GitHub Action runs after Zillow's normal monthly release date and can also be triggered manually.
 
 ## Project map
 

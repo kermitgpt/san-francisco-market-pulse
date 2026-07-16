@@ -5,18 +5,18 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "San Francisco Market Pulse",
   description:
-    "A cinematic 36-month view of typical home values across featured San Francisco neighborhoods.",
+    "A cinematic view of typical home values and recorded residential transfers across featured San Francisco neighborhoods.",
   openGraph: {
     title: "San Francisco Market Pulse",
     description:
-      "Explore 36 months of typical home values across 18 featured San Francisco neighborhoods.",
+      "Explore typical home values and recorded residential transfers across 18 San Francisco neighborhoods.",
     type: "website",
   },
   twitter: {
     card: "summary",
     title: "San Francisco Market Pulse",
     description:
-      "Explore 36 months of typical home values across 18 featured San Francisco neighborhoods.",
+      "Explore typical home values and recorded residential transfers across 18 San Francisco neighborhoods.",
   },
 };
 

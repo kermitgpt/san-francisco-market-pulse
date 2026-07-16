@@ -238,6 +238,78 @@ select:focus-visible {
 .legend-cool { background: #526f70; }
 .legend-neutral { background: #9a8d77; }
 .legend-warm { background: #efd096; box-shadow: 0 0 8px rgba(239, 208, 150, 0.55); }
+.legend-transfer {
+  background: #fff0c4;
+  box-shadow: 0 0 9px rgba(255, 240, 196, 0.8);
+}
+
+.transfer-detail {
+  position: absolute;
+  z-index: 6;
+  bottom: 158px;
+  left: 26px;
+  width: min(310px, calc(100% - 52px));
+  padding: 16px 17px 15px;
+  border-left: 2px solid var(--pulse-accent);
+  background: rgba(17, 26, 23, 0.92);
+  color: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(14px);
+}
+
+.transfer-detail > button {
+  position: absolute;
+  top: 9px;
+  right: 10px;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.62);
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.transfer-detail .eyebrow { color: rgba(255, 255, 255, 0.52); }
+.transfer-detail > strong {
+  display: block;
+  padding-right: 24px;
+  font-family: var(--serif);
+  font-size: 21px;
+  font-weight: 400;
+  line-height: 1.08;
+}
+.transfer-detail dl {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 9px;
+  margin: 13px 0 10px;
+  padding: 11px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+}
+.transfer-detail dl div { min-width: 0; }
+.transfer-detail dt {
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 8px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.transfer-detail dd {
+  margin: 4px 0 0;
+  font-family: var(--serif);
+  font-size: 13px;
+}
+.transfer-detail > p:not(.eyebrow),
+.transfer-detail small {
+  display: block;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.57);
+  font-size: 9px;
+  line-height: 1.45;
+}
+.transfer-detail small { margin-top: 5px; }
 
 .time-scrubber {
   position: absolute;
@@ -264,6 +336,15 @@ select:focus-visible {
 .scrub-heading output {
   font-family: var(--serif);
   font-size: 24px;
+}
+
+.visible-transfer-count {
+  display: block;
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .play-control {
@@ -410,6 +491,26 @@ select:focus-visible {
 .delta-negative { color: #5b7775; }
 .delta-neutral { color: var(--ink); }
 
+.transfer-count-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 13px 0 0;
+  color: var(--ink-soft);
+  font-size: 8px;
+  letter-spacing: 0.055em;
+  line-height: 1.45;
+  text-transform: uppercase;
+}
+.transfer-count-line > span {
+  flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--pulse-accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--pulse-accent) 16%, transparent);
+}
+
 .pulse-chart-wrap { margin-top: 24px; }
 .chart-heading {
   display: flex;
@@ -527,6 +628,7 @@ select:focus-visible {
   .map-frame { min-height: 580px; }
   .map-caption { top: 14px; left: 14px; min-width: 190px; }
   .pulse-legend { top: 112px; left: 14px; max-width: 248px; }
+  .transfer-detail { right: 14px; bottom: 150px; left: 14px; width: auto; }
   .time-scrubber { right: 14px; bottom: 14px; left: 14px; padding-inline: 14px; }
   .scrub-heading output { font-size: 21px; }
   .maplibregl-ctrl-top-right { top: 10px; right: 8px; }

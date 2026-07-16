@@ -4,13 +4,15 @@ import { Readable } from "node:stream";
 import { pipeline as streamPipeline } from "node:stream/promises";
 import path from "node:path";
 import { parse } from "csv-parse";
-import type { Feature, FeatureCollection, Geometry } from "geojson";
+import type { Feature, FeatureCollection, Geometry, Point } from "geojson";
 import { FEATURED_NEIGHBORHOODS } from "./config/neighborhoods";
 import type {
   MarketPulseDataset,
   NeighborhoodBoundaries,
   NeighborhoodBoundaryProperties,
   NeighborhoodPulse,
+  ResidentialTransfers,
+  TransferPointProperties,
 } from "./types";
 
 const ZILLOW_DOWNLOAD_URL =
@@ -20,6 +22,9 @@ const DATASF_GEOJSON_URL =
   "https://data.sfgov.org/resource/j2bu-swwd.geojson?$limit=5000";
 const DATASF_DATASET_URL =
   "https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/j2bu-swwd";
+const DATASF_ASSESSOR_API = "https://data.sfgov.org/resource/wv5m-vpq2";
+const DATASF_ASSESSOR_URL =
+  "https://data.sfgov.org/Housing-and-Buildings/Assessor-Historical-Secured-Property-Tax-Rolls/wv5m-vpq2";
 const DISPLAY_MONTHS = 36;
 const SUPPORT_MONTHS = 48;
 
@@ -31,10 +36,25 @@ interface ZillowRow extends Record<string, string> {
   City: string;
 }
 
+interface AssessorTransferProperties {
+  closed_roll_year?: string;
+  parcel_number?: string;
+  property_location?: string;
+  current_sales_date?: string;
+  property_area?: string;
+  lot_area?: string;
+  number_of_bedrooms?: string;
+  number_of_bathrooms?: string;
+  use_definition?: string;
+  property_class_code_definition?: string;
+  analysis_neighborhood?: string;
+}
+
 export interface PipelineOptions {
   refresh?: boolean;
   zillowPath?: string;
   boundariesPath?: string;
+  transfersPath?: string;
 }
 
 export async function runPipeline(options: PipelineOptions = {}): Promise<MarketPulseDataset> {
@@ -45,6 +65,9 @@ export async function runPipeline(options: PipelineOptions = {}): Promise<Market
   );
   const boundariesPath = path.resolve(
     options.boundariesPath ?? path.join(rawDirectory, "datasf-analysis-neighborhoods.geojson"),
+  );
+  const transfersPath = path.resolve(
+    options.transfersPath ?? path.join(rawDirectory, "datasf-residential-transfers.geojson"),
   );
 
   await mkdir(rawDirectory, { recursive: true });
@@ -68,6 +91,14 @@ export async function runPipeline(options: PipelineOptions = {}): Promise<Market
   const displayStartDate = neighborhoods[0]?.history.at(-DISPLAY_MONTHS)?.date;
   if (!displayStartDate) throw new Error("Could not determine the 36-month display window.");
 
+  if (options.transfersPath) {
+    await assertReadable(transfersPath);
+  } else if (options.refresh || !(await exists(transfersPath))) {
+    await downloadLatestAssessorTransfers(transfersPath, firstDayOfMonth(displayStartDate));
+  }
+
+  const transferResult = await buildResidentialTransfers(transfersPath, displayStartDate);
+
   const dataset: MarketPulseDataset = {
     generatedAt: new Date().toISOString(),
     displayMonths: DISPLAY_MONTHS,
@@ -82,7 +113,12 @@ export async function runPipeline(options: PipelineOptions = {}): Promise<Market
       geographyUrl: DATASF_DATASET_URL,
       disclosure:
         "Typical home values are modeled estimates, not recorded sale prices, listing prices, or an MLS feed.",
+      transferDatasetName: "DataSF Assessor Historical Secured Property Tax Rolls",
+      transferDatasetUrl: DATASF_ASSESSOR_URL,
+      transferDisclosure:
+        "Dots are residential parcels with a public current-sales recording date. The public bulk data does not include sale price or deed type, so some dots may be non-market transfers.",
     },
+    transfers: transferResult.summary,
     neighborhoods,
   };
 
@@ -90,21 +126,161 @@ export async function runPipeline(options: PipelineOptions = {}): Promise<Market
   await Promise.all([
     writeJson(path.join(processedDirectory, "sf-market-pulse.json"), dataset),
     writeCompactJson(path.join(processedDirectory, "sf-neighborhoods.geojson"), boundaries),
+    writeCompactJson(
+      path.join(processedDirectory, "sf-residential-transfers.geojson"),
+      transferResult.collection,
+    ),
     writeJson(path.join(processedDirectory, "source-manifest.json"), {
       generatedAt: dataset.generatedAt,
       latestDate,
       displayStartDate,
       featuredNeighborhoodCount: neighborhoods.length,
       analysisNeighborhoodCount: boundaries.features.length,
+      residentialTransferCount: transferResult.summary.count,
+      residentialTransferStartDate: transferResult.summary.dataStartDate,
+      residentialTransferEndDate: transferResult.summary.dataEndDate,
+      assessorSourceRollYear: transferResult.summary.sourceRollYear,
       sources: [
         { name: dataset.source.metricShortName, url: ZILLOW_METHODOLOGY_URL },
         { name: dataset.source.geographyName, url: DATASF_DATASET_URL },
+        { name: dataset.source.transferDatasetName, url: DATASF_ASSESSOR_URL },
       ],
-      disclosure: dataset.source.disclosure,
+      disclosure: [dataset.source.disclosure, dataset.source.transferDisclosure],
     }),
   ]);
 
   return dataset;
+}
+
+async function buildResidentialTransfers(
+  filePath: string,
+  displayStartDate: string,
+): Promise<{
+  collection: ResidentialTransfers;
+  summary: MarketPulseDataset["transfers"];
+}> {
+  const raw = JSON.parse(await readFile(filePath, "utf8")) as FeatureCollection<
+    Point,
+    AssessorTransferProperties
+  >;
+  const featuredByBoundary = new Map(
+    FEATURED_NEIGHBORHOODS.map((item) => [item.boundaryName, item]),
+  );
+  const features: Array<Feature<Point, TransferPointProperties>> = [];
+
+  for (const feature of raw.features) {
+    const properties = feature.properties;
+    const definition = properties.analysis_neighborhood
+      ? featuredByBoundary.get(properties.analysis_neighborhood)
+      : undefined;
+    const recordedDate = properties.current_sales_date?.slice(0, 10);
+    const parcelNumber = properties.parcel_number?.trim();
+    const sourceRollYear = Number(properties.closed_roll_year);
+    if (
+      !definition ||
+      !recordedDate ||
+      recordedDate < firstDayOfMonth(displayStartDate) ||
+      !parcelNumber ||
+      !Number.isInteger(sourceRollYear) ||
+      feature.geometry.type !== "Point"
+    ) {
+      continue;
+    }
+
+    features.push({
+      type: "Feature",
+      geometry: feature.geometry,
+      properties: {
+        transferId: `${parcelNumber}-${recordedDate}`,
+        neighborhoodId: definition.id,
+        neighborhoodName: definition.displayName,
+        parcelNumber,
+        address: formatAssessorAddress(properties.property_location ?? ""),
+        recordedDate,
+        propertyAreaSqft: nullableNumber(properties.property_area),
+        lotAreaSqft: nullableNumber(properties.lot_area),
+        bedrooms: nullablePositiveNumber(properties.number_of_bedrooms),
+        bathrooms: nullablePositiveNumber(properties.number_of_bathrooms),
+        propertyType:
+          properties.property_class_code_definition?.trim() ||
+          properties.use_definition?.trim() ||
+          "Residential property",
+        sourceRollYear,
+      },
+    });
+  }
+
+  features.sort((left, right) =>
+    `${left.properties.recordedDate}:${left.properties.parcelNumber}`.localeCompare(
+      `${right.properties.recordedDate}:${right.properties.parcelNumber}`,
+    ),
+  );
+  if (features.length === 0) throw new Error("No featured residential transfer points were found.");
+  const represented = new Set(features.map((feature) => feature.properties.neighborhoodId));
+  const missing = FEATURED_NEIGHBORHOODS.filter((item) => !represented.has(item.id));
+  if (missing.length > 0) {
+    throw new Error(`No transfer points found for: ${missing.map((item) => item.displayName).join(", ")}`);
+  }
+  const dates = features.map((feature) => feature.properties.recordedDate);
+  const rollYears = new Set(features.map((feature) => feature.properties.sourceRollYear));
+  if (rollYears.size !== 1) throw new Error("Transfer points span more than one assessor roll year.");
+
+  return {
+    collection: { type: "FeatureCollection", features },
+    summary: {
+      count: features.length,
+      dataStartDate: dates[0] as string,
+      dataEndDate: dates.at(-1) as string,
+      sourceRollYear: [...rollYears][0] as number,
+    },
+  };
+}
+
+async function downloadLatestAssessorTransfers(
+  destination: string,
+  startDate: string,
+): Promise<void> {
+  const rollResponse = await fetch(
+    `${DATASF_ASSESSOR_API}.json?${new URLSearchParams({
+      "$select": "max(closed_roll_year) as latest",
+    }).toString()}`,
+    { headers: { "user-agent": "san-francisco-market-pulse/0.1" } },
+  );
+  if (!rollResponse.ok) {
+    throw new Error(`Could not determine the latest assessor roll (${rollResponse.status}).`);
+  }
+  const rollRows = (await rollResponse.json()) as Array<{ latest?: string }>;
+  const latestRollYear = Number(rollRows[0]?.latest);
+  if (!Number.isInteger(latestRollYear)) throw new Error("Latest assessor roll year was invalid.");
+
+  const neighborhoodNames = FEATURED_NEIGHBORHOODS.map(
+    (item) => `'${item.boundaryName.replaceAll("'", "''")}'`,
+  ).join(",");
+  const parameters = new URLSearchParams({
+    "$select": [
+      "closed_roll_year",
+      "parcel_number",
+      "property_location",
+      "current_sales_date",
+      "property_area",
+      "lot_area",
+      "number_of_bedrooms",
+      "number_of_bathrooms",
+      "use_definition",
+      "property_class_code_definition",
+      "analysis_neighborhood",
+      "the_geom",
+    ].join(","),
+    "$where": [
+      `closed_roll_year = ${latestRollYear}`,
+      `current_sales_date >= '${startDate}T00:00:00.000'`,
+      "use_code in ('SRES','MRES')",
+      `analysis_neighborhood in (${neighborhoodNames})`,
+      "the_geom is not null",
+    ].join(" AND "),
+    "$limit": "50000",
+  });
+  await downloadFile(`${DATASF_ASSESSOR_API}.geojson?${parameters.toString()}`, destination);
 }
 
 async function readFeaturedZillowRows(filePath: string): Promise<Map<string, ZillowRow>> {
@@ -228,6 +404,56 @@ function commonLatestDate(neighborhoods: NeighborhoodPulse[]): string {
 
 function slugify(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+export function formatAssessorAddress(value: string): string {
+  const normalized = value.replace(/\s+/g, " ").trim();
+  const match = normalized.match(/^([A-Z]\d{3}|\d{4})\s+(\d{4})\s+(.+?)\s+([A-Z]{2})(\d{4})$/);
+  if (!match) return normalized || "Address unavailable";
+  const [, , rawNumber, streetName, rawSuffix, rawUnit] = match;
+  const number = String(Number(rawNumber));
+  const suffixes: Record<string, string> = {
+    AL: "Aly",
+    AV: "Ave",
+    BL: "Blvd",
+    CR: "Cir",
+    CT: "Ct",
+    DR: "Dr",
+    HW: "Hwy",
+    LN: "Ln",
+    PL: "Pl",
+    RD: "Rd",
+    ST: "St",
+    TR: "Ter",
+    WY: "Way",
+  };
+  const suffix = suffixes[rawSuffix ?? ""] ?? rawSuffix;
+  const unit = rawUnit && rawUnit !== "0000" ? ` #${String(Number(rawUnit))}` : "";
+  return `${number} ${titleCase(streetName ?? "")} ${suffix}${unit}`.trim();
+}
+
+function titleCase(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/(^|[\s-])([a-z])/g, (_match, prefix: string, letter: string) =>
+      `${prefix}${letter.toUpperCase()}`,
+    );
+}
+
+function nullableNumber(value: string | undefined): number | null {
+  if (value === undefined || value === "") return null;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) && parsed > 0 ? Math.round(parsed) : null;
+}
+
+function nullablePositiveNumber(value: string | undefined): number | null {
+  if (value === undefined || value === "") return null;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : null;
+}
+
+function firstDayOfMonth(value: string): string {
+  return `${value.slice(0, 7)}-01`;
 }
 
 async function downloadFile(url: string, destination: string): Promise<void> {

@@ -3,7 +3,11 @@ import path from "node:path";
 
 const sourceDirectory = path.resolve("data/processed");
 const publicDirectory = path.resolve("public/data");
-const files = ["sf-market-pulse.json", "sf-neighborhoods.geojson"];
+const files = [
+  "sf-market-pulse.json",
+  "sf-neighborhoods.geojson",
+  "sf-residential-transfers.geojson",
+];
 
 await mkdir(publicDirectory, { recursive: true });
 await Promise.all(

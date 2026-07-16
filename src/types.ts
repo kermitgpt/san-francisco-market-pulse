@@ -1,4 +1,4 @@
-import type { FeatureCollection, Geometry } from "geojson";
+import type { FeatureCollection, Geometry, Point } from "geojson";
 
 export interface MonthlyValue {
   date: string;
@@ -30,9 +30,35 @@ export interface MarketPulseDataset {
     geographyName: string;
     geographyUrl: string;
     disclosure: string;
+    transferDatasetName: string;
+    transferDatasetUrl: string;
+    transferDisclosure: string;
+  };
+  transfers: {
+    count: number;
+    dataStartDate: string;
+    dataEndDate: string;
+    sourceRollYear: number;
   };
   neighborhoods: NeighborhoodPulse[];
 }
+
+export interface TransferPointProperties {
+  transferId: string;
+  neighborhoodId: string;
+  neighborhoodName: string;
+  parcelNumber: string;
+  address: string;
+  recordedDate: string;
+  propertyAreaSqft: number | null;
+  lotAreaSqft: number | null;
+  bedrooms: number | null;
+  bathrooms: number | null;
+  propertyType: string;
+  sourceRollYear: number;
+}
+
+export type ResidentialTransfers = FeatureCollection<Point, TransferPointProperties>;
 
 export interface NeighborhoodBoundaryProperties {
   id: string;
