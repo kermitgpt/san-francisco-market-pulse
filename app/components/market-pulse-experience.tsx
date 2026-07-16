@@ -27,6 +27,7 @@ import {
   categorizePropertyType,
   TRANSFER_CATEGORY_OPTIONS,
 } from "@/src/transfer-categories";
+import { zillowAddressUrl } from "@/src/zillow";
 import { PulseChart } from "./pulse-chart";
 
 interface ExperienceData {
@@ -519,6 +520,15 @@ export function MarketPulseExperience() {
               </dl>
               <p>{displayedTransfer.propertyType} · Parcel {displayedTransfer.parcelNumber}</p>
               <small>Sale price and deed type are not included in the public bulk record.</small>
+              <a
+                className="zillow-property-link"
+                href={zillowAddressUrl(displayedTransfer.address)}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`View ${displayedTransfer.address} on Zillow (opens in a new tab)`}
+              >
+                View on Zillow <span aria-hidden="true">↗</span>
+              </a>
             </article>
           ) : null}
           <div className="time-scrubber">

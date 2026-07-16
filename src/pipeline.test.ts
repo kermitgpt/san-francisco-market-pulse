@@ -4,6 +4,7 @@ import { FEATURED_NEIGHBORHOODS } from "./config/neighborhoods";
 import { analyzeGrowth } from "./growth-analysis";
 import { formatAssessorAddress, percentChange } from "./pipeline";
 import { categorizePropertyType } from "./transfer-categories";
+import { zillowAddressUrl } from "./zillow";
 
 test("featured neighborhood ids, boundaries, and source names are unique", () => {
   for (const field of ["id", "boundaryName", "zillowRegionName"] as const) {
@@ -25,6 +26,13 @@ test("percentChange rejects an unusable comparison value", () => {
 test("assessor fixed-width locations become readable addresses", () => {
   assert.equal(formatAssessorAddress("0000 2366 28TH                AV0000"), "2366 28th Ave");
   assert.equal(formatAssessorAddress("W000 0611 WASHINGTON ST2202"), "611 Washington St #2202");
+});
+
+test("Zillow links use an exact San Francisco address search", () => {
+  assert.equal(
+    zillowAddressUrl("3042 Jackson St #4"),
+    "https://www.zillow.com/homes/3042-Jackson-St-Apt-4-San-Francisco-CA_rb/",
+  );
 });
 
 test("assessor property classes map to useful public-record filters", () => {

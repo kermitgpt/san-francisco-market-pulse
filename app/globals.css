@@ -320,6 +320,39 @@ select:focus-visible {
 }
 .transfer-detail small { margin-top: 5px; }
 
+.zillow-property-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  color: #f0cf95;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 160ms ease;
+}
+
+.zillow-property-link:hover,
+.zillow-property-link:focus-visible {
+  color: #fff4df;
+}
+
+.zillow-property-link:focus-visible {
+  border-radius: 2px;
+  outline: 2px solid rgba(240, 207, 149, 0.7);
+  outline-offset: 4px;
+}
+
+.zillow-property-link span {
+  font-size: 12px;
+  line-height: 0.8;
+}
+
 .time-scrubber {
   position: absolute;
   z-index: 5;

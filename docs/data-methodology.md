@@ -96,3 +96,4 @@ The scheduled workflow refreshes after Zillow's normal mid-month update. If a so
 - No claim about a specific property or transaction should be inferred from the neighborhood index.
 - Transfer records may include non-market transfers because price and deed type are absent from the public bulk data.
 - The assessor roll lags the monthly ZHVI series; the interface reports both source cutoffs independently.
+- The transfer-card Zillow action is an exact-address search, not a stored Zillow property ID. A recognized address may resolve directly to a property page and photos; an unmatched or ambiguously formatted address may remain on Zillow search results.

@@ -2,6 +2,8 @@
 
 A cinematic, interactive view of typical home values and recorded residential transfers across 18 featured San Francisco neighborhoods. Scrub through 36 months, compare neighborhood growth against the featured-market median, refine parcel records by public property class and interior area, and click a glowing dot to inspect its source record.
 
+Each transfer card includes an exact-address Zillow search link for viewing a matching property page and photos when Zillow recognizes the public-record address. The app does not scrape Zillow property pages or treat Zillow listing details as source data.
+
 This zero-cost edition uses:
 
 - [DataSF Analysis Neighborhoods](https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/j2bu-swwd) for all 41 city analysis boundaries.
