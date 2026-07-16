@@ -1,0 +1,114 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-07-16T06:04:21.449Z",
+  "parcelValidation": {
+    "sourceFeatureCount": 1130,
+    "distinctParcelCount": 1130,
+    "invalidFeatureCount": 0,
+    "duplicateParcelCount": 0
+  },
+  "membership": {
+    "pima-canyon": {
+      "parcelCount": 304,
+      "lotAreaCount": 304,
+      "lotAreaCoveragePct": 100,
+      "assessorSqftCount": 271,
+      "assessorSqftCoveragePct": 89.1,
+      "approvedCount": 304,
+      "needsReviewCount": 0,
+      "needsReview": []
+    },
+    "finisterra": {
+      "parcelCount": 193,
+      "lotAreaCount": 193,
+      "lotAreaCoveragePct": 100,
+      "assessorSqftCount": 185,
+      "assessorSqftCoveragePct": 95.9,
+      "approvedCount": 193,
+      "needsReviewCount": 0,
+      "needsReview": []
+    },
+    "ventana-canyon": {
+      "parcelCount": 633,
+      "lotAreaCount": 633,
+      "lotAreaCoveragePct": 100,
+      "assessorSqftCount": 573,
+      "assessorSqftCoveragePct": 90.5,
+      "approvedCount": 630,
+      "needsReviewCount": 3,
+      "needsReview": [
+        {
+          "parcelId": "11403074B",
+          "platId": "37079",
+          "method": "plat",
+          "boundaryVersion": "ventana-main-kolb-gate-v1"
+        },
+        {
+          "parcelId": "114046710",
+          "platId": "37079",
+          "method": "plat",
+          "boundaryVersion": "ventana-main-kolb-gate-v1"
+        },
+        {
+          "parcelId": "11404675A",
+          "platId": "50055",
+          "method": "plat",
+          "boundaryVersion": "ventana-main-kolb-gate-v1"
+        }
+      ]
+    }
+  },
+  "sales": {
+    "transactionCount": 67,
+    "recordedSaleParcelCount": 69,
+    "mapEligibleTransactionCount": 58,
+    "trendEligibleTransactionCount": 23,
+    "excludedTransactionCount": 4,
+    "outOfResidentialScopeTransactionCount": 5,
+    "missingSqftSaleCount": 7,
+    "multiParcelTransactionCount": 2
+  },
+  "csv": {
+    "assessor-sales-2025": {
+      "rowCount": 23609,
+      "invalidRowCount": 0,
+      "invalidSamples": []
+    },
+    "assessor-sales-2026": {
+      "rowCount": 8861,
+      "invalidRowCount": 0,
+      "invalidSamples": []
+    },
+    "assessor-real-property-2027": {
+      "rowCount": 320079,
+      "invalidRowCount": 1,
+      "invalidSamples": [
+        "Invalid input: expected string, received undefined; Invalid input: expected string, received undefined; Invalid input: expected string, received undefined"
+      ],
+      "layoutRowsSkipped": 1
+    }
+  },
+  "sourceFreshness": {
+    "asOfDate": "2026-07-15",
+    "dataThroughDate": "2026-07-01",
+    "lagDays": 14,
+    "alertThresholdDays": 21,
+    "exceedsAlertThreshold": false
+  },
+  "privacy": {
+    "ownerNamesStored": false,
+    "ownerMailingAddressesStored": false,
+    "parcelFieldsRequested": [
+      "PARCEL",
+      "MP_OL",
+      "GISAREA",
+      "GISACRES",
+      "LON",
+      "LAT",
+      "ADDRESS_OL",
+      "LEGAL1",
+      "LOT_R",
+      "PARCEL_USE"
+    ]
+  }
+}

@@ -10,9 +10,20 @@ A public-records data project for tracking recent recorded sales in Catalina Foo
 
 ## Current phase
 
-Phase 0 is complete with a lean, free-source validation path and reproducible pilot boundaries. Phase 1 is approved after the repository move to `C:\Users\matt\dev\foothills-market-pulse`.
+Phase 0 is complete. Phase 1 implements the approved free-source, database-free data pipeline; UI work remains out of scope until Phase 2.
 
 Read the [Phase 0 data feasibility report](docs/phase-0-data-feasibility.md).
+
+## Pipeline
+
+```powershell
+pnpm install
+pnpm typecheck
+pnpm test
+pnpm pipeline
+```
+
+The scheduled workflow produces versioned JSON and GeoJSON under `data/processed`. See the [operator runbook](docs/phase-1-operator-runbook.md).
 
 ## Data labeling
 

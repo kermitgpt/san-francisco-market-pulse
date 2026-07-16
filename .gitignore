@@ -8,3 +8,7 @@ coverage/
 *.log
 .DS_Store
 Thumbs.db
+
+# Pipeline scratch data
+data/raw/
+data/tmp/

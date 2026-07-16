@@ -36,11 +36,11 @@ The spike joined the July 15, 2026 Assessor files, the 2025 sales archive, the 2
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | Pima Canyon Estates + The Enclave | 304 | 304 (100%) | 271 (89.1%) | 18 | 18 | 0 | 18 |
 | Finisterra I-III | 193 | 193 (100%) | 185 (95.9%) | 7 | 6 | 1 | 4 |
-| Ventana corrected behind-gate plat seed | 626 | 626 (100%) | 569 (90.9%) | 41 | 40 | 1 | 36 |
+| Ventana behind-gate candidates, including reviewed access parcels | 633 | 633 (100%) | 573 (90.5%) | 41 | 40 | 1 | 36 |
 
-The Ventana count is the corrected recorded-plat seed. The Phase 1 boundary audit may add or remove edge parcels, particularly unplatted access-only lots and non-residential/common parcels.
+The Phase 1 geographic audit added seven unplatted access parcels: three on Hototo Place, one at the end of Hole in the Wall Way, and three at the end of Stone Canyon Drive. This raised the auditable Ventana candidate count from 626 to 633. Three common/club/strip parcels remain flagged as non-residential boundary reviews and cannot enter public sale metrics.
 
-For reproducibility, parcel counts are distinct current GIS parcel IDs selected by the stated plat seed, including common/open-space parcels. Sale counts use positive-price rows recorded in the stated window, joined by parcel ID and deduplicated by Recorder sequence. Public map output will additionally require a residential sale/property classification.
+For reproducibility, parcel counts are distinct current GIS parcel IDs selected by the stated plat seed plus reviewed access overrides, including common/open-space candidates retained for auditing. Sale counts use positive-price rows recorded in the stated window, joined by parcel ID and deduplicated by Recorder sequence. Public map output additionally requires a `Single Family` or `Condo/Townhouse` property type and quality tier A or B.
 
 Two rules follow from the spike:
 
@@ -77,7 +77,11 @@ The corrected plat seed is:
 - Esperero Canyon Estates: `41028`
 - Clubdominiums: `50055`
 
+Reviewed unplatted geographic overrides are `11402006X`, `11402006Y`, and `11402006Z` on Stone Canyon Drive; `11403348C` on Hole in the Wall Way; and `11404690A`, `114046910`, and `11404697A` on Hototo Place. They are included because the county address/centroid evidence places them in the documented gate-access areas. Large non-residential acreage at `6850 N Hole in the Wall Way` and `7300 E Stone Canyon Drive` is excluded from the residential rule.
+
 Phase 1 will encode a versioned behind-gate polygon from the official interior map and county parcel geometry. Include a residential parcel when its centroid falls inside that polygon; use a reviewed override when a parcel intersects the boundary or belongs to a documented gate-access enclave whose centroid falls outside because of parcel shape. Exact plats provide the initial seed and audit. This catches access-only/unplatted parcels while preventing outside-gate "Ventana" developments from leaking into the market.
+
+The first live Phase 1 run used a data-through date of July 1, 2026 and a rolling start date of July 1, 2025. After residential-scope and quality filtering, map-eligible transaction counts were 17 for Pima Canyon, 6 for Finisterra, and 35 for Ventana Canyon. The observed source lag remained 14 days.
 
 Every community assignment should retain its method (`plat`, `centroid`, or reviewed override), source date, boundary version and review status. New plats, parcel splits, overlapping assignments and parcels on the boundary should be flagged automatically.
 
@@ -89,7 +93,7 @@ Every community assignment should retain its method (`plat`, `centroid`, or revi
 4. **Deduplicate:** create one transaction per Recorder sequence and a transaction-to-parcel bridge.
 5. **Qualify:** make numeric, county-validated arm's-length sales trend-eligible; keep reviewable sales separate; exclude unknown/nominal price, related-party, partial-interest, personal-property, duress and other unsuitable transfers from headline trends.
 6. **Enrich:** join parcel lot area, centroid/geometry, source-dated Assessor sqft and versioned community membership.
-7. **Publish:** generate small deterministic JSON/GeoJSON files for the latest 12 months and community summaries. Include data-through date, lag, quality tier and source lineage.
+7. **Publish:** generate small deterministic JSON/GeoJSON files for the 12 months ending on the source's maximum recording date, plus community summaries. Include data-through date, lag, quality tier and source lineage.
 
 ### Logical schema
 

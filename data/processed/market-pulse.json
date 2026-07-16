@@ -1,0 +1,3444 @@
+{
+  "schemaVersion": "1.0.0",
+  "label": "recent recorded sales",
+  "generatedAt": "2026-07-16T06:04:21.449Z",
+  "dataThroughDate": "2026-07-01",
+  "windowStartDate": "2025-07-01",
+  "sources": [
+    {
+      "name": "assessor-real-property-2027",
+      "url": "https://www.asr.pima.gov/Downloads/Data/realprop/2027/noticeval/Mas27.ZIP",
+      "retrievedAt": "2026-07-16T06:04:23.537Z",
+      "sha256": "3d10e7df388c7684896a66a518d8b684b818298080f26b767ca9384c0e613d52",
+      "bytes": 8916765,
+      "rowCount": 320079
+    },
+    {
+      "name": "assessor-sales-2025",
+      "url": "https://www.asr.pima.gov/Downloads/Data/sales/2025/SALE2025.ZIP",
+      "retrievedAt": "2026-07-16T06:04:21.932Z",
+      "sha256": "94b022d775f3f9665682b9db30cc9ae108d98b4f5c69e64ea96485cacdc92142",
+      "bytes": 406717,
+      "rowCount": 23609
+    },
+    {
+      "name": "assessor-sales-2026",
+      "url": "https://www.asr.pima.gov/Downloads/Data/sales/2026/SALE2026.ZIP",
+      "retrievedAt": "2026-07-16T06:04:21.833Z",
+      "sha256": "eb939f7a8e8b46e7c0dcac11d7423a5f571a9a96ab8b4bce65785946ffb93bcb",
+      "bytes": 160172,
+      "rowCount": 8861
+    },
+    {
+      "name": "pima-gis-pilot-parcels",
+      "url": "https://gisdata.pima.gov/arcgis1/rest/services/GISOpenData/LandRecords/MapServer/12/query?where=%28MP_OL+IN+%28%2733069%27%2C%2734026%27%2C%2737079%27%2C%2738032%27%2C%2738043%27%2C%2738059%27%2C%2739021%27%2C%2740048%27%2C%2741028%27%2C%2741031%27%2C%2741048%27%2C%2743043%27%2C%2743085%27%2C%2743089%27%2C%2743097%27%2C%2746002%27%2C%2746003%27%2C%2748074%27%2C%2748089%27%2C%2750055%27%2C%2750087%27%2C%2753036%27%2C%2755059%27%2C%2756024%27%2C%2757023%27%29+OR+PARCEL+IN+%28%2711402006X%27%2C%2711402006Y%27%2C%2711402006Z%27%2C%2711403348C%27%2C%2711404690A%27%2C%27114046910%27%2C%2711404697A%27%29%29&returnIdsOnly=true&f=json",
+      "retrievedAt": "2026-07-16T06:04:22.532Z",
+      "sha256": "336d92170666a414cb76e06a17c3ed2720e06ff2b3c407da1df12a6e882c09a9",
+      "bytes": 1392622,
+      "rowCount": 1130
+    },
+    {
+      "name": "pima-gis-pilot-subdivisions",
+      "url": "https://gisdata.pima.gov/arcgis1/rest/services/GISOpenData/LandRecords/MapServer/15/query?where=BOOK_PAGE+IN+%28%2733069%27%2C%2734026%27%2C%2737079%27%2C%2738032%27%2C%2738043%27%2C%2738059%27%2C%2739021%27%2C%2740048%27%2C%2741028%27%2C%2741031%27%2C%2741048%27%2C%2743043%27%2C%2743085%27%2C%2743089%27%2C%2743097%27%2C%2746002%27%2C%2746003%27%2C%2748074%27%2C%2748089%27%2C%2750055%27%2C%2750087%27%2C%2753036%27%2C%2755059%27%2C%2756024%27%2C%2757023%27%29&returnIdsOnly=true&f=json",
+      "retrievedAt": "2026-07-16T06:04:21.899Z",
+      "sha256": "f0946a67bcba1ac0f59be7a697e9a77b22bc2dcf03209ff9c5b702bb0111c88d",
+      "bytes": 99747,
+      "rowCount": 35
+    }
+  ],
+  "communities": [
+    {
+      "id": "pima-canyon",
+      "name": "Pima Canyon",
+      "rule": "Every current county parcel assigned to an approved Pima Canyon Estates plat, including The Enclave at Pima Canyon.",
+      "boundaryVersion": "pima-canyon-plats-v1",
+      "parcelCount": 304,
+      "boundaryReviewCount": 0,
+      "mapSaleCount": 17,
+      "trendSaleCount": 10,
+      "medianSalePrice": 1950000,
+      "medianPricePerSqft": 459.58
+    },
+    {
+      "id": "finisterra",
+      "name": "Finisterra",
+      "rule": "Every current county parcel assigned to the recorded Finisterra I, II, or III plats.",
+      "boundaryVersion": "finisterra-plats-v1",
+      "parcelCount": 193,
+      "boundaryReviewCount": 0,
+      "mapSaleCount": 6,
+      "trendSaleCount": 2,
+      "medianSalePrice": 990000,
+      "medianPricePerSqft": 299.76
+    },
+    {
+      "id": "ventana-canyon",
+      "name": "Ventana Canyon",
+      "rule": "Every residential parcel geographically behind and reached through the main Kolb Road gate, regardless of VCCA membership.",
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "parcelCount": 633,
+      "boundaryReviewCount": 3,
+      "mapSaleCount": 35,
+      "trendSaleCount": 11,
+      "medianSalePrice": 1150000,
+      "medianPricePerSqft": 396.79
+    }
+  ],
+  "transactions": [
+    {
+      "sequenceId": "20251890165",
+      "saleMonth": "2025-05",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-07-08",
+      "salePrice": 825000,
+      "propertyType": "Vacant Land",
+      "intendedUse": "Unknown",
+      "residentialScope": false,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Good Sale",
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "parcelIds": [
+        "220203600"
+      ]
+    },
+    {
+      "sequenceId": "20251950180",
+      "saleMonth": "2025-07",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-07-14",
+      "salePrice": 620000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "109012830"
+      ]
+    },
+    {
+      "sequenceId": "20251960144",
+      "saleMonth": "2025-04",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-07-15",
+      "salePrice": 1487200,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "114054970"
+      ]
+    },
+    {
+      "sequenceId": "20251960380",
+      "saleMonth": "2025-05",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-07-15",
+      "salePrice": 675000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Good Sale",
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "parcelIds": [
+        "114053980"
+      ]
+    },
+    {
+      "sequenceId": "20251970093",
+      "saleMonth": "2025-07",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-07-16",
+      "salePrice": 1860000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Good Sale",
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "parcelIds": [
+        "220203890"
+      ]
+    },
+    {
+      "sequenceId": "20252110117",
+      "saleMonth": "2025-06",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-07-30",
+      "salePrice": 3225000,
+      "propertyType": "Single Family",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Good Sale",
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "parcelIds": [
+        "220203330"
+      ]
+    },
+    {
+      "sequenceId": "20252110130",
+      "saleMonth": "2025-07",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-07-30",
+      "salePrice": 2177638,
+      "propertyType": "Single Family",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "114020260"
+      ]
+    },
+    {
+      "sequenceId": "20252300108",
+      "saleMonth": "2025-08",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-08-18",
+      "salePrice": 400000,
+      "propertyType": "Vacant Land",
+      "intendedUse": "Unknown",
+      "residentialScope": false,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Good Sale",
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "parcelIds": [
+        "11403109A"
+      ]
+    },
+    {
+      "sequenceId": "20252610186",
+      "saleMonth": "2025-08",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-09-18",
+      "salePrice": 1650000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Good Sale",
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "parcelIds": [
+        "220200780"
+      ]
+    },
+    {
+      "sequenceId": "20252620294",
+      "saleMonth": "2025-07",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-09-19",
+      "salePrice": 748800,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "114053950"
+      ]
+    },
+    {
+      "sequenceId": "20252731021",
+      "saleMonth": "2025-09",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-09-30",
+      "salePrice": 1215000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Good Sale",
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "parcelIds": [
+        "114031680"
+      ]
+    },
+    {
+      "sequenceId": "20252740126",
+      "saleMonth": "2025-09",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-10-01",
+      "salePrice": 350000,
+      "propertyType": "Vacant Land",
+      "intendedUse": "Unknown",
+      "residentialScope": false,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "114031340"
+      ]
+    },
+    {
+      "sequenceId": "20252960192",
+      "saleMonth": "2025-10",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-10-23",
+      "salePrice": null,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Quit Claim Deed",
+      "financing": "Other",
+      "validationDescription": "Unusable sale which does not fit any other reject codes",
+      "qualityTier": "X",
+      "qualityReasons": [
+        "missing_or_nonpositive_price",
+        "related_parties",
+        "validation:unusable"
+      ],
+      "parcelIds": [
+        "114054800"
+      ]
+    },
+    {
+      "sequenceId": "20253020162",
+      "saleMonth": "2025-09",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-10-29",
+      "salePrice": 546800,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Good Sale",
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "parcelIds": [
+        "114040890"
+      ]
+    },
+    {
+      "sequenceId": "20253090089",
+      "saleMonth": "2025-09",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-11-05",
+      "salePrice": 1600000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "114020200"
+      ]
+    },
+    {
+      "sequenceId": "20253100223",
+      "saleMonth": "2025-10",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-11-06",
+      "salePrice": 1910000,
+      "propertyType": "Single Family",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Good Sale",
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "parcelIds": [
+        "220200400"
+      ]
+    },
+    {
+      "sequenceId": "20253110163",
+      "saleMonth": "2025-10",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-11-07",
+      "salePrice": 1550000,
+      "propertyType": "Single Family",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "220200990"
+      ]
+    },
+    {
+      "sequenceId": "20253110217",
+      "saleMonth": "2025-10",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-11-07",
+      "salePrice": 850000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Good Sale",
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "parcelIds": [
+        "114054020"
+      ]
+    },
+    {
+      "sequenceId": "20253110549",
+      "saleMonth": "2025-09",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-11-07",
+      "salePrice": 2400000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "11403140B"
+      ]
+    },
+    {
+      "sequenceId": "20253140168",
+      "saleMonth": "2025-08",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-11-10",
+      "salePrice": 980000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "109010340"
+      ]
+    },
+    {
+      "sequenceId": "20253140230",
+      "saleMonth": "2025-09",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-11-10",
+      "salePrice": 945000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Good Sale",
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "parcelIds": [
+        "114054520"
+      ]
+    },
+    {
+      "sequenceId": "20253160361",
+      "saleMonth": "2025-09",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-11-12",
+      "salePrice": 1000000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Good Sale",
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "parcelIds": [
+        "10901227A"
+      ]
+    },
+    {
+      "sequenceId": "20253180155",
+      "saleMonth": "2025-09",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-11-14",
+      "salePrice": 905000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Good Sale",
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "parcelIds": [
+        "114033740"
+      ]
+    },
+    {
+      "sequenceId": "20253180311",
+      "saleMonth": "2025-10",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-11-14",
+      "salePrice": 400000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Buyer/Seller are related parties or corporate entities",
+      "qualityTier": "X",
+      "qualityReasons": [
+        "related_parties",
+        "validation:related"
+      ],
+      "parcelIds": [
+        "114030190"
+      ]
+    },
+    {
+      "sequenceId": "20253250524",
+      "saleMonth": "2025-11",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-11-21",
+      "salePrice": 320000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "Unknown",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Sale under duress/Non-arm's length transaction",
+      "qualityTier": "X",
+      "qualityReasons": [
+        "validation:duress",
+        "validation:non-arm"
+      ],
+      "parcelIds": [
+        "114042700"
+      ]
+    },
+    {
+      "sequenceId": "20253250759",
+      "saleMonth": "2025-10",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-11-21",
+      "salePrice": 1232500,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Good Sale",
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "parcelIds": [
+        "114054740"
+      ]
+    },
+    {
+      "sequenceId": "20253290724",
+      "saleMonth": "2025-11",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-11-25",
+      "salePrice": 598000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Good Sale",
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "parcelIds": [
+        "114040950"
+      ]
+    },
+    {
+      "sequenceId": "20253360614",
+      "saleMonth": "2025-11",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-12-02",
+      "salePrice": 1664900,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "220200610"
+      ]
+    },
+    {
+      "sequenceId": "20253460229",
+      "saleMonth": "2025-11",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-12-12",
+      "salePrice": 1361000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Good Sale",
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "parcelIds": [
+        "220201000"
+      ]
+    },
+    {
+      "sequenceId": "20253650367",
+      "saleMonth": "2025-11",
+      "saleDatePrecision": "month",
+      "recordingDate": "2025-12-31",
+      "salePrice": 605450,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "114046460"
+      ]
+    },
+    {
+      "sequenceId": "20260070304",
+      "saleMonth": "2025-12",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-01-07",
+      "salePrice": 559000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "114040820"
+      ]
+    },
+    {
+      "sequenceId": "20260220196",
+      "saleMonth": "2025-11",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-01-22",
+      "salePrice": 2225000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Good Sale",
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "parcelIds": [
+        "220203990"
+      ]
+    },
+    {
+      "sequenceId": "20260270314",
+      "saleMonth": "2026-01",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-01-27",
+      "salePrice": 2400000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "220202850"
+      ]
+    },
+    {
+      "sequenceId": "20260280490",
+      "saleMonth": "2026-01",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-01-28",
+      "salePrice": 503026,
+      "propertyType": "Vacant Land",
+      "intendedUse": "Unknown",
+      "residentialScope": false,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Good Sale",
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "parcelIds": [
+        "10901169B"
+      ]
+    },
+    {
+      "sequenceId": "20260330166",
+      "saleMonth": "2025-12",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-02-02",
+      "salePrice": 865000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "114045020"
+      ]
+    },
+    {
+      "sequenceId": "20260400303",
+      "saleMonth": "2025-12",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-02-09",
+      "salePrice": 1450000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Good Sale",
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "parcelIds": [
+        "114034030"
+      ]
+    },
+    {
+      "sequenceId": "20260440530",
+      "saleMonth": "2026-01",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-02-13",
+      "salePrice": 2280000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "220200870"
+      ]
+    },
+    {
+      "sequenceId": "20260480350",
+      "saleMonth": "2025-12",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-02-17",
+      "salePrice": 1500000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "109012090"
+      ]
+    },
+    {
+      "sequenceId": "20260480528",
+      "saleMonth": "2026-01",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-02-17",
+      "salePrice": 890643,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "109012980",
+        "10901299B"
+      ]
+    },
+    {
+      "sequenceId": "20260500164",
+      "saleMonth": "2026-02",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-02-19",
+      "salePrice": 660000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "114045340"
+      ]
+    },
+    {
+      "sequenceId": "20260580273",
+      "saleMonth": "2026-01",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-02-27",
+      "salePrice": 1150000,
+      "propertyType": "Single Family",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "114055070"
+      ]
+    },
+    {
+      "sequenceId": "20260580315",
+      "saleMonth": "2025-11",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-02-27",
+      "salePrice": 2400000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Sale includes unquantifiable Personal Property > 5%",
+      "qualityTier": "X",
+      "qualityReasons": [
+        "personal_property",
+        "validation:personal_property"
+      ],
+      "parcelIds": [
+        "220202900"
+      ]
+    },
+    {
+      "sequenceId": "20260640536",
+      "saleMonth": "2026-01",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-03-05",
+      "salePrice": 395000,
+      "propertyType": "Vacant Land",
+      "intendedUse": "Unknown",
+      "residentialScope": false,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "114034070"
+      ]
+    },
+    {
+      "sequenceId": "20260690288",
+      "saleMonth": "2026-02",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-03-10",
+      "salePrice": 1325000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Good Sale",
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "parcelIds": [
+        "109011950"
+      ]
+    },
+    {
+      "sequenceId": "20260690441",
+      "saleMonth": "2026-02",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-03-10",
+      "salePrice": 490000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "114040970"
+      ]
+    },
+    {
+      "sequenceId": "20260720129",
+      "saleMonth": "2026-02",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-03-13",
+      "salePrice": 825000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "114045630"
+      ]
+    },
+    {
+      "sequenceId": "20260770359",
+      "saleMonth": "2026-02",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-03-18",
+      "salePrice": 3225000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Good Sale",
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "parcelIds": [
+        "220203470"
+      ]
+    },
+    {
+      "sequenceId": "20260770503",
+      "saleMonth": "2026-01",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-03-18",
+      "salePrice": 2050000,
+      "propertyType": "Single Family",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Good Sale",
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "parcelIds": [
+        "114030540"
+      ]
+    },
+    {
+      "sequenceId": "20260790377",
+      "saleMonth": "2026-03",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-03-20",
+      "salePrice": 1655000,
+      "propertyType": "Single Family",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "220200790"
+      ]
+    },
+    {
+      "sequenceId": "20260890520",
+      "saleMonth": "2026-03",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-03-30",
+      "salePrice": 1325000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "114031600"
+      ]
+    },
+    {
+      "sequenceId": "20260900121",
+      "saleMonth": "2026-03",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-03-31",
+      "salePrice": 900000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "114045440"
+      ]
+    },
+    {
+      "sequenceId": "20260900160",
+      "saleMonth": "2026-03",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-03-31",
+      "salePrice": 2500000,
+      "propertyType": "Single Family",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "114031740"
+      ]
+    },
+    {
+      "sequenceId": "20260900167",
+      "saleMonth": "2026-03",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-03-31",
+      "salePrice": 4500000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "220203610"
+      ]
+    },
+    {
+      "sequenceId": "20260900182",
+      "saleMonth": "2026-03",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-03-31",
+      "salePrice": 926000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "114054070"
+      ]
+    },
+    {
+      "sequenceId": "20260920138",
+      "saleMonth": "2026-02",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-04-02",
+      "salePrice": 2350000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "11403062B"
+      ]
+    },
+    {
+      "sequenceId": "20260990547",
+      "saleMonth": "2026-02",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-04-09",
+      "salePrice": 1349500,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Good Sale",
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "parcelIds": [
+        "114034180"
+      ]
+    },
+    {
+      "sequenceId": "20261040230",
+      "saleMonth": "2026-03",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-04-14",
+      "salePrice": 2700000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "114030660"
+      ]
+    },
+    {
+      "sequenceId": "20261100354",
+      "saleMonth": "2026-04",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-04-20",
+      "salePrice": 1375000,
+      "propertyType": "Single Family",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "114031800"
+      ]
+    },
+    {
+      "sequenceId": "20261110152",
+      "saleMonth": "2026-04",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-04-21",
+      "salePrice": 3900000,
+      "propertyType": "Single Family",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "11403116A",
+        "11403117A"
+      ]
+    },
+    {
+      "sequenceId": "20261130116",
+      "saleMonth": "2026-03",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-04-23",
+      "salePrice": 1300000,
+      "propertyType": "Single Family",
+      "intendedUse": "Rental",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Good Sale",
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "parcelIds": [
+        "220200620"
+      ]
+    },
+    {
+      "sequenceId": "20261130136",
+      "saleMonth": "2026-03",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-04-23",
+      "salePrice": 1510000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "114030280"
+      ]
+    },
+    {
+      "sequenceId": "20261210106",
+      "saleMonth": "2026-05",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-05-01",
+      "salePrice": 1675000,
+      "propertyType": "Single Family",
+      "intendedUse": "Rental",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "114031890"
+      ]
+    },
+    {
+      "sequenceId": "20261270486",
+      "saleMonth": "2026-05",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-05-07",
+      "salePrice": 3400000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Other",
+      "validationDescription": "Good Sale",
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "parcelIds": [
+        "220202960"
+      ]
+    },
+    {
+      "sequenceId": "20261460278",
+      "saleMonth": "2026-05",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-05-26",
+      "salePrice": 912500,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "114045280"
+      ]
+    },
+    {
+      "sequenceId": "20261540216",
+      "saleMonth": "2026-06",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-06-03",
+      "salePrice": 570000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "114046570"
+      ]
+    },
+    {
+      "sequenceId": "20261600513",
+      "saleMonth": "2026-05",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-06-09",
+      "salePrice": 1950000,
+      "propertyType": "Single Family",
+      "intendedUse": "Rental",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Good Sale",
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "parcelIds": [
+        "220201580"
+      ]
+    },
+    {
+      "sequenceId": "20261660214",
+      "saleMonth": "2026-05",
+      "saleDatePrecision": "month",
+      "recordingDate": "2026-06-15",
+      "salePrice": 2125000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "deed": "Warranty Deed",
+      "financing": "Cash",
+      "validationDescription": "Buyer/Seller has an Out-Of-State Address",
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "parcelIds": [
+        "220201500"
+      ]
+    }
+  ],
+  "sales": [
+    {
+      "id": "20251890165:220203600",
+      "communityId": "pima-canyon",
+      "sequenceId": "20251890165",
+      "parcelId": "220203600",
+      "recordingDate": "2025-07-08",
+      "saleMonth": "2025-05",
+      "saleDatePrecision": "month",
+      "salePrice": 825000,
+      "propertyType": "Vacant Land",
+      "intendedUse": "Unknown",
+      "residentialScope": false,
+      "assessorSqft": null,
+      "sqftTaxYear": null,
+      "lotSizeSqft": 110383.17978539,
+      "lotSizeAcres": 2.53404912,
+      "pricePerSqft": null,
+      "daysToClose": null,
+      "address": "2134 E DESERT GARDEN DR",
+      "longitude": -110.94478255,
+      "latitude": 32.35213783,
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "boundaryVersion": "pima-canyon-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20251950180:109012830",
+      "communityId": "finisterra",
+      "sequenceId": "20251950180",
+      "parcelId": "109012830",
+      "recordingDate": "2025-07-14",
+      "saleMonth": "2025-07",
+      "saleDatePrecision": "month",
+      "salePrice": 620000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "assessorSqft": 2036,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 8007.83840071,
+      "lotSizeAcres": 0.18383467,
+      "pricePerSqft": 304.52,
+      "daysToClose": null,
+      "address": "5610 E PASEO LOMAS",
+      "longitude": -110.87267026,
+      "latitude": 32.32978051,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "finisterra-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20251960144:114054970",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20251960144",
+      "parcelId": "114054970",
+      "recordingDate": "2025-07-15",
+      "saleMonth": "2025-04",
+      "saleDatePrecision": "month",
+      "salePrice": 1487200,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 5385,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 20749.86685029,
+      "lotSizeAcres": 0.4763514,
+      "pricePerSqft": 276.17,
+      "daysToClose": null,
+      "address": "6289 N DESERT MOON LP",
+      "longitude": -110.83562443,
+      "latitude": 32.32182235,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20251960380:114053980",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20251960380",
+      "parcelId": "114053980",
+      "recordingDate": "2025-07-15",
+      "saleMonth": "2025-05",
+      "saleDatePrecision": "month",
+      "salePrice": 675000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 2270,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 4995.54966187,
+      "lotSizeAcres": 0.11468204,
+      "pricePerSqft": 297.36,
+      "daysToClose": null,
+      "address": "7133 E GREY FOX LN",
+      "longitude": -110.84018264,
+      "latitude": 32.32262227,
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20251970093:220203890",
+      "communityId": "pima-canyon",
+      "sequenceId": "20251970093",
+      "parcelId": "220203890",
+      "recordingDate": "2025-07-16",
+      "saleMonth": "2025-07",
+      "saleDatePrecision": "month",
+      "salePrice": 1860000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 4801,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 38359.86045415,
+      "lotSizeAcres": 0.88062122,
+      "pricePerSqft": 387.42,
+      "daysToClose": null,
+      "address": "7586 N MYSTIC CANYON DR",
+      "longitude": -110.9470639,
+      "latitude": 32.34023982,
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "boundaryVersion": "pima-canyon-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20252110117:220203330",
+      "communityId": "pima-canyon",
+      "sequenceId": "20252110117",
+      "parcelId": "220203330",
+      "recordingDate": "2025-07-30",
+      "saleMonth": "2025-06",
+      "saleDatePrecision": "month",
+      "salePrice": 3225000,
+      "propertyType": "Single Family",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "assessorSqft": 6344,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 50707.4603992,
+      "lotSizeAcres": 1.16408311,
+      "pricePerSqft": 508.35,
+      "daysToClose": null,
+      "address": "1743 E SAHUARO BLOSSOM PL",
+      "longitude": -110.94663832,
+      "latitude": 32.34962591,
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "boundaryVersion": "pima-canyon-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20252110130:114020260",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20252110130",
+      "parcelId": "114020260",
+      "recordingDate": "2025-07-30",
+      "saleMonth": "2025-07",
+      "saleDatePrecision": "month",
+      "salePrice": 2177638,
+      "propertyType": "Single Family",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "assessorSqft": 5340,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 35861.77437656,
+      "lotSizeAcres": 0.82327306,
+      "pricePerSqft": 407.8,
+      "daysToClose": null,
+      "address": "6431 N THIMBLE PS",
+      "longitude": -110.83425847,
+      "latitude": 32.32395522,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20252300108:11403109A",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20252300108",
+      "parcelId": "11403109A",
+      "recordingDate": "2025-08-18",
+      "saleMonth": "2025-08",
+      "saleDatePrecision": "month",
+      "salePrice": 400000,
+      "propertyType": "Vacant Land",
+      "intendedUse": "Unknown",
+      "residentialScope": false,
+      "assessorSqft": null,
+      "sqftTaxYear": null,
+      "lotSizeSqft": 122454.01533959,
+      "lotSizeAcres": 2.81115738,
+      "pricePerSqft": null,
+      "daysToClose": null,
+      "address": "6752 N HOLE IN THE WALL WY",
+      "longitude": -110.84489872,
+      "latitude": 32.33048613,
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20252610186:220200780",
+      "communityId": "pima-canyon",
+      "sequenceId": "20252610186",
+      "parcelId": "220200780",
+      "recordingDate": "2025-09-18",
+      "saleMonth": "2025-08",
+      "saleDatePrecision": "month",
+      "salePrice": 1650000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 3509,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 41325.55639706,
+      "lotSizeAcres": 0.94870423,
+      "pricePerSqft": 470.22,
+      "daysToClose": null,
+      "address": "1963 E QUIET CANYON DR",
+      "longitude": -110.94360172,
+      "latitude": 32.33859346,
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "boundaryVersion": "pima-canyon-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20252620294:114053950",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20252620294",
+      "parcelId": "114053950",
+      "recordingDate": "2025-09-19",
+      "saleMonth": "2025-07",
+      "saleDatePrecision": "month",
+      "salePrice": 748800,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 2270,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 4258.5202892,
+      "lotSizeAcres": 0.09776217,
+      "pricePerSqft": 329.87,
+      "daysToClose": null,
+      "address": "7124 E GREY FOX LN",
+      "longitude": -110.84025534,
+      "latitude": 32.32227146,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20252731021:114031680",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20252731021",
+      "parcelId": "114031680",
+      "recordingDate": "2025-09-30",
+      "saleMonth": "2025-09",
+      "saleDatePrecision": "month",
+      "salePrice": 1215000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 3765,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 20105.24895252,
+      "lotSizeAcres": 0.46155301,
+      "pricePerSqft": 322.71,
+      "daysToClose": null,
+      "address": "7222 E DESERT MOON LP",
+      "longitude": -110.83823255,
+      "latitude": 32.31719636,
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20252740126:114031340",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20252740126",
+      "parcelId": "114031340",
+      "recordingDate": "2025-10-01",
+      "saleMonth": "2025-09",
+      "saleDatePrecision": "month",
+      "salePrice": 350000,
+      "propertyType": "Vacant Land",
+      "intendedUse": "Unknown",
+      "residentialScope": false,
+      "assessorSqft": null,
+      "sqftTaxYear": null,
+      "lotSizeSqft": 27173.7166232,
+      "lotSizeAcres": 0.6238227,
+      "pricePerSqft": null,
+      "daysToClose": null,
+      "address": "6735 N HOLE IN THE WALL WY",
+      "longitude": -110.84506776,
+      "latitude": 32.32854574,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20252960192:114054800",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20252960192",
+      "parcelId": "114054800",
+      "recordingDate": "2025-10-23",
+      "saleMonth": "2025-10",
+      "saleDatePrecision": "month",
+      "salePrice": null,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 3781,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 28776.75135017,
+      "lotSizeAcres": 0.66062331,
+      "pricePerSqft": null,
+      "daysToClose": null,
+      "address": "6217 N DESERT MOON LP",
+      "longitude": -110.83398072,
+      "latitude": 32.32082258,
+      "qualityTier": "X",
+      "qualityReasons": [
+        "missing_or_nonpositive_price",
+        "related_parties",
+        "validation:unusable"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20253020162:114040890",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20253020162",
+      "parcelId": "114040890",
+      "recordingDate": "2025-10-29",
+      "saleMonth": "2025-09",
+      "saleDatePrecision": "month",
+      "salePrice": 546800,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 1791,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 4737.67376479,
+      "lotSizeAcres": 0.10876202,
+      "pricePerSqft": 305.3,
+      "daysToClose": null,
+      "address": "6127 N GOLDEN EAGLE DR",
+      "longitude": -110.84406987,
+      "latitude": 32.31857477,
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20253090089:114020200",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20253090089",
+      "parcelId": "114020200",
+      "recordingDate": "2025-11-05",
+      "saleMonth": "2025-09",
+      "saleDatePrecision": "month",
+      "salePrice": 1600000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 4266,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 37156.78941576,
+      "lotSizeAcres": 0.85300251,
+      "pricePerSqft": 375.06,
+      "daysToClose": null,
+      "address": "6461 N THIMBLE PS",
+      "longitude": -110.83392789,
+      "latitude": 32.32486201,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20253100223:220200400",
+      "communityId": "pima-canyon",
+      "sequenceId": "20253100223",
+      "parcelId": "220200400",
+      "recordingDate": "2025-11-06",
+      "saleMonth": "2025-10",
+      "saleDatePrecision": "month",
+      "salePrice": 1910000,
+      "propertyType": "Single Family",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "assessorSqft": 4086,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 59886.64666194,
+      "lotSizeAcres": 1.37480823,
+      "pricePerSqft": 467.45,
+      "daysToClose": null,
+      "address": "7501 N WHISPER CANYON PL",
+      "longitude": -110.94327039,
+      "latitude": 32.34300841,
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "boundaryVersion": "pima-canyon-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20253110163:220200990",
+      "communityId": "pima-canyon",
+      "sequenceId": "20253110163",
+      "parcelId": "220200990",
+      "recordingDate": "2025-11-07",
+      "saleMonth": "2025-10",
+      "saleDatePrecision": "month",
+      "salePrice": 1550000,
+      "propertyType": "Single Family",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "assessorSqft": 3386,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 37331.42914128,
+      "lotSizeAcres": 0.85701169,
+      "pricePerSqft": 457.77,
+      "daysToClose": null,
+      "address": "2202 E QUIET CANYON DR",
+      "longitude": -110.93997559,
+      "latitude": 32.33791835,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "pima-canyon-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20253110217:114054020",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20253110217",
+      "parcelId": "114054020",
+      "recordingDate": "2025-11-07",
+      "saleMonth": "2025-10",
+      "saleDatePrecision": "month",
+      "salePrice": 850000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 2186,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 4844.24644556,
+      "lotSizeAcres": 0.1112086,
+      "pricePerSqft": 388.84,
+      "daysToClose": null,
+      "address": "7165 E GREY FOX LN",
+      "longitude": -110.83956406,
+      "latitude": 32.32288679,
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20253110549:11403140B",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20253110549",
+      "parcelId": "11403140B",
+      "recordingDate": "2025-11-07",
+      "saleMonth": "2025-09",
+      "saleDatePrecision": "month",
+      "salePrice": 2400000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 5381,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 95823.54526417,
+      "lotSizeAcres": 2.19980591,
+      "pricePerSqft": 446.01,
+      "daysToClose": null,
+      "address": "6921 E ROCK LEDGE PL",
+      "longitude": -110.84388088,
+      "latitude": 32.32836214,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20253140168:109010340",
+      "communityId": "finisterra",
+      "sequenceId": "20253140168",
+      "parcelId": "109010340",
+      "recordingDate": "2025-11-10",
+      "saleMonth": "2025-08",
+      "saleDatePrecision": "month",
+      "salePrice": 980000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 2823,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 5765.06981024,
+      "lotSizeAcres": 0.13234779,
+      "pricePerSqft": 347.15,
+      "daysToClose": null,
+      "address": "6730 N CHAPULTAPEC CI",
+      "longitude": -110.87274593,
+      "latitude": 32.32840921,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "finisterra-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20253140230:114054520",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20253140230",
+      "parcelId": "114054520",
+      "recordingDate": "2025-11-10",
+      "saleMonth": "2025-09",
+      "saleDatePrecision": "month",
+      "salePrice": 945000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 2199,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 4619.89127678,
+      "lotSizeAcres": 0.10605811,
+      "pricePerSqft": 429.74,
+      "daysToClose": null,
+      "address": "7348 E CALLE ALBA SERENA",
+      "longitude": -110.83569429,
+      "latitude": 32.3199257,
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20253160361:10901227A",
+      "communityId": "finisterra",
+      "sequenceId": "20253160361",
+      "parcelId": "10901227A",
+      "recordingDate": "2025-11-12",
+      "saleMonth": "2025-09",
+      "saleDatePrecision": "month",
+      "salePrice": 1000000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 3336,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 15328.64933169,
+      "lotSizeAcres": 0.35189737,
+      "pricePerSqft": 299.76,
+      "daysToClose": null,
+      "address": "5701 E FINISTERRA",
+      "longitude": -110.87089716,
+      "latitude": 32.33261572,
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "boundaryVersion": "finisterra-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20253180155:114033740",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20253180155",
+      "parcelId": "114033740",
+      "recordingDate": "2025-11-14",
+      "saleMonth": "2025-09",
+      "saleDatePrecision": "month",
+      "salePrice": 905000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 2936,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 11277.5337816,
+      "lotSizeAcres": 0.25889655,
+      "pricePerSqft": 308.24,
+      "daysToClose": null,
+      "address": "6488 N DESERT BREEZE CT",
+      "longitude": -110.84465739,
+      "latitude": 32.32452886,
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20253180311:114030190",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20253180311",
+      "parcelId": "114030190",
+      "recordingDate": "2025-11-14",
+      "saleMonth": "2025-10",
+      "saleDatePrecision": "month",
+      "salePrice": 400000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 3226,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 58672.10335303,
+      "lotSizeAcres": 1.34692616,
+      "pricePerSqft": 123.99,
+      "daysToClose": null,
+      "address": "6420 N DESERT WIND CI",
+      "longitude": -110.84527852,
+      "latitude": 32.32694275,
+      "qualityTier": "X",
+      "qualityReasons": [
+        "related_parties",
+        "validation:related"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20253250524:114042700",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20253250524",
+      "parcelId": "114042700",
+      "recordingDate": "2025-11-21",
+      "saleMonth": "2025-11",
+      "saleDatePrecision": "month",
+      "salePrice": 320000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "Unknown",
+      "residentialScope": true,
+      "assessorSqft": 1214,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 3114.16089914,
+      "lotSizeAcres": 0.0714913,
+      "pricePerSqft": 263.59,
+      "daysToClose": null,
+      "address": "6119 N BLACK BEAR LP",
+      "longitude": -110.84303981,
+      "latitude": 32.31832832,
+      "qualityTier": "X",
+      "qualityReasons": [
+        "validation:duress",
+        "validation:non-arm"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20253250759:114054740",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20253250759",
+      "parcelId": "114054740",
+      "recordingDate": "2025-11-21",
+      "saleMonth": "2025-10",
+      "saleDatePrecision": "month",
+      "salePrice": 1232500,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 2817,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 32351.47482237,
+      "lotSizeAcres": 0.74268767,
+      "pricePerSqft": 437.52,
+      "daysToClose": null,
+      "address": "7331 E DESERT MOON LP",
+      "longitude": -110.83398591,
+      "latitude": 32.31873269,
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20253290724:114040950",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20253290724",
+      "parcelId": "114040950",
+      "recordingDate": "2025-11-25",
+      "saleMonth": "2025-11",
+      "saleDatePrecision": "month",
+      "salePrice": 598000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 1791,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 5197.03637018,
+      "lotSizeAcres": 0.11930754,
+      "pricePerSqft": 333.89,
+      "daysToClose": null,
+      "address": "6091 N GOLDEN EAGLE DR",
+      "longitude": -110.8438556,
+      "latitude": 32.31779649,
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20253360614:220200610",
+      "communityId": "pima-canyon",
+      "sequenceId": "20253360614",
+      "parcelId": "220200610",
+      "recordingDate": "2025-12-02",
+      "saleMonth": "2025-11",
+      "saleDatePrecision": "month",
+      "salePrice": 1664900,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 4389,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 39684.80738739,
+      "lotSizeAcres": 0.91103782,
+      "pricePerSqft": 379.33,
+      "daysToClose": null,
+      "address": "7401 N MYSTIC CANYON DR",
+      "longitude": -110.94138821,
+      "latitude": 32.34096464,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "pima-canyon-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20253460229:220201000",
+      "communityId": "pima-canyon",
+      "sequenceId": "20253460229",
+      "parcelId": "220201000",
+      "recordingDate": "2025-12-12",
+      "saleMonth": "2025-11",
+      "saleDatePrecision": "month",
+      "salePrice": 1361000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 3316,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 41135.74179788,
+      "lotSizeAcres": 0.94434669,
+      "pricePerSqft": 410.43,
+      "daysToClose": null,
+      "address": "2232 E QUIET CANYON DR",
+      "longitude": -110.93937926,
+      "latitude": 32.33782055,
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "boundaryVersion": "pima-canyon-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20253650367:114046460",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20253650367",
+      "parcelId": "114046460",
+      "recordingDate": "2025-12-31",
+      "saleMonth": "2025-11",
+      "saleDatePrecision": "month",
+      "salePrice": 605450,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "assessorSqft": 2057,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 4037.90923416,
+      "lotSizeAcres": 0.09269764,
+      "pricePerSqft": 294.34,
+      "daysToClose": null,
+      "address": "6118 N RUNNING DEER CI",
+      "longitude": -110.84781256,
+      "latitude": 32.31772062,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260070304:114040820",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20260070304",
+      "parcelId": "114040820",
+      "recordingDate": "2026-01-07",
+      "saleMonth": "2025-12",
+      "saleDatePrecision": "month",
+      "salePrice": 559000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 1601,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 4600.98611099,
+      "lotSizeAcres": 0.10562411,
+      "pricePerSqft": 349.16,
+      "daysToClose": null,
+      "address": "6952 E CICADA CT",
+      "longitude": -110.84415248,
+      "latitude": 32.31900875,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260220196:220203990",
+      "communityId": "pima-canyon",
+      "sequenceId": "20260220196",
+      "parcelId": "220203990",
+      "recordingDate": "2026-01-22",
+      "saleMonth": "2025-11",
+      "saleDatePrecision": "month",
+      "salePrice": 2225000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 4851,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 45921.42452687,
+      "lotSizeAcres": 1.05421085,
+      "pricePerSqft": 458.67,
+      "daysToClose": null,
+      "address": "7569 N MYSTIC CANYON DR",
+      "longitude": -110.9451413,
+      "latitude": 32.34284027,
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "boundaryVersion": "pima-canyon-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260270314:220202850",
+      "communityId": "pima-canyon",
+      "sequenceId": "20260270314",
+      "parcelId": "220202850",
+      "recordingDate": "2026-01-27",
+      "saleMonth": "2026-01",
+      "saleDatePrecision": "month",
+      "salePrice": 2400000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 5596,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 52190.28462692,
+      "lotSizeAcres": 1.19812407,
+      "pricePerSqft": 428.88,
+      "daysToClose": null,
+      "address": "1734 E SANCTUARY COVE WY",
+      "longitude": -110.94591389,
+      "latitude": 32.34739804,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "pima-canyon-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260280490:10901169B",
+      "communityId": "finisterra",
+      "sequenceId": "20260280490",
+      "parcelId": "10901169B",
+      "recordingDate": "2026-01-28",
+      "saleMonth": "2026-01",
+      "saleDatePrecision": "month",
+      "salePrice": 503026,
+      "propertyType": "Vacant Land",
+      "intendedUse": "Unknown",
+      "residentialScope": false,
+      "assessorSqft": null,
+      "sqftTaxYear": null,
+      "lotSizeSqft": 44706.79184307,
+      "lotSizeAcres": 1.02632672,
+      "pricePerSqft": null,
+      "daysToClose": null,
+      "address": null,
+      "longitude": -110.86142822,
+      "latitude": 32.33254342,
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "boundaryVersion": "finisterra-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260330166:114045020",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20260330166",
+      "parcelId": "114045020",
+      "recordingDate": "2026-02-02",
+      "saleMonth": "2025-12",
+      "saleDatePrecision": "month",
+      "salePrice": 865000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 2204,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 5546.21395553,
+      "lotSizeAcres": 0.12732355,
+      "pricePerSqft": 392.47,
+      "daysToClose": null,
+      "address": "5955 N GOLDEN EAGLE DR",
+      "longitude": -110.84216839,
+      "latitude": 32.31524871,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260400303:114034030",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20260400303",
+      "parcelId": "114034030",
+      "recordingDate": "2026-02-09",
+      "saleMonth": "2025-12",
+      "saleDatePrecision": "month",
+      "salePrice": 1450000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 3254,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 9282.47191094,
+      "lotSizeAcres": 0.21309623,
+      "pricePerSqft": 445.61,
+      "daysToClose": null,
+      "address": "6404 N DESERT WIND CI",
+      "longitude": -110.84346147,
+      "latitude": 32.32548295,
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260440530:220200870",
+      "communityId": "pima-canyon",
+      "sequenceId": "20260440530",
+      "parcelId": "220200870",
+      "recordingDate": "2026-02-13",
+      "saleMonth": "2026-01",
+      "saleDatePrecision": "month",
+      "salePrice": 2280000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 4548,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 42189.92178999,
+      "lotSizeAcres": 0.96854733,
+      "pricePerSqft": 501.32,
+      "daysToClose": null,
+      "address": "1844 E QUIET CANYON DR",
+      "longitude": -110.94390847,
+      "latitude": 32.33979708,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "pima-canyon-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260480350:109012090",
+      "communityId": "finisterra",
+      "sequenceId": "20260480350",
+      "parcelId": "109012090",
+      "recordingDate": "2026-02-17",
+      "saleMonth": "2025-12",
+      "saleDatePrecision": "month",
+      "salePrice": 1500000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 6240,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 94928.13747841,
+      "lotSizeAcres": 2.17925017,
+      "pricePerSqft": 240.38,
+      "daysToClose": null,
+      "address": "6841 N LA PLACE",
+      "longitude": -110.86855267,
+      "latitude": 32.33033936,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "finisterra-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260480528:109012980",
+      "communityId": "finisterra",
+      "sequenceId": "20260480528",
+      "parcelId": "109012980",
+      "recordingDate": "2026-02-17",
+      "saleMonth": "2026-01",
+      "saleDatePrecision": "month",
+      "salePrice": 890643,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 2843,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 5625.00074094,
+      "lotSizeAcres": 0.12913225,
+      "pricePerSqft": null,
+      "daysToClose": null,
+      "address": "5640 E PASEO DE MANZANILLO",
+      "longitude": -110.87212748,
+      "latitude": 32.32931322,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "finisterra-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260480528:10901299B",
+      "communityId": "finisterra",
+      "sequenceId": "20260480528",
+      "parcelId": "10901299B",
+      "recordingDate": "2026-02-17",
+      "saleMonth": "2026-01",
+      "saleDatePrecision": "month",
+      "salePrice": 890643,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": null,
+      "sqftTaxYear": null,
+      "lotSizeSqft": 689.33853123,
+      "lotSizeAcres": 0.01582504,
+      "pricePerSqft": null,
+      "daysToClose": null,
+      "address": null,
+      "longitude": -110.87204022,
+      "latitude": 32.32936393,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "finisterra-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260500164:114045340",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20260500164",
+      "parcelId": "114045340",
+      "recordingDate": "2026-02-19",
+      "saleMonth": "2026-02",
+      "saleDatePrecision": "month",
+      "salePrice": 660000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 1943,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 5223.57024681,
+      "lotSizeAcres": 0.11991667,
+      "pricePerSqft": 339.68,
+      "daysToClose": null,
+      "address": "5914 N GOLDEN EAGLE DR",
+      "longitude": -110.84122026,
+      "latitude": 32.31479714,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260580273:114055070",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20260580273",
+      "parcelId": "114055070",
+      "recordingDate": "2026-02-27",
+      "saleMonth": "2026-01",
+      "saleDatePrecision": "month",
+      "salePrice": 1150000,
+      "propertyType": "Single Family",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "assessorSqft": 2794,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 10961.90389139,
+      "lotSizeAcres": 0.25165069,
+      "pricePerSqft": 411.6,
+      "daysToClose": null,
+      "address": "6361 N CALLE NOCHE SERENA",
+      "longitude": -110.83655308,
+      "latitude": 32.32275862,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260580315:220202900",
+      "communityId": "pima-canyon",
+      "sequenceId": "20260580315",
+      "parcelId": "220202900",
+      "recordingDate": "2026-02-27",
+      "saleMonth": "2025-11",
+      "saleDatePrecision": "month",
+      "salePrice": 2400000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 5635,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 54039.37851799,
+      "lotSizeAcres": 1.24057343,
+      "pricePerSqft": 425.91,
+      "daysToClose": null,
+      "address": "1583 E SANCTUARY COVE WY",
+      "longitude": -110.94881213,
+      "latitude": 32.34635205,
+      "qualityTier": "X",
+      "qualityReasons": [
+        "personal_property",
+        "validation:personal_property"
+      ],
+      "boundaryVersion": "pima-canyon-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260640536:114034070",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20260640536",
+      "parcelId": "114034070",
+      "recordingDate": "2026-03-05",
+      "saleMonth": "2026-01",
+      "saleDatePrecision": "month",
+      "salePrice": 395000,
+      "propertyType": "Vacant Land",
+      "intendedUse": "Unknown",
+      "residentialScope": false,
+      "assessorSqft": null,
+      "sqftTaxYear": null,
+      "lotSizeSqft": 46920.7227948,
+      "lotSizeAcres": 1.07715158,
+      "pricePerSqft": null,
+      "daysToClose": null,
+      "address": "6412 N DESERT WIND CI",
+      "longitude": -110.84387976,
+      "latitude": 32.32657838,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260690288:109011950",
+      "communityId": "finisterra",
+      "sequenceId": "20260690288",
+      "parcelId": "109011950",
+      "recordingDate": "2026-03-10",
+      "saleMonth": "2026-02",
+      "saleDatePrecision": "month",
+      "salePrice": 1325000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 4708,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 46372.45273233,
+      "lotSizeAcres": 1.06456503,
+      "pricePerSqft": 281.44,
+      "daysToClose": null,
+      "address": "5971 E TERRA GRANDE",
+      "longitude": -110.86477236,
+      "latitude": 32.33144284,
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "boundaryVersion": "finisterra-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260690441:114040970",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20260690441",
+      "parcelId": "114040970",
+      "recordingDate": "2026-03-10",
+      "saleMonth": "2026-02",
+      "saleDatePrecision": "month",
+      "salePrice": 490000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "assessorSqft": 1214,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 3348.48115496,
+      "lotSizeAcres": 0.07687055,
+      "pricePerSqft": 403.62,
+      "daysToClose": null,
+      "address": "6079 N GOLDEN EAGLE DR",
+      "longitude": -110.84379374,
+      "latitude": 32.31754196,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260720129:114045630",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20260720129",
+      "parcelId": "114045630",
+      "recordingDate": "2026-03-13",
+      "saleMonth": "2026-02",
+      "saleDatePrecision": "month",
+      "salePrice": 825000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 2171,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 5421.35220564,
+      "lotSizeAcres": 0.12445712,
+      "pricePerSqft": 380.01,
+      "daysToClose": null,
+      "address": "6015 N COATIMUNDI DR",
+      "longitude": -110.84156164,
+      "latitude": 32.3163613,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260770359:220203470",
+      "communityId": "pima-canyon",
+      "sequenceId": "20260770359",
+      "parcelId": "220203470",
+      "recordingDate": "2026-03-18",
+      "saleMonth": "2026-02",
+      "saleDatePrecision": "month",
+      "salePrice": 3225000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 5667,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 53439.51845196,
+      "lotSizeAcres": 1.22680254,
+      "pricePerSqft": 569.08,
+      "daysToClose": null,
+      "address": "2143 E DESERT GARDEN DR",
+      "longitude": -110.945588,
+      "latitude": 32.35094614,
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "boundaryVersion": "pima-canyon-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260770503:114030540",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20260770503",
+      "parcelId": "114030540",
+      "recordingDate": "2026-03-18",
+      "saleMonth": "2026-01",
+      "saleDatePrecision": "month",
+      "salePrice": 2050000,
+      "propertyType": "Single Family",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "assessorSqft": 4710,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 16962.54639618,
+      "lotSizeAcres": 0.38940648,
+      "pricePerSqft": 435.24,
+      "daysToClose": null,
+      "address": "6475 N VENTANA CANYON DR",
+      "longitude": -110.83858663,
+      "latitude": 32.32479251,
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260790377:220200790",
+      "communityId": "pima-canyon",
+      "sequenceId": "20260790377",
+      "parcelId": "220200790",
+      "recordingDate": "2026-03-20",
+      "saleMonth": "2026-03",
+      "saleDatePrecision": "month",
+      "salePrice": 1655000,
+      "propertyType": "Single Family",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "assessorSqft": 3680,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 36423.02425898,
+      "lotSizeAcres": 0.83615758,
+      "pricePerSqft": 449.73,
+      "daysToClose": null,
+      "address": "1933 E QUIET CANYON DR",
+      "longitude": -110.94344015,
+      "latitude": 32.33906516,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "pima-canyon-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260890520:114031600",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20260890520",
+      "parcelId": "114031600",
+      "recordingDate": "2026-03-30",
+      "saleMonth": "2026-03",
+      "saleDatePrecision": "month",
+      "salePrice": 1325000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 4090,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 19174.27255361,
+      "lotSizeAcres": 0.44018073,
+      "pricePerSqft": 323.96,
+      "daysToClose": null,
+      "address": "7185 E DESERT MOON LP",
+      "longitude": -110.83930603,
+      "latitude": 32.3183752,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260900121:114045440",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20260900121",
+      "parcelId": "114045440",
+      "recordingDate": "2026-03-31",
+      "saleMonth": "2026-03",
+      "saleDatePrecision": "month",
+      "salePrice": 900000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 2171,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 4765.0055211,
+      "lotSizeAcres": 0.10938947,
+      "pricePerSqft": 414.56,
+      "daysToClose": null,
+      "address": "6020 N COATIMUNDI DR",
+      "longitude": -110.84118636,
+      "latitude": 32.31646318,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260900160:114031740",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20260900160",
+      "parcelId": "114031740",
+      "recordingDate": "2026-03-31",
+      "saleMonth": "2026-03",
+      "saleDatePrecision": "month",
+      "salePrice": 2500000,
+      "propertyType": "Single Family",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "assessorSqft": 5239,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 39607.31860811,
+      "lotSizeAcres": 0.90925892,
+      "pricePerSqft": 477.19,
+      "daysToClose": null,
+      "address": "6030 N DESERT SUN CT",
+      "longitude": -110.83725171,
+      "latitude": 32.31640936,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260900167:220203610",
+      "communityId": "pima-canyon",
+      "sequenceId": "20260900167",
+      "parcelId": "220203610",
+      "recordingDate": "2026-03-31",
+      "saleMonth": "2026-03",
+      "saleDatePrecision": "month",
+      "salePrice": 4500000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 6498,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 163478.84092919,
+      "lotSizeAcres": 3.75295778,
+      "pricePerSqft": 692.52,
+      "daysToClose": null,
+      "address": "2126 E DESERT GARDEN DR",
+      "longitude": -110.9440664,
+      "latitude": 32.35239721,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "pima-canyon-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260900182:114054070",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20260900182",
+      "parcelId": "114054070",
+      "recordingDate": "2026-03-31",
+      "saleMonth": "2026-03",
+      "saleDatePrecision": "month",
+      "salePrice": 926000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "assessorSqft": 2270,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 5737.8219141,
+      "lotSizeAcres": 0.13172227,
+      "pricePerSqft": 407.93,
+      "daysToClose": null,
+      "address": "7201 E GREY FOX LN",
+      "longitude": -110.8386668,
+      "latitude": 32.32299357,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260920138:11403062B",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20260920138",
+      "parcelId": "11403062B",
+      "recordingDate": "2026-04-02",
+      "saleMonth": "2026-02",
+      "saleDatePrecision": "month",
+      "salePrice": 2350000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 3532,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 44218.82577169,
+      "lotSizeAcres": 1.01512456,
+      "pricePerSqft": 665.35,
+      "daysToClose": null,
+      "address": "6512 N VENTANA CANYON DR",
+      "longitude": -110.84048236,
+      "latitude": 32.32608875,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20260990547:114034180",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20260990547",
+      "parcelId": "114034180",
+      "recordingDate": "2026-04-09",
+      "saleMonth": "2026-02",
+      "saleDatePrecision": "month",
+      "salePrice": 1349500,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 3698,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 22243.47102965,
+      "lotSizeAcres": 0.51063983,
+      "pricePerSqft": 364.93,
+      "daysToClose": null,
+      "address": "6872 E DESERT WIND CT",
+      "longitude": -110.84574815,
+      "latitude": 32.32507291,
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20261040230:114030660",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20261040230",
+      "parcelId": "114030660",
+      "recordingDate": "2026-04-14",
+      "saleMonth": "2026-03",
+      "saleDatePrecision": "month",
+      "salePrice": 2700000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 4930,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 47829.6981394,
+      "lotSizeAcres": 1.09801878,
+      "pricePerSqft": 547.67,
+      "daysToClose": null,
+      "address": "6482 N VENTANA CANYON DR",
+      "longitude": -110.83885752,
+      "latitude": 32.325647,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20261100354:114031800",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20261100354",
+      "parcelId": "114031800",
+      "recordingDate": "2026-04-20",
+      "saleMonth": "2026-04",
+      "saleDatePrecision": "month",
+      "salePrice": 1375000,
+      "propertyType": "Single Family",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "assessorSqft": 3428,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 23796.49749929,
+      "lotSizeAcres": 0.54629241,
+      "pricePerSqft": 401.11,
+      "daysToClose": null,
+      "address": "7221 E DESERT MOON LP",
+      "longitude": -110.83847135,
+      "latitude": 32.31760856,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20261110152:11403116A",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20261110152",
+      "parcelId": "11403116A",
+      "recordingDate": "2026-04-21",
+      "saleMonth": "2026-04",
+      "saleDatePrecision": "month",
+      "salePrice": 3900000,
+      "propertyType": "Single Family",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "assessorSqft": 4439,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 38026.1999627,
+      "lotSizeAcres": 0.87296143,
+      "pricePerSqft": null,
+      "daysToClose": null,
+      "address": "6830 N HOLE IN THE WALL WY",
+      "longitude": -110.84709321,
+      "latitude": 32.33072473,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20261110152:11403117A",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20261110152",
+      "parcelId": "11403117A",
+      "recordingDate": "2026-04-21",
+      "saleMonth": "2026-04",
+      "saleDatePrecision": "month",
+      "salePrice": 3900000,
+      "propertyType": "Single Family",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "assessorSqft": null,
+      "sqftTaxYear": null,
+      "lotSizeSqft": 73956.58807666,
+      "lotSizeAcres": 1.69780964,
+      "pricePerSqft": null,
+      "daysToClose": null,
+      "address": "6801 N HOLE IN THE WALL WY",
+      "longitude": -110.84688359,
+      "latitude": 32.33022241,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20261130116:220200620",
+      "communityId": "pima-canyon",
+      "sequenceId": "20261130116",
+      "parcelId": "220200620",
+      "recordingDate": "2026-04-23",
+      "saleMonth": "2026-03",
+      "saleDatePrecision": "month",
+      "salePrice": 1300000,
+      "propertyType": "Single Family",
+      "intendedUse": "Rental",
+      "residentialScope": true,
+      "assessorSqft": 3116,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 41779.06823203,
+      "lotSizeAcres": 0.95911543,
+      "pricePerSqft": 417.2,
+      "daysToClose": null,
+      "address": "7387 N MYSTIC CANYON DR",
+      "longitude": -110.94106893,
+      "latitude": 32.34047219,
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "boundaryVersion": "pima-canyon-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20261130136:114030280",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20261130136",
+      "parcelId": "114030280",
+      "recordingDate": "2026-04-23",
+      "saleMonth": "2026-03",
+      "saleDatePrecision": "month",
+      "salePrice": 1510000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 3503,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 21444.9455272,
+      "lotSizeAcres": 0.49230821,
+      "pricePerSqft": 431.06,
+      "daysToClose": null,
+      "address": "6438 N DESERT WIND CI",
+      "longitude": -110.84655219,
+      "latitude": 32.32409307,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20261210106:114031890",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20261210106",
+      "parcelId": "114031890",
+      "recordingDate": "2026-05-01",
+      "saleMonth": "2026-05",
+      "saleDatePrecision": "month",
+      "salePrice": 1675000,
+      "propertyType": "Single Family",
+      "intendedUse": "Rental",
+      "residentialScope": true,
+      "assessorSqft": 3976,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 31204.35055872,
+      "lotSizeAcres": 0.71635332,
+      "pricePerSqft": 421.28,
+      "daysToClose": null,
+      "address": "7250 E VENTANA CANYON DR",
+      "longitude": -110.83772534,
+      "latitude": 32.32005533,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20261270486:220202960",
+      "communityId": "pima-canyon",
+      "sequenceId": "20261270486",
+      "parcelId": "220202960",
+      "recordingDate": "2026-05-07",
+      "saleMonth": "2026-05",
+      "saleDatePrecision": "month",
+      "salePrice": 3400000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 2955,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 59606.20713185,
+      "lotSizeAcres": 1.36837023,
+      "pricePerSqft": 1150.59,
+      "daysToClose": null,
+      "address": "1704 E SANCTUARY COVE WY",
+      "longitude": -110.94678737,
+      "latitude": 32.34613096,
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "boundaryVersion": "pima-canyon-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20261460278:114045280",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20261460278",
+      "parcelId": "114045280",
+      "recordingDate": "2026-05-26",
+      "saleMonth": "2026-05",
+      "saleDatePrecision": "month",
+      "salePrice": 912500,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "assessorSqft": 2204,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 7779.95283208,
+      "lotSizeAcres": 0.17860314,
+      "pricePerSqft": 414.02,
+      "daysToClose": null,
+      "address": "5866 N GOLDEN EAGLE DR",
+      "longitude": -110.84155926,
+      "latitude": 32.31374554,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20261540216:114046570",
+      "communityId": "ventana-canyon",
+      "sequenceId": "20261540216",
+      "parcelId": "114046570",
+      "recordingDate": "2026-06-03",
+      "saleMonth": "2026-06",
+      "saleDatePrecision": "month",
+      "salePrice": 570000,
+      "propertyType": "Condo/Townhouse",
+      "intendedUse": "NonPrimary",
+      "residentialScope": true,
+      "assessorSqft": 1644,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 3277.73910114,
+      "lotSizeAcres": 0.07524654,
+      "pricePerSqft": 346.72,
+      "daysToClose": null,
+      "address": "6082 N RUNNING DEER CI",
+      "longitude": -110.84865547,
+      "latitude": 32.31794849,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "ventana-main-kolb-gate-v1",
+      "membershipMethod": "centroid",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20261600513:220201580",
+      "communityId": "pima-canyon",
+      "sequenceId": "20261600513",
+      "parcelId": "220201580",
+      "recordingDate": "2026-06-09",
+      "saleMonth": "2026-05",
+      "saleDatePrecision": "month",
+      "salePrice": 1950000,
+      "propertyType": "Single Family",
+      "intendedUse": "Rental",
+      "residentialScope": true,
+      "assessorSqft": 4243,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 48939.81436262,
+      "lotSizeAcres": 1.12350354,
+      "pricePerSqft": 459.58,
+      "daysToClose": null,
+      "address": "1887 E DESERT GARDEN DR",
+      "longitude": -110.94485266,
+      "latitude": 32.3467052,
+      "qualityTier": "A",
+      "qualityReasons": [
+        "county_good_sale"
+      ],
+      "boundaryVersion": "pima-canyon-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    },
+    {
+      "id": "20261660214:220201500",
+      "communityId": "pima-canyon",
+      "sequenceId": "20261660214",
+      "parcelId": "220201500",
+      "recordingDate": "2026-06-15",
+      "saleMonth": "2026-05",
+      "saleDatePrecision": "month",
+      "salePrice": 2125000,
+      "propertyType": "Single Family",
+      "intendedUse": "PrimaryRes",
+      "residentialScope": true,
+      "assessorSqft": 4427,
+      "sqftTaxYear": 2027,
+      "lotSizeSqft": 43033.42475501,
+      "lotSizeAcres": 0.9879115,
+      "pricePerSqft": 480.01,
+      "daysToClose": null,
+      "address": "2004 E DESERT GARDEN DR",
+      "longitude": -110.94229627,
+      "latitude": 32.34712587,
+      "qualityTier": "B",
+      "qualityReasons": [
+        "numeric_sale_requires_review"
+      ],
+      "boundaryVersion": "pima-canyon-plats-v1",
+      "membershipMethod": "plat",
+      "membershipReviewStatus": "approved"
+    }
+  ]
+}
