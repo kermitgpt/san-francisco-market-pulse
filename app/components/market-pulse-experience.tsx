@@ -3,60 +3,35 @@
 import type { CSSProperties } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type {
-  CircleLayerSpecification,
   FillLayerSpecification,
-  FilterSpecification,
+  GeoJSONSource,
   LineLayerSpecification,
-  LngLatBoundsLike,
   Map as MapLibreMap,
+  MapGeoJSONFeature,
+  SymbolLayerSpecification,
 } from "maplibre-gl";
-import type { FeatureCollection, Geometry, Point } from "geojson";
-import type { CommunitySummary, MarketPulseDataset, RecordedSale } from "@/src/types";
+import type { FeatureCollection, Geometry } from "geojson";
+import type {
+  MarketPulseDataset,
+  NeighborhoodBoundaries,
+  NeighborhoodBoundaryProperties,
+} from "@/src/types";
 import { PulseChart } from "./pulse-chart";
-
-type CommunityId = "pima-canyon" | "finisterra" | "ventana-canyon";
-
-interface SalePointProperties {
-  id: string;
-  communityId: CommunityId;
-  sequenceId: string;
-  parcelId: string;
-  recordingDate: string;
-  salePrice: number;
-  propertyType: string;
-  pricePerSqft: number | null;
-  lotSizeSqft: number | null;
-  qualityTier: "A" | "B";
-  recordingEpoch?: number;
-}
-
-interface ParcelMapProperties {
-  parcelId: string;
-  communityId: CommunityId;
-  membershipReviewStatus: "approved" | "needs_review";
-}
-
-interface CommunityBoundaryProperties {
-  communityId: CommunityId;
-  boundaryVersion: string;
-  platId: string;
-  subdivisionName: string | null;
-}
 
 interface ExperienceData {
   dataset: MarketPulseDataset;
-  salePoints: FeatureCollection<Point, SalePointProperties>;
-  communityBoundaries: FeatureCollection<Geometry, CommunityBoundaryProperties>;
-  parcels: FeatureCollection<Geometry, ParcelMapProperties>;
+  boundaries: NeighborhoodBoundaries;
+}
+
+interface DisplayBoundaryProperties extends NeighborhoodBoundaryProperties {
+  pulseChange: number;
+  typicalValue: number;
 }
 
 const MAP_STYLE = "https://tiles.openfreemap.org/styles/positron";
-const DEFAULT_COMMUNITY: CommunityId = "ventana-canyon";
-const COMMUNITY_ACCENTS: Record<CommunityId, string> = {
-  "pima-canyon": "#60796d",
-  finisterra: "#8b6d58",
-  "ventana-canyon": "#aa7740",
-};
+const DEFAULT_NEIGHBORHOOD = "pacific-heights";
+const GOLD = "#c9a064";
+const DATA_BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export function MarketPulseExperience() {
   const mapContainerRef = useRef<HTMLDivElement>(null);
@@ -64,9 +39,8 @@ export function MarketPulseExperience() {
   const [data, setData] = useState<ExperienceData | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [mapReady, setMapReady] = useState(false);
-  const [selectedCommunity, setSelectedCommunity] = useState<CommunityId>(DEFAULT_COMMUNITY);
-  const [monthOffset, setMonthOffset] = useState(12);
-  const [selectedSaleId, setSelectedSaleId] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState(DEFAULT_NEIGHBORHOOD);
+  const [monthIndex, setMonthIndex] = useState(35);
   const [isPlaying, setIsPlaying] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
 
@@ -74,36 +48,22 @@ export function MarketPulseExperience() {
     const controller = new AbortController();
     async function loadData() {
       try {
-        const [datasetResponse, salesResponse, boundariesResponse, parcelsResponse] =
-          await Promise.all([
-            fetch("/data/market-pulse.json", { signal: controller.signal }),
-            fetch("/data/recorded-sales.geojson", { signal: controller.signal }),
-            fetch("/data/community-boundaries.geojson", { signal: controller.signal }),
-            fetch("/data/pilot-parcels.geojson", { signal: controller.signal }),
-          ]);
-        const responses = [
-          datasetResponse,
-          salesResponse,
-          boundariesResponse,
-          parcelsResponse,
-        ];
-        if (responses.some((response) => !response.ok)) {
-          throw new Error("One or more published data files could not be loaded.");
-        }
-        const [dataset, salePoints, communityBoundaries, parcels] = await Promise.all([
-          datasetResponse.json() as Promise<MarketPulseDataset>,
-          salesResponse.json() as Promise<FeatureCollection<Point, SalePointProperties>>,
-          boundariesResponse.json() as Promise<
-            FeatureCollection<Geometry, CommunityBoundaryProperties>
-          >,
-          parcelsResponse.json() as Promise<FeatureCollection<Geometry, ParcelMapProperties>>,
+        const [datasetResponse, boundariesResponse] = await Promise.all([
+          fetch(`${DATA_BASE}/data/sf-market-pulse.json`, { signal: controller.signal }),
+          fetch(`${DATA_BASE}/data/sf-neighborhoods.geojson`, { signal: controller.signal }),
         ]);
-        setData({ dataset, salePoints, communityBoundaries, parcels });
-        const initial = dataset.communities.find((community) => community.id === DEFAULT_COMMUNITY);
-        if (initial) setMonthOffset(initial.analysisWindowMonths);
+        if (!datasetResponse.ok || !boundariesResponse.ok) {
+          throw new Error("The published neighborhood data could not be loaded.");
+        }
+        const [dataset, boundaries] = await Promise.all([
+          datasetResponse.json() as Promise<MarketPulseDataset>,
+          boundariesResponse.json() as Promise<NeighborhoodBoundaries>,
+        ]);
+        setData({ dataset, boundaries });
+        setMonthIndex(dataset.displayMonths - 1);
       } catch (error) {
         if ((error as Error).name !== "AbortError") {
-          setLoadError(error instanceof Error ? error.message : "The map data could not be loaded.");
+          setLoadError(error instanceof Error ? error.message : "The map could not be loaded.");
         }
       }
     }
@@ -122,92 +82,67 @@ export function MarketPulseExperience() {
     return () => media.removeEventListener("change", update);
   }, []);
 
-  const activeCommunity = useMemo(
-    () => data?.dataset.communities.find((community) => community.id === selectedCommunity) ?? null,
-    [data, selectedCommunity],
+  const selected = useMemo(
+    () => data?.dataset.neighborhoods.find((item) => item.id === selectedId) ?? null,
+    [data, selectedId],
   );
-  const visibleThrough = activeCommunity
-    ? dateAtOffset(
-        activeCommunity.analysisWindowStartDate,
-        monthOffset,
-        activeCommunity.analysisWindowMonths,
-        activeCommunity.analysisWindowEndDate,
-      )
-    : "";
-
-  const selectedSale = useMemo(
-    () => data?.dataset.sales.find((sale) => sale.id === selectedSaleId) ?? null,
-    [data, selectedSaleId],
+  const displayHistory = useMemo(
+    () => selected?.history.slice(-Math.min(data?.dataset.displayMonths ?? 36, selected.history.length)) ?? [],
+    [data, selected],
   );
+  const activePoint = displayHistory[monthIndex] ?? displayHistory.at(-1) ?? null;
+  const activeHistoryIndex = selected && activePoint
+    ? selected.history.findIndex((point) => point.date === activePoint.date)
+    : -1;
+  const prior12 = selected && activeHistoryIndex >= 12
+    ? selected.history[activeHistoryIndex - 12]
+    : null;
+  const windowStart = displayHistory[0] ?? null;
+  const trailing12Change = activePoint && prior12
+    ? calculateChange(activePoint.value, prior12.value)
+    : null;
+  const windowChange = activePoint && windowStart
+    ? calculateChange(activePoint.value, windowStart.value)
+    : null;
 
-  const eligibleCommunitySales = useMemo(() => {
-    if (!data || !activeCommunity) return [];
-    return uniqueTransactions(
-      data.dataset.sales.filter(
-        (sale) =>
-          sale.communityId === selectedCommunity &&
-          isMarketEligible(sale) &&
-          sale.recordingDate >= activeCommunity.analysisWindowStartDate &&
-          sale.recordingDate <= visibleThrough,
-      ),
-    );
-  }, [activeCommunity, data, selectedCommunity, visibleThrough]);
-
-  const selectCommunity = useCallback(
-    (communityId: CommunityId) => {
-      if (!data) return;
-      const community = data.dataset.communities.find((candidate) => candidate.id === communityId);
-      if (!community) return;
-      setSelectedCommunity(communityId);
-      setMonthOffset(community.analysisWindowMonths);
-      setSelectedSaleId(null);
-      setIsPlaying(false);
+  const selectNeighborhood = useCallback(
+    (id: string, focusMap = true) => {
+      if (!data?.dataset.neighborhoods.some((item) => item.id === id)) return;
+      setSelectedId(id);
+      if (focusMap && mapRef.current) {
+        const feature = data.boundaries.features.find((item) => item.properties.dataId === id);
+        if (feature) focusFeature(mapRef.current, feature.geometry, reducedMotion);
+      }
     },
-    [data],
+    [data, reducedMotion],
   );
 
   useEffect(() => {
     if (!data || !mapContainerRef.current || mapRef.current) return;
-    const loadedData = data;
-    const mapContainer = mapContainerRef.current;
+    const loaded = data;
     let disposed = false;
     let map: MapLibreMap | null = null;
 
     async function initializeMap() {
       const maplibregl = await import("maplibre-gl");
       if (disposed || !mapContainerRef.current) return;
-
-      const salePoints: FeatureCollection<Point, SalePointProperties> = {
-        ...loadedData.salePoints,
-        features: loadedData.salePoints.features.map((feature) => ({
-          ...feature,
-          properties: {
-            ...feature.properties,
-            recordingEpoch: Date.parse(`${feature.properties.recordingDate}T00:00:00Z`),
-          },
-        })),
-      };
-
       map = new maplibregl.Map({
-        container: mapContainer,
+        container: mapContainerRef.current,
         style: MAP_STYLE,
-        center: [-110.91, 32.33],
-        zoom: 12.2,
-        pitch: 47,
-        bearing: -16,
-        maxPitch: 65,
+        center: [-122.447, 37.772],
+        zoom: 11.35,
+        pitch: 43,
+        bearing: -17,
+        maxPitch: 62,
         canvasContextAttributes: { antialias: true },
         attributionControl: false,
       });
       mapRef.current = map;
-      map.addControl(
-        new maplibregl.NavigationControl({ showCompass: true, visualizePitch: true }),
-        "top-right",
-      );
+      map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), "top-right");
       map.addControl(
         new maplibregl.AttributionControl({
           compact: true,
-          customAttribution: "Recorded sales: Pima County public records",
+          customAttribution: "Boundaries: DataSF · Values: Zillow Research",
         }),
         "bottom-right",
       );
@@ -216,153 +151,96 @@ export function MarketPulseExperience() {
         if (!map || disposed) return;
         map.getCanvas().setAttribute(
           "aria-label",
-          "Interactive map of recorded home sales in Catalina Foothills micro-markets",
+          "Interactive map of typical home values across featured San Francisco neighborhoods",
         );
-        map.addSource("community-boundaries", {
-          type: "geojson",
-          data: loadedData.communityBoundaries,
-        });
-        map.addSource("pilot-parcels", { type: "geojson", data: loadedData.parcels });
-        map.addSource("recorded-sales", { type: "geojson", data: salePoints });
-
+        const initialBoundaries = decorateBoundaries(
+          loaded.boundaries,
+          loaded.dataset,
+          loaded.dataset.displayMonths - 1,
+        );
+        map.addSource("sf-neighborhoods", { type: "geojson", data: initialBoundaries });
         map.addLayer({
-          id: "community-wash",
+          id: "analysis-neighborhood-wash",
           type: "fill",
-          source: "community-boundaries",
-          paint: { "fill-color": communityColorExpression(), "fill-opacity": 0.035 },
+          source: "sf-neighborhoods",
+          paint: { "fill-color": "#293733", "fill-opacity": 0.035 },
         } as FillLayerSpecification);
         map.addLayer({
-          id: "community-selected",
+          id: "featured-neighborhood-pulse",
           type: "fill",
-          source: "community-boundaries",
-          filter: ["==", ["get", "communityId"], DEFAULT_COMMUNITY],
-          paint: { "fill-color": COMMUNITY_ACCENTS[DEFAULT_COMMUNITY], "fill-opacity": 0.12 },
-        } as FillLayerSpecification);
-        map.addLayer({
-          id: "community-outline",
-          type: "line",
-          source: "community-boundaries",
+          source: "sf-neighborhoods",
+          filter: ["==", ["get", "featured"], true],
           paint: {
-            "line-color": communityColorExpression(),
-            "line-width": 1.3,
-            "line-opacity": 0.58,
-          },
-        } as LineLayerSpecification);
-        map.addLayer({
-          id: "parcel-selected-fill",
-          type: "fill",
-          source: "pilot-parcels",
-          filter: ["==", ["get", "communityId"], DEFAULT_COMMUNITY],
-          paint: { "fill-color": COMMUNITY_ACCENTS[DEFAULT_COMMUNITY], "fill-opacity": 0.045 },
-        } as FillLayerSpecification);
-        map.addLayer({
-          id: "parcel-lines",
-          type: "line",
-          source: "pilot-parcels",
-          paint: { "line-color": "#4e5b55", "line-width": 0.55, "line-opacity": 0.28 },
-        } as LineLayerSpecification);
-        map.addLayer({
-          id: "parcel-selected-lines",
-          type: "line",
-          source: "pilot-parcels",
-          filter: ["==", ["get", "communityId"], DEFAULT_COMMUNITY],
-          paint: {
-            "line-color": COMMUNITY_ACCENTS[DEFAULT_COMMUNITY],
-            "line-width": 0.9,
-            "line-opacity": 0.68,
-          },
-        } as LineLayerSpecification);
-        map.addLayer({
-          id: "parcel-review-lines",
-          type: "line",
-          source: "pilot-parcels",
-          filter: ["==", ["get", "membershipReviewStatus"], "needs_review"],
-          paint: {
-            "line-color": "#8d3b32",
-            "line-width": 1.4,
-            "line-opacity": 0.7,
-            "line-dasharray": [2, 1.5],
-          },
-        } as LineLayerSpecification);
-        map.addLayer({
-          id: "sales-glow",
-          type: "circle",
-          source: "recorded-sales",
-          paint: {
-            "circle-color": "#b77935",
-            "circle-radius": ["interpolate", ["linear"], ["zoom"], 10, 8, 14, 18],
-            "circle-blur": 0.82,
-            "circle-opacity": 0.34,
-          },
-        } as CircleLayerSpecification);
-        map.addLayer({
-          id: "sales-core",
-          type: "circle",
-          source: "recorded-sales",
-          paint: {
-            "circle-color": [
-              "step",
-              ["get", "salePrice"],
-              "#d9bd8b",
-              1_000_000,
-              "#b47b3d",
-              2_000_000,
-              "#774820",
-            ],
-            "circle-radius": [
+            "fill-color": [
               "interpolate",
               ["linear"],
-              ["get", "salePrice"],
-              400_000,
-              3.4,
-              2_000_000,
-              5.8,
-              5_000_000,
-              8,
+              ["get", "pulseChange"],
+              -15,
+              "#526f70",
+              0,
+              "#9a8d77",
+              10,
+              "#c49b5d",
+              25,
+              "#efd096",
             ],
-            "circle-stroke-color": "#fffaf0",
-            "circle-stroke-width": 1,
-            "circle-opacity": 0.94,
+            "fill-opacity": [
+              "interpolate",
+              ["linear"],
+              ["abs", ["get", "pulseChange"]],
+              0,
+              0.16,
+              20,
+              0.52,
+            ],
           },
-        } as CircleLayerSpecification);
+        } as FillLayerSpecification);
         map.addLayer({
-          id: "sales-current-period",
-          type: "circle",
-          source: "recorded-sales",
-          paint: {
-            "circle-color": "#f2d7a6",
-            "circle-radius": ["interpolate", ["linear"], ["zoom"], 10, 8, 14, 14],
-            "circle-blur": 0.45,
-            "circle-opacity": 0.62,
-            "circle-stroke-color": "#9b632e",
-            "circle-stroke-width": 1.2,
-          },
-        } as CircleLayerSpecification);
+          id: "analysis-neighborhood-lines",
+          type: "line",
+          source: "sf-neighborhoods",
+          paint: { "line-color": "#52615c", "line-width": 0.65, "line-opacity": 0.42 },
+        } as LineLayerSpecification);
         map.addLayer({
-          id: "sales-selected",
-          type: "circle",
-          source: "recorded-sales",
-          filter: ["==", ["get", "id"], "__none__"],
-          paint: {
-            "circle-color": "#fff7e7",
-            "circle-radius": 9,
-            "circle-stroke-color": "#6f431e",
-            "circle-stroke-width": 2.4,
+          id: "selected-neighborhood",
+          type: "line",
+          source: "sf-neighborhoods",
+          filter: ["==", ["get", "dataId"], DEFAULT_NEIGHBORHOOD],
+          paint: { "line-color": GOLD, "line-width": 3, "line-opacity": 0.95 },
+        } as LineLayerSpecification);
+        map.addLayer({
+          id: "featured-neighborhood-labels",
+          type: "symbol",
+          source: "sf-neighborhoods",
+          minzoom: 11.4,
+          filter: ["==", ["get", "featured"], true],
+          layout: {
+            "text-field": ["get", "name"],
+            "text-font": ["Noto Sans Regular"],
+            "text-size": 10,
+            "text-letter-spacing": 0.05,
+            "text-transform": "uppercase",
+            "text-max-width": 8,
           },
-        } as CircleLayerSpecification);
+          paint: {
+            "text-color": "#ede5d7",
+            "text-halo-color": "#17201d",
+            "text-halo-width": 1.4,
+            "text-opacity": 0.82,
+          },
+        } as SymbolLayerSpecification);
 
-        map.on("click", "sales-core", (event) => {
-          const feature = event.features?.[0];
-          const id = feature?.properties?.id;
-          if (typeof id === "string") setSelectedSaleId(id);
+        map.on("click", "featured-neighborhood-pulse", (event) => {
+          const feature = event.features?.[0] as MapGeoJSONFeature | undefined;
+          const id = feature?.properties?.dataId as string | undefined;
+          if (id) selectNeighborhood(id, false);
         });
-        map.on("mouseenter", "sales-core", () => {
+        map.on("mouseenter", "featured-neighborhood-pulse", () => {
           if (map) map.getCanvas().style.cursor = "pointer";
         });
-        map.on("mouseleave", "sales-core", () => {
+        map.on("mouseleave", "featured-neighborhood-pulse", () => {
           if (map) map.getCanvas().style.cursor = "";
         });
-
         setMapReady(true);
       });
     }
@@ -370,386 +248,246 @@ export function MarketPulseExperience() {
     void initializeMap();
     return () => {
       disposed = true;
-      setMapReady(false);
       map?.remove();
       mapRef.current = null;
     };
-  }, [data]);
+  }, [data, selectNeighborhood]);
 
   useEffect(() => {
-    const map = mapRef.current;
-    if (!data || !activeCommunity || !map || !mapReady || !visibleThrough) return;
-    const selectedFilter: FilterSpecification = [
-      "==",
-      ["get", "communityId"],
-      selectedCommunity,
-    ];
-    const startEpoch = Date.parse(`${activeCommunity.analysisWindowStartDate}T00:00:00Z`);
-    const endEpoch = Date.parse(`${visibleThrough}T23:59:59Z`);
-    const saleFilter: FilterSpecification = [
-      "all",
-      selectedFilter,
-      [">=", ["get", "recordingEpoch"], startEpoch],
-      ["<=", ["get", "recordingEpoch"], endEpoch],
-    ];
-    const currentPeriodStart = monthStart(visibleThrough);
-    const currentFilter: FilterSpecification = [
-      "all",
-      saleFilter,
-      [">=", ["get", "recordingEpoch"], Date.parse(`${currentPeriodStart}T00:00:00Z`)],
-    ];
-
-    map.setFilter("community-selected", selectedFilter);
-    map.setFilter("parcel-selected-fill", selectedFilter);
-    map.setFilter("parcel-selected-lines", selectedFilter);
-    map.setFilter("sales-glow", saleFilter);
-    map.setFilter("sales-core", saleFilter);
-    map.setFilter("sales-current-period", currentFilter);
-    map.setFilter("sales-selected", ["==", ["get", "id"], selectedSaleId ?? "__none__"]);
-    map.setPaintProperty("community-selected", "fill-color", COMMUNITY_ACCENTS[selectedCommunity]);
-    map.setPaintProperty("parcel-selected-fill", "fill-color", COMMUNITY_ACCENTS[selectedCommunity]);
-    map.setPaintProperty("parcel-selected-lines", "line-color", COMMUNITY_ACCENTS[selectedCommunity]);
-  }, [
-    activeCommunity,
-    data,
-    mapReady,
-    selectedCommunity,
-    selectedSaleId,
-    visibleThrough,
-  ]);
+    if (!mapReady || !data || !mapRef.current) return;
+    const source = mapRef.current.getSource("sf-neighborhoods") as GeoJSONSource | undefined;
+    source?.setData(decorateBoundaries(data.boundaries, data.dataset, monthIndex));
+  }, [data, mapReady, monthIndex]);
 
   useEffect(() => {
-    const map = mapRef.current;
-    if (!data || !map || !mapReady) return;
-    fitCommunity(map, data.parcels, selectedCommunity, reducedMotion);
-  }, [data, mapReady, reducedMotion, selectedCommunity]);
+    if (!mapReady || !mapRef.current) return;
+    mapRef.current.setFilter("selected-neighborhood", ["==", ["get", "dataId"], selectedId]);
+  }, [mapReady, selectedId]);
 
   useEffect(() => {
-    if (!isPlaying || !activeCommunity) return;
-    if (reducedMotion) return;
+    if (!isPlaying || reducedMotion || !data) return;
     const timer = window.setInterval(() => {
-      setMonthOffset((current) => {
-        if (current >= activeCommunity.analysisWindowMonths) {
-          setIsPlaying(false);
-          return current;
-        }
-        return current + 1;
-      });
-    }, 650);
+      setMonthIndex((current) =>
+        current >= data.dataset.displayMonths - 1 ? 0 : current + 1,
+      );
+    }, 850);
     return () => window.clearInterval(timer);
-  }, [activeCommunity, isPlaying, reducedMotion]);
-
-  const togglePlayback = () => {
-    if (!activeCommunity || reducedMotion) return;
-    if (!isPlaying && monthOffset >= activeCommunity.analysisWindowMonths) setMonthOffset(0);
-    setSelectedSaleId(null);
-    setIsPlaying((current) => !current);
-  };
+  }, [data, isPlaying, reducedMotion]);
 
   if (loadError) {
     return (
       <main className="error-state">
-        <p className="eyebrow">Foothills Market Pulse</p>
-        <h1>The recorded-sales files could not be opened.</h1>
+        <p className="eyebrow">San Francisco Market Pulse</p>
+        <h1>The neighborhood data did not load.</h1>
         <p>{loadError}</p>
       </main>
     );
   }
 
-  if (!data || !activeCommunity) {
-    return (
-      <main className="loading-state" aria-live="polite">
-        <div className="loading-mark" aria-hidden="true" />
-        <p>Assembling the latest recorded-sales view…</p>
-      </main>
-    );
-  }
-
-  const accentStyle = { "--community-accent": COMMUNITY_ACCENTS[selectedCommunity] } as CSSProperties;
-
+  const accentStyle = { "--pulse-accent": GOLD } as CSSProperties;
   return (
     <main className="experience" style={accentStyle}>
       <header className="masthead">
         <div className="brand-lockup">
           <span className="brand-rule" aria-hidden="true" />
           <div>
-            <p className="eyebrow">Catalina Foothills</p>
+            <p className="eyebrow">San Francisco</p>
             <h1>Market Pulse</h1>
           </div>
         </div>
         <div className="data-stamp">
-          <span className="status-label"><span aria-hidden="true" />Recent recorded sales</span>
-          <time dateTime={data.dataset.dataThroughDate}>
-            Data through {formatDate(data.dataset.dataThroughDate)}
-          </time>
+          <span className="status-label"><span aria-hidden="true" /> Neighborhood home values</span>
+          <span>{data ? `Data through ${formatMonthYear(data.dataset.latestDate)}` : "Loading current release"}</span>
         </div>
       </header>
 
-      <section className="market-stage" aria-label="Interactive market pulse">
+      <section className="market-stage" aria-label="San Francisco neighborhood home-value explorer">
         <div className="map-frame">
           <div ref={mapContainerRef} className="market-map" />
-          {!mapReady ? <div className="map-loading">Drawing parcel boundaries…</div> : null}
-
-          <nav className="community-switcher" aria-label="Choose a micro-market">
-            {data.dataset.communities.map((community) => {
-              const id = community.id as CommunityId;
-              const selected = id === selectedCommunity;
-              return (
-                <button
-                  type="button"
-                  key={community.id}
-                  className={selected ? "community-tab is-active" : "community-tab"}
-                  aria-pressed={selected}
-                  onClick={() => selectCommunity(id)}
-                >
-                  <span>{community.name}</span>
-                  <small>{community.trailing12MonthSaleCount} / 12 mo</small>
-                </button>
-              );
-            })}
-          </nav>
-
-          <div className="price-legend" aria-label="Recorded price bands">
-            <span><i className="legend-low" />Under $1M</span>
-            <span><i className="legend-mid" />$1M–$2M</span>
-            <span><i className="legend-high" />$2M+</span>
+          {!mapReady ? <div className="map-loading">Drawing San Francisco…</div> : null}
+          <div className="map-caption">
+            <p className="eyebrow">Citywide view</p>
+            <strong>18 featured neighborhoods</strong>
+            <span>Click a highlighted district to explore</span>
           </div>
-
+          <div className="pulse-legend" aria-label="Map color legend">
+            <span><i className="legend-cool" /> Below window start</span>
+            <span><i className="legend-neutral" /> Near window start</span>
+            <span><i className="legend-warm" /> Above window start</span>
+          </div>
           <div className="time-scrubber">
             <div className="scrub-heading">
               <div>
-                <p className="eyebrow">Recorded through</p>
-                <output htmlFor="market-month">{formatMonthYear(visibleThrough)}</output>
+                <p className="eyebrow">36-month pulse</p>
+                <output>{activePoint ? formatMonthYear(activePoint.date) : "Loading"}</output>
               </div>
-              <span className="visible-sales-count">
-                {eligibleCommunitySales.length} visible {eligibleCommunitySales.length === 1 ? "sale" : "sales"}
-              </span>
-            </div>
-            <div className="scrub-controls">
               <button
+                className="play-control"
                 type="button"
-                className="play-button"
-                onClick={togglePlayback}
-                disabled={reducedMotion}
-                aria-label={
-                  reducedMotion
-                    ? "Playback disabled because reduced motion is enabled"
-                    : isPlaying
-                      ? "Pause timeline"
-                      : "Play timeline"
-                }
+                aria-label={isPlaying ? "Pause timeline" : "Play timeline"}
+                aria-pressed={isPlaying}
+                disabled={reducedMotion || !data}
+                onClick={() => setIsPlaying((current) => !current)}
               >
                 <span aria-hidden="true">{isPlaying ? "Ⅱ" : "▶"}</span>
+                {isPlaying ? "Pause" : "Play"}
               </button>
-              <label className="sr-only" htmlFor="market-month">
-                Recorded-sales timeline for {activeCommunity.name}
-              </label>
-              <input
-                id="market-month"
-                className="timeline-range"
-                type="range"
-                min="0"
-                max={activeCommunity.analysisWindowMonths}
-                value={monthOffset}
-                onChange={(event) => {
-                  setMonthOffset(Number(event.target.value));
-                  setSelectedSaleId(null);
-                  setIsPlaying(false);
-                }}
-                aria-valuetext={formatMonthYear(visibleThrough)}
-              />
             </div>
-            <div className="timeline-ends" aria-hidden="true">
-              <span>{formatMonthYear(activeCommunity.analysisWindowStartDate)}</span>
-              <span>{formatMonthYear(activeCommunity.analysisWindowEndDate)}</span>
+            <input
+              aria-label="Home value month"
+              type="range"
+              min={0}
+              max={Math.max(0, (data?.dataset.displayMonths ?? 36) - 1)}
+              value={monthIndex}
+              onChange={(event) => {
+                setMonthIndex(Number(event.target.value));
+                setIsPlaying(false);
+              }}
+            />
+            <div className="timeline-ends">
+              <span>{data ? formatMonthYear(data.dataset.displayStartDate) : ""}</span>
+              <span>{data ? formatMonthYear(data.dataset.latestDate) : ""}</span>
             </div>
           </div>
         </div>
 
-        <aside className="pulse-panel" aria-labelledby="community-name">
+        <aside className="pulse-panel" aria-live="polite">
+          <label className="neighborhood-field">
+            <span>Featured neighborhood</span>
+            <select
+              value={selectedId}
+              onChange={(event) => selectNeighborhood(event.target.value)}
+              disabled={!data}
+            >
+              {data?.dataset.neighborhoods.map((item) => (
+                <option value={item.id} key={item.id}>{item.name}</option>
+              ))}
+            </select>
+          </label>
+
           <div className="pulse-heading">
-            <p className="eyebrow">Micro-market pulse</p>
-            <h2 id="community-name">{activeCommunity.name}</h2>
-            <p className="window-label">{activeCommunity.analysisWindowLabel}</p>
+            <p className="eyebrow">Neighborhood pulse</p>
+            <h2>{selected?.name ?? "San Francisco"}</h2>
+            <p>{activePoint ? `Typical home value · ${formatMonthYear(activePoint.date)}` : "Loading neighborhood history"}</p>
           </div>
 
-          <dl className="pulse-metrics">
-            <div>
-              <dt>Median sale</dt>
-              <dd>{formatCompactCurrency(activeCommunity.medianSalePrice)}</dd>
-              <small>Trailing 12 months</small>
-            </div>
-            <div>
-              <dt>Median price / sqft</dt>
-              <dd>{formatPricePerSqft(activeCommunity.medianPricePerSqft)}</dd>
-              <small>Trailing 12 months</small>
-            </div>
-            <div>
-              <dt>Sales in view</dt>
-              <dd>{activeCommunity.saleCountInWindow}</dd>
-              <small>{activeCommunity.analysisWindowMonths}-month window</small>
-            </div>
-            <div>
-              <dt>Lot-size range</dt>
-              <dd>{formatLotRange(activeCommunity)}</dd>
-              <small>Single-family sales</small>
-            </div>
-          </dl>
-
-          <PulseChart
-            community={activeCommunity}
-            sales={data.dataset.sales}
-            visibleThrough={visibleThrough}
-          />
-
-          <div className={selectedSale ? "sale-detail has-selection" : "sale-detail"}>
-            {selectedSale ? (
-              <>
-                <div className="sale-detail-heading">
-                  <p className="eyebrow">Selected recorded sale</p>
-                  <button
-                    type="button"
-                    className="detail-close"
-                    onClick={() => setSelectedSaleId(null)}
-                    aria-label="Clear selected sale"
-                  >
-                    ×
-                  </button>
-                </div>
-                <h3>{selectedSale.address ?? "Address unavailable"}</h3>
-                <div className="sale-detail-grid">
-                  <span><b>{formatCurrency(selectedSale.salePrice)}</b>Recorded price</span>
-                  <span><b>{formatPricePerSqft(selectedSale.pricePerSqft)}</b>Price / sqft</span>
-                  <span><b>{formatInteger(selectedSale.assessorSqft)}</b>Assessor sqft</span>
-                  <span><b>{formatAcres(selectedSale.lotSizeAcres)}</b>GIS lot size</span>
-                </div>
-                <p>Recorded {formatDate(selectedSale.recordingDate)} · Quality tier {selectedSale.qualityTier}</p>
-              </>
-            ) : (
-              <p>Select a glowing sale on the map to inspect its public-record details.</p>
-            )}
+          <div className="hero-value">
+            <strong>{activePoint ? formatCurrency(activePoint.value) : "—"}</strong>
+            <span>Zillow Home Value Index</span>
           </div>
 
-          <p className="method-note">
-            Price levels use only the trailing 12 months. Extended history is used for trend context,
-            never as today&apos;s median. Recording date drives the map; exact close day and days to close
-            are not available from public records.
-          </p>
+          <div className="metric-grid">
+            <div>
+              <span>Prior 12 months</span>
+              <strong className={deltaClass(trailing12Change)}>{formatPercent(trailing12Change)}</strong>
+            </div>
+            <div>
+              <span>Since {windowStart ? formatMonthYear(windowStart.date) : "window start"}</span>
+              <strong className={deltaClass(windowChange)}>{formatPercent(windowChange)}</strong>
+            </div>
+            <div>
+              <span>Latest 3-year move</span>
+              <strong className={deltaClass(selected?.latest36MonthChangePct ?? null)}>
+                {formatPercent(selected?.latest36MonthChangePct ?? null)}
+              </strong>
+            </div>
+          </div>
+
+          {selected ? (
+            <PulseChart
+              name={selected.name}
+              history={displayHistory}
+              activeIndex={monthIndex}
+            />
+          ) : null}
+
+          <div className="source-note">
+            <p className="eyebrow">What this measures</p>
+            <p>
+              A modeled estimate of the typical mid-tier home value. It is not a recorded sale
+              price, listing price, appraisal, or MLS feed.
+            </p>
+            {selected && selected.sourceRegionName !== selected.name ? (
+              <p>Boundary label: {selected.name} · Zillow source region: {selected.sourceRegionName}</p>
+            ) : null}
+          </div>
         </aside>
       </section>
 
       <footer className="site-footer">
-        <span>Pima County Assessor + GIS</span>
-        <span>Basemap © OpenStreetMap contributors · OpenFreeMap</span>
-        <span>{data.dataset.label}</span>
+        <span>Official boundaries: DataSF Analysis Neighborhoods</span>
+        <span>Values: Zillow Research ZHVI · Updated monthly</span>
       </footer>
     </main>
   );
 }
 
-function isMarketEligible(sale: RecordedSale): boolean {
-  return (
-    sale.residentialScope &&
-    sale.salePrice !== null &&
-    sale.qualityTier !== "X" &&
-    sale.membershipReviewStatus === "approved"
-  );
+function decorateBoundaries(
+  boundaries: NeighborhoodBoundaries,
+  dataset: MarketPulseDataset,
+  monthIndex: number,
+): FeatureCollection<Geometry, DisplayBoundaryProperties> {
+  const pulseById = new Map(dataset.neighborhoods.map((item) => [item.id, item]));
+  return {
+    type: "FeatureCollection",
+    features: boundaries.features.map((feature) => {
+      const pulse = feature.properties.dataId
+        ? pulseById.get(feature.properties.dataId)
+        : undefined;
+      const display = pulse?.history.slice(-dataset.displayMonths) ?? [];
+      const active = display[monthIndex] ?? display.at(-1);
+      const start = display[0];
+      return {
+        ...feature,
+        properties: {
+          ...feature.properties,
+          pulseChange: active && start ? calculateChange(active.value, start.value) : 0,
+          typicalValue: active?.value ?? 0,
+        },
+      };
+    }),
+  };
 }
 
-function uniqueTransactions(sales: readonly RecordedSale[]): RecordedSale[] {
-  const transactions = new Map<string, RecordedSale>();
-  for (const sale of sales) {
-    if (!transactions.has(sale.sequenceId)) transactions.set(sale.sequenceId, sale);
-  }
-  return [...transactions.values()];
+function focusFeature(map: MapLibreMap, geometry: Geometry, reducedMotion: boolean): void {
+  const bounds = geometryBounds(geometry);
+  if (!bounds) return;
+  map.fitBounds(bounds, {
+    padding: { top: 92, right: 90, bottom: 150, left: 90 },
+    maxZoom: 13.2,
+    pitch: 46,
+    bearing: -17,
+    duration: reducedMotion ? 0 : 850,
+  });
 }
 
-function dateAtOffset(startDate: string, offset: number, maximum: number, endDate: string): string {
-  if (offset >= maximum) return endDate;
-  const date = new Date(`${startDate}T00:00:00Z`);
-  date.setUTCMonth(date.getUTCMonth() + offset);
-  return date.toISOString().slice(0, 10);
-}
-
-function monthStart(value: string): string {
-  return `${value.slice(0, 7)}-01`;
-}
-
-function communityColorExpression(): unknown[] {
+function geometryBounds(geometry: Geometry): [[number, number], [number, number]] | null {
+  const points: number[][] = [];
+  collectCoordinates((geometry as { coordinates?: unknown }).coordinates, points);
+  if (points.length === 0) return null;
+  const longitudes = points.map((point) => point[0] ?? 0);
+  const latitudes = points.map((point) => point[1] ?? 0);
   return [
-    "match",
-    ["get", "communityId"],
-    "pima-canyon",
-    COMMUNITY_ACCENTS["pima-canyon"],
-    "finisterra",
-    COMMUNITY_ACCENTS.finisterra,
-    "ventana-canyon",
-    COMMUNITY_ACCENTS["ventana-canyon"],
-    "#6d756f",
+    [Math.min(...longitudes), Math.min(...latitudes)],
+    [Math.max(...longitudes), Math.max(...latitudes)],
   ];
 }
 
-function fitCommunity(
-  map: MapLibreMap,
-  parcels: FeatureCollection<Geometry, ParcelMapProperties>,
-  communityId: CommunityId,
-  reducedMotion: boolean,
-) {
-  let minLongitude = Number.POSITIVE_INFINITY;
-  let minLatitude = Number.POSITIVE_INFINITY;
-  let maxLongitude = Number.NEGATIVE_INFINITY;
-  let maxLatitude = Number.NEGATIVE_INFINITY;
-  for (const feature of parcels.features) {
-    if (feature.properties.communityId !== communityId) continue;
-    visitGeometry(feature.geometry, (longitude, latitude) => {
-      minLongitude = Math.min(minLongitude, longitude);
-      minLatitude = Math.min(minLatitude, latitude);
-      maxLongitude = Math.max(maxLongitude, longitude);
-      maxLatitude = Math.max(maxLatitude, latitude);
-    });
-  }
-  if (!Number.isFinite(minLongitude)) return;
-  map.fitBounds(
-    [
-      [minLongitude, minLatitude],
-      [maxLongitude, maxLatitude],
-    ] as LngLatBoundsLike,
-    {
-      padding: { top: 74, right: 64, bottom: 148, left: 64 },
-      bearing: -16,
-      pitch: 47,
-      duration: reducedMotion ? 0 : 1100,
-      maxZoom: 14.4,
-    },
-  );
-}
-
-function visitGeometry(
-  geometry: Geometry,
-  callback: (longitude: number, latitude: number) => void,
-) {
-  if (geometry.type === "GeometryCollection") {
-    for (const child of geometry.geometries) visitGeometry(child, callback);
-    return;
-  }
-  visitCoordinates(geometry.coordinates, callback);
-}
-
-function visitCoordinates(value: unknown, callback: (longitude: number, latitude: number) => void) {
+function collectCoordinates(value: unknown, points: number[][]): void {
   if (!Array.isArray(value)) return;
-  if (
-    value.length >= 2 &&
-    typeof value[0] === "number" &&
-    typeof value[1] === "number"
-  ) {
-    callback(value[0], value[1]);
+  if (typeof value[0] === "number" && typeof value[1] === "number") {
+    points.push(value as number[]);
     return;
   }
-  for (const child of value) visitCoordinates(child, callback);
+  for (const child of value) collectCoordinates(child, points);
 }
 
-function formatCurrency(value: number | null): string {
-  if (value === null) return "—";
+function calculateChange(current: number, prior: number): number {
+  if (!prior) return 0;
+  return Math.round(((current / prior - 1) * 100) * 10) / 10;
+}
+
+function formatCurrency(value: number): string {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -757,48 +495,21 @@ function formatCurrency(value: number | null): string {
   }).format(value);
 }
 
-function formatCompactCurrency(value: number | null): string {
-  if (value === null) return "—";
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    notation: "compact",
-    maximumFractionDigits: 2,
-  }).format(value);
-}
-
-function formatPricePerSqft(value: number | null): string {
-  if (value === null) return "—";
-  return `${new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(value)}`;
-}
-
-function formatInteger(value: number | null): string {
-  if (value === null) return "—";
-  return new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(value);
-}
-
-function formatAcres(value: number | null): string {
-  return value === null ? "—" : `${value.toFixed(value < 1 ? 2 : 1)} ac`;
-}
-
-function formatLotRange(community: CommunitySummary): string {
-  const range = community.lotSizeRangeAcres;
-  return range ? `${range.min.toFixed(2)}–${range.max.toFixed(2)} ac` : "—";
-}
-
-function formatDate(value: string): string {
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-    timeZone: "UTC",
-  }).format(new Date(`${value}T00:00:00Z`));
-}
-
 function formatMonthYear(value: string): string {
   return new Intl.DateTimeFormat("en-US", {
-    month: "long",
+    month: "short",
     year: "numeric",
     timeZone: "UTC",
   }).format(new Date(`${value}T00:00:00Z`));
+}
+
+function formatPercent(value: number | null): string {
+  if (value === null || !Number.isFinite(value)) return "—";
+  const sign = value > 0 ? "+" : "";
+  return `${sign}${value.toFixed(1)}%`;
+}
+
+function deltaClass(value: number | null): string {
+  if (value === null || Math.abs(value) < 0.05) return "delta-neutral";
+  return value > 0 ? "delta-positive" : "delta-negative";
 }

@@ -3,9 +3,21 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Foothills Market Pulse",
+  title: "San Francisco Market Pulse",
   description:
-    "An interactive view of recent recorded sales across Catalina Foothills luxury micro-markets.",
+    "A cinematic 36-month view of typical home values across featured San Francisco neighborhoods.",
+  openGraph: {
+    title: "San Francisco Market Pulse",
+    description:
+      "Explore 36 months of typical home values across 18 featured San Francisco neighborhoods.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "San Francisco Market Pulse",
+    description:
+      "Explore 36 months of typical home values across 18 featured San Francisco neighborhoods.",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

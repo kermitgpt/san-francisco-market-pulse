@@ -1,48 +1,47 @@
-# Foothills Market Pulse
+# San Francisco Market Pulse
 
-A public-records data project for tracking recent recorded sales in Catalina Foothills luxury micro-markets.
+A cinematic, interactive view of typical home values across 18 featured San Francisco neighborhoods. Scrub through 36 months, click a neighborhood, and watch its value path and movement assemble in the pulse card.
 
-## Pilot scope
+This zero-cost edition uses:
 
-- Ventana Canyon
-- Pima Canyon
-- Finisterra
+- [DataSF Analysis Neighborhoods](https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/j2bu-swwd) for all 41 city analysis boundaries.
+- [Zillow Research ZHVI](https://www.zillow.com/research/data/) for monthly neighborhood-level typical home values.
 
-## Current phase
+The experience intentionally says **typical home value**, not recorded sale price. ZHVI is a modeled index; it is not an MLS feed, appraisal, listing price, or individual transaction record.
 
-Phases 0 and 1 are complete. Phase 2 adds the approved editorial map experience on top of the automated 36-month public-record pipeline.
-
-Read the [Phase 0 data feasibility report](docs/phase-0-data-feasibility.md).
-
-## Map experience
-
-- Tilted parcel map for Ventana Canyon, Pima Canyon, and Finisterra
-- Recorded sales colored by price band and revealed with a time scrubber
-- Adaptive community windows with a strict eight-sale minimum for trend lines
-- Current price levels calculated only from the trailing 12 months
-- Responsive pulse cards with recorded price, price/sqft, sale count, and lot-size range
-
-Run the local experience:
+## Run locally
 
 ```powershell
 pnpm install
 pnpm dev
 ```
 
-The site is built with Next.js, React, TypeScript, and MapLibre GL. See the [Phase 2 implementation notes](docs/phase-2-map-ui.md).
+Open `http://localhost:3000`.
 
-## Pipeline
+## Refresh the data
 
 ```powershell
-pnpm install
-pnpm typecheck
+pnpm pipeline -- --refresh
 pnpm test
-pnpm pipeline
+pnpm typecheck
 pnpm build
 ```
 
-The scheduled workflow produces versioned JSON and GeoJSON under `data/processed`. The web build copies the four browser-safe files into an ignored `public/data` directory, so generated duplicates never need to be committed. See the [operator runbook](docs/phase-1-operator-runbook.md).
+The pipeline caches the large Zillow source file under `data/raw/`, validates all configured mappings, retains 48 months for comparisons, and commits only compact processed outputs. A GitHub Action runs after Zillow's normal monthly release date and can also be triggered manually.
 
-## Data labeling
+## Project map
 
-Pilot outputs will be labeled **recent recorded sales**. MLS inventory and MLS-only market metrics are out of scope until an authorized feed is available.
+- `app/` — Next.js map experience and styles
+- `src/config/neighborhoods.ts` — reproducible DataSF-to-Zillow mappings
+- `src/pipeline.ts` — download, validation, transformation, and output
+- `data/processed/` — publishable JSON and GeoJSON
+- `docs/data-methodology.md` — scope, boundary rules, and limitations
+
+## Checks
+
+```powershell
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm build
+```

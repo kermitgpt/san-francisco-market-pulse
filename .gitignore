@@ -3,6 +3,7 @@
 !.env.example
 node_modules/
 .next/
+out/
 public/data/
 *.tsbuildinfo
 dist/
