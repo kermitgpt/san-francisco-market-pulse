@@ -40,6 +40,8 @@ The spike joined the July 15, 2026 Assessor files, the 2025 sales archive, the 2
 
 The Ventana count is the corrected recorded-plat seed. The Phase 1 boundary audit may add or remove edge parcels, particularly unplatted access-only lots and non-residential/common parcels.
 
+For reproducibility, parcel counts are distinct current GIS parcel IDs selected by the stated plat seed, including common/open-space parcels. Sale counts use positive-price rows recorded in the stated window, joined by parcel ID and deduplicated by Recorder sequence. Public map output will additionally require a residential sale/property classification.
+
 Two rules follow from the spike:
 
 1. Count a Recorder sequence once at the transaction level. One recorded transaction can cover multiple parcels.
@@ -49,17 +51,17 @@ Two rules follow from the spike:
 
 ### Pima Canyon
 
-Include Pima Canyon Estates plats `48089`, `50087`, `53036`, `55059`, and `57023`, plus **The Enclave at Pima Canyon** plat `48074`.
+**Inclusion rule:** include every current Pima County parcel whose `MP_OL` map-and-plat value is one of the approved Pima Canyon Estates plats `48089`, `50087`, `53036`, `55059`, or `57023`, plus **The Enclave at Pima Canyon** plat `48074`. Deduplicate by parcel ID. Adjacent parcels with other plat values are excluded unless a later recorded replat is reviewed and added to this allowlist.
 
 ### Finisterra
 
-Include Finisterra I-III plats `33069`, `34026`, and `43097`.
+**Inclusion rule:** include every current Pima County parcel whose `MP_OL` value is Finisterra I, II, or III plat `33069`, `34026`, or `43097`. Deduplicate by parcel ID. Adjacent developments and any parcel without an approved Finisterra plat value are excluded unless a reviewed replat replaces or extends one of these plats.
 
 ### Ventana Canyon
 
-The approved pilot meaning is **all residential parcels physically behind the main Kolb Road gate**, not every subdivision containing the word "Ventana" and not VCCA membership alone.
+**Inclusion rule:** include every residential parcel geographically behind and reached through the main Kolb Road gate, including Esperero Canyon and the gate-access ends of Stone Canyon, Hole in the Wall Way, and Hototo Place. This is deliberately a geographic/access definition, not VCCA membership and not a loose subdivision-name match.
 
-The VCCA says it has homes both inside and outside the main gate. It specifically places The Ridge, Ventana Entrada, Ventana del Oeste, and Westgate outside the gate, so they are excluded. It also documents access for Esperero Canyon and the ends of Stone Canyon, Hole in the Wall Way, and Hototo Place even though those properties are not VCCA members; the physical boundary should include them. [VCCA FAQ](https://ventanacanyoncommunity.com/faqs/) - [official interior map](https://ventanacanyoncommunity.com/wp-content/uploads/vc-web-map.pdf)
+The VCCA source explicitly excludes Esperero Canyon and the other access-only areas from HOA membership while documenting their gate access. That distinction is why HOA membership is not the market rule. The same source places The Ridge, Ventana Entrada, Ventana del Oeste, and Westgate outside the main gate; those areas are excluded regardless of their names or VCCA relationship. [VCCA FAQ](https://ventanacanyoncommunity.com/faqs/) - [official interior map](https://ventanacanyoncommunity.com/wp-content/uploads/vc-web-map.pdf)
 
 The corrected plat seed is:
 
@@ -75,7 +77,7 @@ The corrected plat seed is:
 - Esperero Canyon Estates: `41028`
 - Clubdominiums: `50055`
 
-Phase 1 should encode a versioned behind-gate polygon from the official interior map and county parcel geometry. Parcel centroids inside that polygon become the primary membership rule; exact plats provide an audit and edge-case override. This catches access-only/unplatted parcels while preventing outside-gate "Ventana" developments from leaking into the market.
+Phase 1 will encode a versioned behind-gate polygon from the official interior map and county parcel geometry. Include a residential parcel when its centroid falls inside that polygon; use a reviewed override when a parcel intersects the boundary or belongs to a documented gate-access enclave whose centroid falls outside because of parcel shape. Exact plats provide the initial seed and audit. This catches access-only/unplatted parcels while preventing outside-gate "Ventana" developments from leaking into the market.
 
 Every community assignment should retain its method (`plat`, `centroid`, or reviewed override), source date, boundary version and review status. New plats, parcel splits, overlapping assignments and parcels on the boundary should be flagged automatically.
 
@@ -149,4 +151,4 @@ Phase 1 is accepted when reruns create no duplicates; transaction counts are not
 
 ## Approval gate
 
-No application, pipeline or UI code has been written. The Enclave is included, and Ventana is defined as the complete residential area behind the main Kolb gate. Phase 1 begins only after explicit approval.
+No application, pipeline or UI code was written during Phase 0. The Enclave is included; Finisterra is the exact I-III plat set; and Ventana is the complete residential area behind the main Kolb gate, including Esperero and other documented access-only neighborhoods. The operator approved Phase 1 once these rules were documented and the repository was moved to `C:\Users\matt\dev\foothills-market-pulse`.
