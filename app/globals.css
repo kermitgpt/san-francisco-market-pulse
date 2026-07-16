@@ -151,7 +151,7 @@ select:focus-visible {
 }
 
 .market-map .maplibregl-canvas {
-  filter: saturate(0.55) sepia(0.12) brightness(0.74) contrast(1.12);
+  filter: saturate(0.68) sepia(0.08) brightness(0.84) contrast(1.18);
 }
 
 .market-map::after {
@@ -160,8 +160,8 @@ select:focus-visible {
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(10, 16, 14, 0.4), transparent 29%, transparent 69%, rgba(10, 16, 14, 0.48)),
-    linear-gradient(90deg, rgba(10, 16, 14, 0.34), transparent 25%, transparent 78%, rgba(10, 16, 14, 0.12));
+    linear-gradient(180deg, rgba(10, 16, 14, 0.27), transparent 29%, transparent 69%, rgba(10, 16, 14, 0.36)),
+    linear-gradient(90deg, rgba(10, 16, 14, 0.24), transparent 25%, transparent 78%, rgba(10, 16, 14, 0.08));
   content: "";
 }
 
@@ -215,12 +215,20 @@ select:focus-visible {
   display: flex;
   flex-wrap: wrap;
   gap: 11px 15px;
-  max-width: 350px;
+  max-width: 390px;
   padding: 9px 11px;
   background: rgba(18, 27, 24, 0.7);
   font-size: 9px;
   letter-spacing: 0.055em;
   text-transform: uppercase;
+}
+
+.pulse-legend > p {
+  flex: 1 0 100%;
+  margin: 0 0 -2px;
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 8px;
+  letter-spacing: 0.12em;
 }
 
 .pulse-legend span {
@@ -235,9 +243,10 @@ select:focus-visible {
   border: 1px solid rgba(255, 255, 255, 0.48);
   border-radius: 50%;
 }
-.legend-cool { background: #526f70; }
-.legend-neutral { background: #9a8d77; }
-.legend-warm { background: #efd096; box-shadow: 0 0 8px rgba(239, 208, 150, 0.55); }
+.legend-decline { background: #4f7478; }
+.legend-stable { background: #7e7a70; }
+.legend-growth { background: #b68d52; }
+.legend-strong { background: #efd096; box-shadow: 0 0 8px rgba(239, 208, 150, 0.55); }
 .legend-transfer {
   background: #fff0c4;
   box-shadow: 0 0 9px rgba(255, 240, 196, 0.8);
@@ -415,6 +424,79 @@ select:focus-visible {
   text-transform: none;
 }
 
+.transfer-filters {
+  margin: -10px 0 26px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.filter-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.filter-heading strong {
+  display: block;
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 400;
+}
+
+.filter-heading button {
+  padding: 2px 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+  font-size: 9px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.filter-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  color: var(--ink-soft);
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.filter-grid select {
+  width: 100%;
+  min-width: 0;
+  padding: 8px 22px 8px 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 13px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.transfer-filters > p {
+  margin: 11px 0 0;
+  color: var(--ink-soft);
+  font-size: 9px;
+  line-height: 1.45;
+}
+
 .pulse-heading {
   padding-bottom: 22px;
   border-bottom: 1px solid var(--line);
@@ -490,6 +572,126 @@ select:focus-visible {
 .delta-positive { color: #6f704e; }
 .delta-negative { color: #5b7775; }
 .delta-neutral { color: var(--ink); }
+
+.growth-context {
+  padding: 20px 0 19px;
+  border-bottom: 1px solid var(--line);
+}
+
+.growth-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.growth-heading strong {
+  display: block;
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.growth-heading > span {
+  margin-top: 3px;
+  color: var(--ink-soft);
+  font-size: 9px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.growth-rail {
+  position: relative;
+  height: 1px;
+  margin: 17px 4px 13px;
+  background: linear-gradient(90deg, #5b7775, var(--line), #b8894c);
+}
+
+.growth-rail::before,
+.growth-rail::after {
+  position: absolute;
+  top: -3px;
+  width: 1px;
+  height: 7px;
+  background: var(--ink-soft);
+  content: "";
+  opacity: 0.5;
+}
+.growth-rail::before { left: 0; }
+.growth-rail::after { right: 0; }
+
+.growth-rail > span {
+  position: absolute;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  border: 2px solid var(--paper);
+  border-radius: 50%;
+  background: var(--pulse-accent);
+  box-shadow: 0 0 0 1px var(--ink-soft);
+  transform: translate(-50%, -50%);
+}
+
+.growth-summary {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.market-extremes { margin-top: 17px; }
+.market-extremes > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px 15px;
+}
+
+.market-extremes button {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  padding: 7px 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+
+.market-extremes button > span {
+  width: 5px;
+  height: 5px;
+  overflow: hidden;
+  border-radius: 50%;
+  color: transparent;
+}
+.market-extremes .extreme-high > span { background: #b8894c; }
+.market-extremes .extreme-low > span { background: #5b7775; }
+
+.market-extremes button strong {
+  overflow: hidden;
+  font-family: var(--serif);
+  font-size: 13px;
+  font-weight: 400;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.market-extremes button b {
+  color: var(--ink-soft);
+  font-size: 9px;
+  font-weight: 500;
+}
+
+.growth-context > small {
+  display: block;
+  margin-top: 10px;
+  color: var(--ink-soft);
+  font-size: 8px;
+  line-height: 1.45;
+}
 
 .transfer-count-line {
   display: flex;
@@ -643,6 +845,8 @@ select:focus-visible {
     border-top: 1px solid var(--line);
   }
   .metric-grid span { min-height: auto; }
+  .filter-grid,
+  .market-extremes > div { grid-template-columns: 1fr; }
   .site-footer { align-items: flex-start; flex-direction: column; gap: 5px; padding-top: 9px; }
 }
 

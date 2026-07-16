@@ -55,8 +55,17 @@ export interface TransferPointProperties {
   bedrooms: number | null;
   bathrooms: number | null;
   propertyType: string;
+  propertyCategory: TransferPropertyCategory;
   sourceRollYear: number;
 }
+
+export type TransferPropertyCategory =
+  | "single-family"
+  | "condo-coop"
+  | "townhome"
+  | "small-multifamily"
+  | "apartment-building"
+  | "other";
 
 export type ResidentialTransfers = FeatureCollection<Point, TransferPointProperties>;
 

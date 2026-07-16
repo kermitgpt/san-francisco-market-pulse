@@ -25,6 +25,25 @@ The current build contains 3,178 records dated July 3, 2023 through June 2, 2025
 
 DataSF describes `current_sales_date` as the date the current sale for that roll period was recorded, but the bulk dataset does not expose consideration price or deed type. The app therefore labels every dot a **recorded residential transfer**, never a verified sale. It cannot automatically exclude family transfers, quitclaims, nominal-value transfers, or other non-market recordings. Condominium records also often lack a distinct lot-area value.
 
+### Transfer filters
+
+The interface can filter dots by the assessor's public property-class description and recorded interior area. Property classes are grouped deterministically into single-family homes, condos/co-ops, townhomes, flats and 2–4-unit properties, apartment buildings, and other residential records. The square-footage threshold applies to the assessor's parcel or structure area; it is not guaranteed to be unit-level living area for every cooperative or multifamily record.
+
+These controls affect parcel dots and counts only. They do not change the neighborhood ZHVI series. Minimum-price filtering is intentionally unavailable because the public bulk record has no transaction-price field.
+
+## Growth comparison rule
+
+Map color always represents change from the first visible month to the active scrub month:
+
+- Below −2%
+- −2% to below +2%
+- +2% to below +10%
+- +10% or more
+
+For the sidebar comparison, all 18 featured-neighborhood changes are ranked at the active month. The peer benchmark is their median. A neighborhood is labeled a high- or lower-growth outlier only when its distance from that median is at least the larger of four percentage points or two median absolute deviations. This keeps the label meaningful when the market is tightly clustered while adapting when dispersion widens. The two highest- and two lowest-growth neighborhoods are shown as clickable market extremes whether or not they cross the stricter outlier threshold.
+
+OpenFreeMap's generic neighborhood and village labels are suppressed because they repeat at higher zoom levels. The app renders one collision-aware label per featured DataSF neighborhood at city scale and only the selected neighborhood label after zooming in; road, city, and landmark labels remain from the basemap.
+
 ## Geographic rule
 
 All geometry comes from the [DataSF Analysis Neighborhoods](https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/j2bu-swwd) dataset. DataSF defines 41 analysis neighborhoods by grouping census tracts for consistent analysis. These are reproducible analytical boundaries, not legal neighborhood or HOA boundaries.

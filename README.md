@@ -1,6 +1,6 @@
 # San Francisco Market Pulse
 
-A cinematic, interactive view of typical home values and recorded residential transfers across 18 featured San Francisco neighborhoods. Scrub through 36 months, click a glowing parcel dot, and inspect the underlying public transfer record.
+A cinematic, interactive view of typical home values and recorded residential transfers across 18 featured San Francisco neighborhoods. Scrub through 36 months, compare neighborhood growth against the featured-market median, refine parcel records by public property class and interior area, and click a glowing dot to inspect its source record.
 
 This zero-cost edition uses:
 
@@ -9,6 +9,8 @@ This zero-cost edition uses:
 - [Zillow Research ZHVI](https://www.zillow.com/research/data/) for monthly neighborhood-level typical home values.
 
 The experience intentionally distinguishes **typical home value** from a **recorded residential transfer**. ZHVI is a modeled index. The public parcel records do not include sale consideration or deed type, so a dot is not represented as a verified market sale and may include a non-market transfer.
+
+Map colors use explicit change-since-window-start bands: below −2%, −2% to below +2%, +2% to below +10%, and +10% or more. The sidebar ranks the selected neighborhood against the other 17 featured neighborhoods and flags outliers using a robust, dispersion-aware threshold.
 
 ## Run locally
 

@@ -6,6 +6,7 @@ import path from "node:path";
 import { parse } from "csv-parse";
 import type { Feature, FeatureCollection, Geometry, Point } from "geojson";
 import { FEATURED_NEIGHBORHOODS } from "./config/neighborhoods";
+import { categorizePropertyType } from "./transfer-categories";
 import type {
   MarketPulseDataset,
   NeighborhoodBoundaries,
@@ -187,6 +188,10 @@ async function buildResidentialTransfers(
       continue;
     }
 
+    const propertyType =
+      properties.property_class_code_definition?.trim() ||
+      properties.use_definition?.trim() ||
+      "Residential property";
     features.push({
       type: "Feature",
       geometry: feature.geometry,
@@ -201,10 +206,8 @@ async function buildResidentialTransfers(
         lotAreaSqft: nullableNumber(properties.lot_area),
         bedrooms: nullablePositiveNumber(properties.number_of_bedrooms),
         bathrooms: nullablePositiveNumber(properties.number_of_bathrooms),
-        propertyType:
-          properties.property_class_code_definition?.trim() ||
-          properties.use_definition?.trim() ||
-          "Residential property",
+        propertyType,
+        propertyCategory: categorizePropertyType(propertyType),
         sourceRollYear,
       },
     });

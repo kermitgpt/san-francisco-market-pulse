@@ -13,14 +13,20 @@ import type {
   MapGeoJSONFeature,
   SymbolLayerSpecification,
 } from "maplibre-gl";
-import type { FeatureCollection, Geometry } from "geojson";
+import type { FeatureCollection, Geometry, Point } from "geojson";
 import type {
   MarketPulseDataset,
   NeighborhoodBoundaries,
   NeighborhoodBoundaryProperties,
   ResidentialTransfers,
   TransferPointProperties,
+  TransferPropertyCategory,
 } from "@/src/types";
+import { analyzeGrowth } from "@/src/growth-analysis";
+import {
+  categorizePropertyType,
+  TRANSFER_CATEGORY_OPTIONS,
+} from "@/src/transfer-categories";
 import { PulseChart } from "./pulse-chart";
 
 interface ExperienceData {
@@ -33,6 +39,8 @@ interface DisplayBoundaryProperties extends NeighborhoodBoundaryProperties {
   pulseChange: number;
   typicalValue: number;
 }
+
+type TransferCategoryFilter = TransferPropertyCategory | "all";
 
 const MAP_STYLE = "https://tiles.openfreemap.org/styles/positron";
 const DEFAULT_NEIGHBORHOOD = "pacific-heights";
@@ -50,6 +58,9 @@ export function MarketPulseExperience() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [selectedTransfer, setSelectedTransfer] = useState<TransferPointProperties | null>(null);
+  const [propertyCategory, setPropertyCategory] =
+    useState<TransferCategoryFilter>("all");
+  const [minimumArea, setMinimumArea] = useState(0);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -70,7 +81,7 @@ export function MarketPulseExperience() {
           boundariesResponse.json() as Promise<NeighborhoodBoundaries>,
           transfersResponse.json() as Promise<ResidentialTransfers>,
         ]);
-        setData({ dataset, boundaries, transfers });
+        setData({ dataset, boundaries, transfers: withTransferCategories(transfers) });
         setMonthIndex(dataset.displayMonths - 1);
       } catch (error) {
         if ((error as Error).name !== "AbortError") {
@@ -115,14 +126,48 @@ export function MarketPulseExperience() {
   const windowChange = activePoint && windowStart
     ? calculateChange(activePoint.value, windowStart.value)
     : null;
+  const growthAnalysis = useMemo(
+    () =>
+      data
+        ? analyzeGrowth(
+            data.dataset.neighborhoods.map((item) => {
+              const display = item.history.slice(-data.dataset.displayMonths);
+              const start = display[0];
+              const active = display[monthIndex] ?? display.at(-1);
+              return {
+                id: item.id,
+                name: item.name,
+                change: active && start ? calculateChange(active.value, start.value) : 0,
+              };
+            }),
+          )
+        : null,
+    [data, monthIndex],
+  );
+  const selectedGrowth =
+    growthAnalysis?.rankings.find((item) => item.id === selectedId) ?? null;
+  const growthPosition = selectedGrowth && growthAnalysis
+    ? ((growthAnalysis.rankings.length - selectedGrowth.rank) /
+        Math.max(1, growthAnalysis.rankings.length - 1)) * 100
+    : 50;
+  const categoryCounts = useMemo(() => {
+    const counts = new Map<TransferPropertyCategory, number>();
+    for (const feature of data?.transfers.features ?? []) {
+      const category = feature.properties.propertyCategory;
+      counts.set(category, (counts.get(category) ?? 0) + 1);
+    }
+    return counts;
+  }, [data]);
   const visibleTransfers = useMemo(
     () =>
       data && activePoint
         ? data.transfers.features.filter(
-            (feature) => feature.properties.recordedDate <= activePoint.date,
+            (feature) =>
+              feature.properties.recordedDate <= activePoint.date &&
+              transferMatchesCriteria(feature.properties, propertyCategory, minimumArea),
           )
         : [],
-    [activePoint, data],
+    [activePoint, data, minimumArea, propertyCategory],
   );
   const selectedTransferCount = useMemo(
     () =>
@@ -131,7 +176,10 @@ export function MarketPulseExperience() {
     [selectedId, visibleTransfers],
   );
   const displayedTransfer =
-    selectedTransfer && activePoint && selectedTransfer.recordedDate <= activePoint.date
+    selectedTransfer &&
+    activePoint &&
+    selectedTransfer.recordedDate <= activePoint.date &&
+    transferMatchesCriteria(selectedTransfer, propertyCategory, minimumArea)
       ? selectedTransfer
       : null;
 
@@ -180,6 +228,9 @@ export function MarketPulseExperience() {
 
       map.on("load", () => {
         if (!map || disposed) return;
+        for (const layerId of ["label_other", "label_village", "label_town"]) {
+          if (map.getLayer(layerId)) map.setLayoutProperty(layerId, "visibility", "none");
+        }
         map.getCanvas().setAttribute(
           "aria-label",
           "Interactive map of typical home values and recorded residential transfers across featured San Francisco neighborhoods",
@@ -190,6 +241,10 @@ export function MarketPulseExperience() {
           loaded.dataset.displayMonths - 1,
         );
         map.addSource("sf-neighborhoods", { type: "geojson", data: initialBoundaries });
+        map.addSource("featured-label-points", {
+          type: "geojson",
+          data: buildNeighborhoodLabelPoints(loaded.boundaries),
+        });
         map.addSource("residential-transfers", {
           type: "geojson",
           data: loaded.transfers,
@@ -207,27 +262,17 @@ export function MarketPulseExperience() {
           filter: ["==", ["get", "featured"], true],
           paint: {
             "fill-color": [
-              "interpolate",
-              ["linear"],
+              "step",
               ["get", "pulseChange"],
-              -15,
-              "#526f70",
-              0,
-              "#9a8d77",
+              "#4f7478",
+              -2,
+              "#7e7a70",
+              2,
+              "#b68d52",
               10,
-              "#c49b5d",
-              25,
               "#efd096",
             ],
-            "fill-opacity": [
-              "interpolate",
-              ["linear"],
-              ["abs", ["get", "pulseChange"]],
-              0,
-              0.16,
-              20,
-              0.52,
-            ],
+            "fill-opacity": 0.42,
           },
         } as FillLayerSpecification);
         map.addLayer({
@@ -247,7 +292,7 @@ export function MarketPulseExperience() {
           id: "transfer-ambient",
           type: "circle",
           source: "residential-transfers",
-          filter: transferVisibilityFilter(loaded.dataset.latestDate),
+          filter: transferCriteriaFilter(loaded.dataset.latestDate, "all", 0),
           paint: {
             "circle-color": "#eed19a",
             "circle-radius": ["interpolate", ["linear"], ["zoom"], 10.5, 1.2, 14, 3.2],
@@ -262,7 +307,12 @@ export function MarketPulseExperience() {
           id: "transfer-selected",
           type: "circle",
           source: "residential-transfers",
-          filter: transferSelectedFilter(DEFAULT_NEIGHBORHOOD, loaded.dataset.latestDate),
+          filter: transferSelectedFilter(
+            DEFAULT_NEIGHBORHOOD,
+            loaded.dataset.latestDate,
+            "all",
+            0,
+          ),
           paint: {
             "circle-color": "#f2cb7d",
             "circle-radius": ["interpolate", ["linear"], ["zoom"], 10.5, 2, 14, 4.4],
@@ -280,6 +330,8 @@ export function MarketPulseExperience() {
           filter: transferMonthFilter(
             firstDayOfMonth(loaded.dataset.latestDate),
             loaded.dataset.latestDate,
+            "all",
+            0,
           ),
           paint: {
             "circle-color": "#fff0c4",
@@ -294,22 +346,27 @@ export function MarketPulseExperience() {
         map.addLayer({
           id: "featured-neighborhood-labels",
           type: "symbol",
-          source: "sf-neighborhoods",
-          minzoom: 11.4,
+          source: "featured-label-points",
+          minzoom: 10.4,
           filter: ["==", ["get", "featured"], true],
           layout: {
             "text-field": ["get", "name"],
             "text-font": ["Noto Sans Regular"],
-            "text-size": 10,
-            "text-letter-spacing": 0.05,
+            "text-size": ["interpolate", ["linear"], ["zoom"], 10.4, 11, 13.5, 14, 15.5, 17],
+            "text-letter-spacing": 0.075,
             "text-transform": "uppercase",
-            "text-max-width": 8,
+            "text-max-width": 9,
+            "text-padding": 10,
+            "symbol-avoid-edges": true,
+            "text-allow-overlap": false,
+            "text-ignore-placement": false,
           },
           paint: {
-            "text-color": "#ede5d7",
-            "text-halo-color": "#17201d",
-            "text-halo-width": 1.4,
-            "text-opacity": 0.82,
+            "text-color": "#fffaf0",
+            "text-halo-color": "#0d1513",
+            "text-halo-width": 2.2,
+            "text-halo-blur": 0.35,
+            "text-opacity": 0.98,
           },
         } as SymbolLayerSpecification);
 
@@ -360,18 +417,31 @@ export function MarketPulseExperience() {
     mapRef.current.setFilter("selected-neighborhood", ["==", ["get", "dataId"], selectedId]);
     mapRef.current.setFilter(
       "transfer-selected",
-      transferSelectedFilter(selectedId, activePoint?.date ?? "9999-12-31"),
+      transferSelectedFilter(
+        selectedId,
+        activePoint?.date ?? "9999-12-31",
+        propertyCategory,
+        minimumArea,
+      ),
     );
-  }, [activePoint?.date, mapReady, selectedId]);
+  }, [activePoint?.date, mapReady, minimumArea, propertyCategory, selectedId]);
 
   useEffect(() => {
     if (!mapReady || !mapRef.current || !activePoint) return;
-    mapRef.current.setFilter("transfer-ambient", transferVisibilityFilter(activePoint.date));
+    mapRef.current.setFilter(
+      "transfer-ambient",
+      transferCriteriaFilter(activePoint.date, propertyCategory, minimumArea),
+    );
     mapRef.current.setFilter(
       "transfer-active-month",
-      transferMonthFilter(firstDayOfMonth(activePoint.date), activePoint.date),
+      transferMonthFilter(
+        firstDayOfMonth(activePoint.date),
+        activePoint.date,
+        propertyCategory,
+        minimumArea,
+      ),
     );
-  }, [activePoint, mapReady]);
+  }, [activePoint, mapReady, minimumArea, propertyCategory]);
 
   useEffect(() => {
     if (!isPlaying || reducedMotion || !data) return;
@@ -421,13 +491,15 @@ export function MarketPulseExperience() {
           <div className="map-caption">
             <p className="eyebrow">Citywide view</p>
             <strong>18 featured neighborhoods</strong>
-            <span>Click a glowing parcel dot for its public record</span>
+            <span>Color tracks value change · dots are public transfer records</span>
           </div>
           <div className="pulse-legend" aria-label="Map color legend">
+            <p>Change since {windowStart ? formatMonthYear(windowStart.date) : "window start"}</p>
             <span><i className="legend-transfer" /> Recorded transfer</span>
-            <span><i className="legend-cool" /> Below window start</span>
-            <span><i className="legend-neutral" /> Near window start</span>
-            <span><i className="legend-warm" /> Above window start</span>
+            <span><i className="legend-decline" /> Below −2%</span>
+            <span><i className="legend-stable" /> −2% to &lt;+2%</span>
+            <span><i className="legend-growth" /> +2% to &lt;+10%</span>
+            <span><i className="legend-strong" /> +10% or more</span>
           </div>
           {displayedTransfer ? (
             <article className="transfer-detail" aria-label="Selected transfer detail">
@@ -502,6 +574,71 @@ export function MarketPulseExperience() {
             </select>
           </label>
 
+          <section className="transfer-filters" aria-labelledby="transfer-filter-heading">
+            <div className="filter-heading">
+              <div>
+                <p className="eyebrow" id="transfer-filter-heading">Refine transfer dots</p>
+                <strong>{visibleTransfers.length.toLocaleString()} matching citywide</strong>
+              </div>
+              {(propertyCategory !== "all" || minimumArea > 0) ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setPropertyCategory("all");
+                    setMinimumArea(0);
+                    setSelectedTransfer(null);
+                  }}
+                >
+                  Clear
+                </button>
+              ) : null}
+            </div>
+            <div className="filter-grid">
+              <label>
+                <span>Property class</span>
+                <select
+                  aria-label="Transfer property class"
+                  value={propertyCategory}
+                  onChange={(event) => {
+                    setPropertyCategory(event.target.value as TransferCategoryFilter);
+                    setSelectedTransfer(null);
+                  }}
+                  disabled={!data}
+                >
+                  <option value="all">All residential ({data?.transfers.features.length.toLocaleString() ?? "0"})</option>
+                  {TRANSFER_CATEGORY_OPTIONS.filter(
+                    (option) => (categoryCounts.get(option.value) ?? 0) > 0,
+                  ).map((option) => (
+                    <option value={option.value} key={option.value}>
+                      {option.label} ({(categoryCounts.get(option.value) ?? 0).toLocaleString()})
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                <span>Minimum interior</span>
+                <select
+                  aria-label="Minimum recorded interior area"
+                  value={minimumArea}
+                  onChange={(event) => {
+                    setMinimumArea(Number(event.target.value));
+                    setSelectedTransfer(null);
+                  }}
+                  disabled={!data}
+                >
+                  <option value={0}>Any size</option>
+                  <option value={1000}>1,000+ sq ft</option>
+                  <option value={1500}>1,500+ sq ft</option>
+                  <option value={2000}>2,000+ sq ft</option>
+                  <option value={3000}>3,000+ sq ft</option>
+                </select>
+              </label>
+            </div>
+            <p>
+              Filters change parcel dots only. Sale-price filtering requires a priced transaction feed.
+            </p>
+          </section>
+
           <div className="pulse-heading">
             <p className="eyebrow">Neighborhood pulse</p>
             <h2>{selected?.name ?? "San Francisco"}</h2>
@@ -529,6 +666,45 @@ export function MarketPulseExperience() {
               </strong>
             </div>
           </div>
+
+          {growthAnalysis && selectedGrowth && selected && windowStart ? (
+            <section className="growth-context" aria-label="Featured-neighborhood growth comparison">
+              <div className="growth-heading">
+                <div>
+                  <p className="eyebrow">Peer growth position</p>
+                  <strong>{selectedGrowth.standing}</strong>
+                </div>
+                <span>#{selectedGrowth.rank} of {growthAnalysis.rankings.length}</span>
+              </div>
+              <div className="growth-rail" aria-hidden="true">
+                <span style={{ left: `${growthPosition}%` }} />
+              </div>
+              <p className="growth-summary">
+                {selected.name} is {formatPointDifference(selectedGrowth.deltaFromMedian)} the featured-neighborhood median of {formatPercent(growthAnalysis.medianChange)} since {formatMonthYear(windowStart.date)}.
+              </p>
+              <div className="market-extremes">
+                <p className="eyebrow">Market extremes at this month</p>
+                <div>
+                  {[...growthAnalysis.highestGrowth, ...growthAnalysis.lowestGrowth].map((item, index) => (
+                    <button
+                      type="button"
+                      key={item.id}
+                      className={index < growthAnalysis.highestGrowth.length ? "extreme-high" : "extreme-low"}
+                      onClick={() => selectNeighborhood(item.id)}
+                      aria-label={`Show ${item.name}, ${formatPercent(item.change)} since window start`}
+                    >
+                      <span>{index < growthAnalysis.highestGrowth.length ? "Higher" : "Lower"}</span>
+                      <strong>{item.name}</strong>
+                      <b>{formatPercent(item.change)}</b>
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <small>
+                “Outlier” requires at least {growthAnalysis.outlierThreshold.toFixed(1)} percentage points from the peer median; the threshold also adapts to dispersion.
+              </small>
+            </section>
+          ) : null}
 
           <p className="transfer-count-line">
             <span aria-hidden="true" />
@@ -596,6 +772,68 @@ function decorateBoundaries(
   };
 }
 
+function buildNeighborhoodLabelPoints(
+  boundaries: NeighborhoodBoundaries,
+): FeatureCollection<Point, NeighborhoodBoundaryProperties> {
+  return {
+    type: "FeatureCollection",
+    features: boundaries.features.flatMap((feature) => {
+      if (!feature.properties.featured) return [];
+      const coordinate = largestPolygonCentroid(feature.geometry);
+      if (!coordinate) return [];
+      return [{
+        type: "Feature" as const,
+        geometry: { type: "Point" as const, coordinates: coordinate },
+        properties: feature.properties,
+      }];
+    }),
+  };
+}
+
+function largestPolygonCentroid(geometry: Geometry): [number, number] | null {
+  const rings = geometry.type === "Polygon"
+    ? [geometry.coordinates[0]]
+    : geometry.type === "MultiPolygon"
+      ? geometry.coordinates.map((polygon) => polygon[0])
+      : [];
+  const usable = rings.filter((ring): ring is number[][] => Boolean(ring && ring.length >= 3));
+  if (usable.length === 0) return null;
+  const ring = usable.reduce((largest, candidate) =>
+    Math.abs(ringArea(candidate)) > Math.abs(ringArea(largest)) ? candidate : largest,
+  );
+  const areaTwice = ringArea(ring);
+  if (Math.abs(areaTwice) < 1e-12) {
+    const longitudes = ring.map((point) => point[0] as number);
+    const latitudes = ring.map((point) => point[1] as number);
+    return [
+      (Math.min(...longitudes) + Math.max(...longitudes)) / 2,
+      (Math.min(...latitudes) + Math.max(...latitudes)) / 2,
+    ];
+  }
+  let longitude = 0;
+  let latitude = 0;
+  for (let index = 0; index < ring.length - 1; index += 1) {
+    const current = ring[index] as number[];
+    const next = ring[index + 1] as number[];
+    const cross = (current[0] as number) * (next[1] as number) -
+      (next[0] as number) * (current[1] as number);
+    longitude += ((current[0] as number) + (next[0] as number)) * cross;
+    latitude += ((current[1] as number) + (next[1] as number)) * cross;
+  }
+  return [longitude / (3 * areaTwice), latitude / (3 * areaTwice)];
+}
+
+function ringArea(ring: number[][]): number {
+  let areaTwice = 0;
+  for (let index = 0; index < ring.length - 1; index += 1) {
+    const current = ring[index] as number[];
+    const next = ring[index + 1] as number[];
+    areaTwice += (current[0] as number) * (next[1] as number) -
+      (next[0] as number) * (current[1] as number);
+  }
+  return areaTwice;
+}
+
 function focusFeature(map: MapLibreMap, geometry: Geometry, reducedMotion: boolean): void {
   const bounds = geometryBounds(geometry);
   if (!bounds) return;
@@ -629,23 +867,69 @@ function collectCoordinates(value: unknown, points: number[][]): void {
   for (const child of value) collectCoordinates(child, points);
 }
 
-function transferVisibilityFilter(endDate: string): ExpressionSpecification {
-  return ["<=", ["get", "recordedDate"], endDate];
+function withTransferCategories(transfers: ResidentialTransfers): ResidentialTransfers {
+  return {
+    ...transfers,
+    features: transfers.features.map((feature) => ({
+      ...feature,
+      properties: {
+        ...feature.properties,
+        propertyCategory: categorizePropertyType(feature.properties.propertyType),
+      },
+    })),
+  };
 }
 
-function transferSelectedFilter(neighborhoodId: string, endDate: string): FilterSpecification {
+function transferMatchesCriteria(
+  properties: TransferPointProperties,
+  category: TransferCategoryFilter,
+  minimumArea: number,
+): boolean {
+  return (
+    (category === "all" || properties.propertyCategory === category) &&
+    (minimumArea === 0 ||
+      (properties.propertyAreaSqft !== null && properties.propertyAreaSqft >= minimumArea))
+  );
+}
+
+function transferCriteriaFilter(
+  endDate: string,
+  category: TransferCategoryFilter,
+  minimumArea: number,
+): ExpressionSpecification {
+  const filters: ExpressionSpecification[] = [["<=", ["get", "recordedDate"], endDate]];
+  if (category !== "all") {
+    filters.push(["==", ["get", "propertyCategory"], category]);
+  }
+  if (minimumArea > 0) {
+    filters.push([">=", ["coalesce", ["get", "propertyAreaSqft"], -1], minimumArea]);
+  }
+  return (filters.length === 1 ? filters[0] : ["all", ...filters]) as ExpressionSpecification;
+}
+
+function transferSelectedFilter(
+  neighborhoodId: string,
+  endDate: string,
+  category: TransferCategoryFilter,
+  minimumArea: number,
+): FilterSpecification {
   return [
     "all",
     ["==", ["get", "neighborhoodId"], neighborhoodId],
-    transferVisibilityFilter(endDate),
+    transferCriteriaFilter(endDate, category, minimumArea),
   ];
 }
 
-function transferMonthFilter(startDate: string, endDate: string): FilterSpecification {
+function transferMonthFilter(
+  startDate: string,
+  endDate: string,
+  category: TransferCategoryFilter,
+  minimumArea: number,
+): FilterSpecification {
   return [
     "all",
     [">=", ["get", "recordedDate"], startDate],
-    ["<=", ["get", "recordedDate"], endDate],
+    transferCriteriaFilter(endDate, category, minimumArea),
   ];
 }
 
@@ -692,6 +976,11 @@ function formatPercent(value: number | null): string {
   if (value === null || !Number.isFinite(value)) return "—";
   const sign = value > 0 ? "+" : "";
   return `${sign}${value.toFixed(1)}%`;
+}
+
+function formatPointDifference(value: number): string {
+  if (Math.abs(value) < 0.05) return "in line with";
+  return `${Math.abs(value).toFixed(1)} points ${value > 0 ? "above" : "below"}`;
 }
 
 function deltaClass(value: number | null): string {
