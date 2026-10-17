@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-17T15:45:16.795Z",
-  "latestDate": "2026-07-31",
-  "displayStartDate": "2023-08-31",
+  "generatedAt": "2026-10-17T17:52:33.875Z",
+  "latestDate": "2026-09-30",
+  "displayStartDate": "2023-10-31",
   "featuredNeighborhoodCount": 18,
   "analysisNeighborhoodCount": 41,
-  "residentialTransferCount": 3003,
-  "residentialTransferStartDate": "2023-08-01",
+  "residentialTransferCount": 2663,
+  "residentialTransferStartDate": "2023-10-02",
   "residentialTransferEndDate": "2025-06-02",
   "assessorSourceRollYear": 2025,
   "sources": [
